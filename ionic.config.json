@@ -1,0 +1,7 @@
+{
+  "name": "ionic-unab-ing-II",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
