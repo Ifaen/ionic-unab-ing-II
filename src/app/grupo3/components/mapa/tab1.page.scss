@@ -4,7 +4,7 @@ ion-content {
   --padding-top: 0;
   --padding-bottom: 0;
 }
-
+//del mapa
 .map-container {
   height: 100vh; /* Altura del viewport */
   width: 100vw; /* Ancho del viewport */
@@ -24,15 +24,15 @@ ion-content {
   left: 50% !important;
 }
 
-.translate-middle-x {
-  transform: translateX(-50%) !important;
-}
+//botones
+
 /* Estilos para los botones del offcanvas-body */
 .offcanvas-body .btn {
   width: 110px; /* Ancho fijo para el botón */
   height: 80px; /* Alto fijo para el botón */
   margin: 10px; /* Espacio fuera del botón */
   white-space: normal; /* Permite que el texto pase a la siguiente línea si es necesario */
+  
 
 }
 
@@ -41,3 +41,6 @@ ion-content {
   margin-bottom: 5px; /* Espacio entre el ícono y el texto */
 }
 
+.offcanvas{
+  height: 70vh;
+}
