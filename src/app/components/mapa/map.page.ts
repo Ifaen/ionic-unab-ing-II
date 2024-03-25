@@ -6,12 +6,11 @@ import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-map',
+  templateUrl: 'map.page.html',
+  styleUrls: ['map.page.scss'],
 })
-export class Tab1Page {
-
+export class MapPage {
   constructor() {}
 
   map!: Map;
@@ -21,13 +20,13 @@ export class Tab1Page {
       target: 'map',
       layers: [
         new TileLayer({
-          source: new OSM()
-        })
+          source: new OSM(),
+        }),
       ],
       view: new View({
         center: [0, 0],
-        zoom: 2
-      })
+        zoom: 2,
+      }),
     });
   }
 }

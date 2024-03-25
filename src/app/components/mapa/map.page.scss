@@ -32,8 +32,6 @@ ion-content {
   height: 80px; /* Alto fijo para el botón */
   margin: 10px; /* Espacio fuera del botón */
   white-space: normal; /* Permite que el texto pase a la siguiente línea si es necesario */
-  
-
 }
 
 /* Específico para los íconos dentro de los botones para asegurar alineación */
@@ -41,6 +39,6 @@ ion-content {
   margin-bottom: 5px; /* Espacio entre el ícono y el texto */
 }
 
-.offcanvas{
+.offcanvas {
   height: 70vh;
 }
