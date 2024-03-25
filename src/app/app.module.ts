@@ -12,6 +12,14 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
+// ============ FireBase ============
+import { initializeApp } from 'firebase/app';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { environment } from 'src/environments/environment';
+// ==================================
 @NgModule({
   declarations: [
     AppComponent
@@ -20,8 +28,10 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule, provideFirebaseApp(() => initializeApp({"projectId":"ing-sw2-c481e","appId":"1:824081761057:web:757b147f1593de0d817460","storageBucket":"ing-sw2-c481e.appspot.com","apiKey":"AIzaSyBm_KQeFUa_1_QRPp-S5iQAO4Uc3cA9bs8","authDomain":"ing-sw2-c481e.firebaseapp.com","messagingSenderId":"824081761057"})), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()) // Importa AngularFireAuthModule
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    ReactiveFormsModule,
+    provideFirebaseApp(() => initializeApp({"projectId":"ing-sw2-c481e","appId":"1:824081761057:web:757b147f1593de0d817460","storageBucket":"ing-sw2-c481e.appspot.com","apiKey":"AIzaSyBm_KQeFUa_1_QRPp-S5iQAO4Uc3cA9bs8","authDomain":"ing-sw2-c481e.firebaseapp.com","messagingSenderId":"824081761057"})), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()) // Importa AngularFireAuthModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
@@ -29,3 +39,4 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
   bootstrap: [AppComponent]
 })
 export class AppModule {}
+
