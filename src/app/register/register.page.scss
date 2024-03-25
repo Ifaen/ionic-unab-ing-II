@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+ion-content {
+  --background: none;
+  background: linear-gradient(to bottom, #0F1035, #365486);
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom, #0F1035, #365486);
+}
+
+.Titulo_1{
+  text-align: center;
+  font-size: 40px;
+  font-family: serif;
+  margin-bottom: 20px;
+}
+
+
+.form-container {
+  max-width: 600px;
+  width: 100%;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.1); /* Añade transparencia a la caja del formulario */
+  margin: auto; /* Centra el contenedor verticalmente */
+}
+
+.my-label {
+  font-size: 20px;
+  display: block; /* Esto hace que los labels se apilen verticalmente */
+  margin-bottom: 5px; /* Ajusta este valor para cambiar el espacio entre los labels */
+  color: #008DDA;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  height: 40px;
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #008DDA;
+}
+
+form {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+
+  ion-item {
+    --padding-start: 0;
+    --padding-end: 0;
+  }
+
+  ion-button {
+    margin-top: 20px;
+    --background: #83A2FF;
+    --border-radius: 20px !important;
+    --padding-start: 20px; /* Opcional: cambia el relleno izquierdo del botón */
+    --padding-end: 20px;
+  }
+}
