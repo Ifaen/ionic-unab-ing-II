@@ -4,7 +4,6 @@
 
 export const environment = {
   production: false,
-
   // Your web app's Firebase configuration
  firebaseConfig : {
   apiKey: "AIzaSyBm_KQeFUa_1_QRPp-S5iQAO4Uc3cA9bs8",
@@ -14,8 +13,8 @@ export const environment = {
   messagingSenderId: "824081761057",
   appId: "1:824081761057:web:757b147f1593de0d817460"
 }
-};
 
+};
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
