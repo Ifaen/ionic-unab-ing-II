@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { RegisterPage } from './register/register.page';
@@ -28,6 +27,11 @@ const routes: Routes = [
   {
     path: 'usuario',
     loadChildren: () => import('./usuario/usuario.module').then( m => m.UsuarioPageModule)
+  },
+  {
+    path: 'map',
+    loadChildren: () =>
+      import('./components/mapa/map.module').then((m) => m.MapPageModule),
   },
 ];
 
