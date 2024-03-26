@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { FirebaseService } from 'src/app/services/firebase.service';
+import { FirebaseService } from '../../services/firebase.service';
 import { User } from 'src/app/models/user.model';
 
 @Component({
@@ -14,7 +14,7 @@ export class RegisterPage {
 
   constructor(
     private toastController: ToastController,
-    private firebaseSvc: FirebaseService,
+    private firebaseSvc: FirebaseService
   ) {
     this.registerForm = new FormGroup({
       nombre: new FormControl(null, Validators.required),

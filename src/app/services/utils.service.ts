@@ -1,12 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController, ModalController, ModalOptions, ToastController, ToastOptions } from '@ionic/angular';
+import {
+  LoadingController,
+  ModalController,
+  ModalOptions,
+  ToastController,
+  ToastOptions,
+} from '@ionic/angular';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UtilsService {
-
   loadingCtrl = inject(LoadingController);
   toastCtrl = inject(ToastController);
   modalCtrl = inject(ModalController);
@@ -31,35 +36,29 @@ export class UtilsService {
     return this.router.navigateByUrl(url);
   }
 
-
   //====guardar elementos en localstorage====
 
   saveInLocalStorage(key: string, value: any) {
     return localStorage.setItem(key, JSON.stringify(value));
   }
 
-
   //===============obtiene un elemento desde localstorage===========================
 
-  getFromLocalStorage(key: string){
-    return JSON.parse( localStorage.getItem(key));
+  getFromLocalStorage(key: string) {
+    //return JSON.parse( localStorage.getItem(key)); // FIXME No se esta utilizando y da error
   }
-
 
   //========== modal =============
 
   async presentModal(opts: ModalOptions) {
     const modal = await this.modalCtrl.create(opts);
     await modal.present();
-  
-    const { data } = await modal.onWillDismiss();
-    if(data) return data;
 
+    const { data } = await modal.onWillDismiss();
+    if (data) return data;
   }
 
   dismissModal(data?: any) {
     return this.modalCtrl.dismiss(data);
   }
-
-
 }

@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonInput } from '@ionic/angular';
-import { FirebaseService } from 'src/app/services/firebase.service';
+import { FirestoreService } from '../../services/firestore.service';
 import { User } from 'src/app/models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
-  selector: 'app-usuario',
-  templateUrl: './usuario.page.html',
-  styleUrls: ['./usuario.page.scss'],
+  selector: 'app-user',
+  templateUrl: './user.page.html',
+  styleUrls: ['./user.page.scss'],
 })
-export class UsuarioPage implements OnInit {
+export class UserPage implements OnInit {
   user: User;
 
   @ViewChild('nombreInput') nombreInput: IonInput | undefined;
@@ -26,8 +26,8 @@ export class UsuarioPage implements OnInit {
   isEditable = true;
 
   constructor(
-    private firebaseSvc: FirebaseService,
-    private firestore: AngularFirestore,
+    private firebaseSvc: FirestoreService,
+    private firestore: AngularFirestore
   ) {}
 
   ngOnInit() {

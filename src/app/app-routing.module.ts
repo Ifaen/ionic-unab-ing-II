@@ -6,42 +6,29 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'auth',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
-    path: 'auth',
-    loadChildren: () =>
-      import('./pages/auth/auth.module').then((m) => m.AuthPageModule),
-    canActivate: [NoAuthGuard],
-  },
-  {
-    path: 'main',
-    loadChildren: () =>
-      import('./pages/main/main.module').then((m) => m.MainPageModule),
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'login',
-    loadChildren: () =>
-      import('./pages/login/login.module').then((m) => m.LoginPageModule),
+    loadChildren: () => import('./pages/login/login.module').then((m) => m.LoginPageModule),
+      canActivate: [NoAuthGuard],
   },
   {
-    path: 'reset-password',
-    loadChildren: () =>
-      import('./reset-password/reset-password.module').then(
-        (m) => m.ResetPasswordPageModule,
-      ),
+    path: 'register',
+    loadChildren: () => import('./pages/register/register.module').then((m) => m.RegisterPageModule),
   },
   {
-    path: 'usuario',
-    loadChildren: () =>
-      import('./pages/usuario/usuario.module').then((m) => m.UsuarioPageModule),
+    path: 'forgot-password', 
+    loadChildren: () => import('./pages/forgot-password/forgot-password.module').then((m) => m.ForgotPasswordPageModule)
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./pages/user/user.module').then((m) => m.UserPageModule),
   },
   {
     path: 'map',
-    loadChildren: () =>
-      import('./pages/map/map.module').then((m) => m.MapPageModule),
+    loadChildren: () => import('./pages/map/map.module').then((m) => m.MapPageModule),
   },
 ];
 
