@@ -9,28 +9,14 @@ import { AddUpdateProductComponent } from 'src/app/shared/component/add-update-p
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-
   firebaseSvc = inject(FirestoreService);
   utilSvc = inject(UtilsService);
 
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   //===== cerrar sesion============
 
   signOut() {
     this.firebaseSvc.signOut();
   }
-
-  //======agregar o actualizar producto========
-
-  addUdateProduct() {
-    this.utilSvc.presentModal({
-      component: AddUpdateProductComponent,
-      cssClass: 'add-update-modal'
-    })
-  }
-
-
 }
