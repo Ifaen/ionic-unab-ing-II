@@ -1,0 +1,44 @@
+/* usuario.page.scss */
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom, #0f1035, #365486);
+}
+
+.title_2 {
+  text-align: center;
+  font-size: 40px;
+  font-family: serif;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  color: #fff; /* Cambia el color del texto a blanco */
+}
+
+.form-container {
+  max-width: 600px;
+  width: 100%;
+  padding: 20px; /* Agrega un poco de relleno alrededor del formulario */
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: auto;
+}
+
+.edit-button {
+  --background: transparent;
+  --color: #fff; /* Cambia el color del icono a blanco */
+}
+
+:root {
+  --ion-item-background: #f0f0f0;
+}
+
+/* En tu archivo usuario.page.scss */
+
+.custom-item {
+  --background: #9994b4; /* Cambia este valor al color que prefieras */
+  margin-top: 5px;
+}
