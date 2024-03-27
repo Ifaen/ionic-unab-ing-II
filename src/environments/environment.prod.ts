@@ -6,6 +6,6 @@ export const environment = {
     projectId: "ing-sw2-c481e",
     storageBucket: "ing-sw2-c481e.appspot.com",
     messagingSenderId: "824081761057",
-    appId: "1:824081761057:web:757b147f1593de0d817460"
-  }
+    appId: "1:824081761057:web:757b147f1593de0d817460",
+  },
 };

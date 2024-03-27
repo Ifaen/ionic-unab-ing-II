@@ -1,0 +1,122 @@
+<app-header title="login"></app-header>
+
+<ion-content fullscreen="true">
+  <div class="header">
+    <ion-title class="title">Bienvenido</ion-title>
+    <p>Inicia sesión para acceder a tu cuenta</p>
+  </div>
+  <form [formGroup]="form">
+    <div class="ion-padding">
+      <ion-item>
+        <ion-input
+          formControlName="email"
+          placeholder="Usuario"
+          class="input"
+        ></ion-input>
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-item>
+      <div
+        *ngIf="form.controls['email'].touched && form.controls['email'].errors['required']"
+      >
+        <ion-text>El correo electrónico es obligatorio</ion-text>
+      </div>
+      <div
+        *ngIf="form.controls['email'].touched && form.controls['email'].errors['pattern']"
+      >
+        <ion-text>El correo electrónico debe ser válido</ion-text>
+      </div>
+      <ion-item>
+        <ion-input
+          formControlName="password"
+          placeholder="Contraseña"
+          class="input"
+        ></ion-input>
+        <ion-icon name="lock-closed-outline"></ion-icon>
+      </ion-item>
+      <div
+        *ngIf="form.controls['password'].touched && form.controls['password'].errors['required']"
+      >
+        <ion-text>La contraseña es obligatoria</ion-text>
+      </div>
+      <div
+        *ngIf="form.controls['password'].touched && form.controls['password'].errors['pattern']"
+      >
+        <ion-text>
+          La contraseña debe contener: - Al menos un carácter - Una letra
+          mayúscula - Un número - Al menos 8 caracteres
+        </ion-text>
+      </div>
+    </div>
+    <div class="ion-padding">
+      <ion-button expand="block" (click)="submit()">Ingresar</ion-button>
+    </div>
+    <div class="forgotpassword" style="margin-top: 10px">
+      <a routerLink="forgot-password">Recuperar contraseña</a>
+    </div>
+    <div class="signupLink" style="margin-top: 10px">
+      <p>¿Nuevo miembro? <a routerLink="registro">Regístrate ahora</a></p>
+    </div>
+  </form>
+</ion-content>
+
+<!--<ion-content>
+  
+    <div class="d-flex-center">
+        <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()">
+    
+            <app-logo></app-logo>-->
+
+<!--===========Email==========-->
+<!--
+            <app-custom-input
+             autoComplete="email"
+             icon="main-outline"
+             [control]="form.controls.email"
+             type="email"
+             label="correo"
+             ></app-custom-input>
+        
+        <div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
+            <div *ngIf="form.controls.email.errors?.['required']">El correo es requerido</div>
+            <div  *ngIf="form.controls.email.errors?.['email']">ingrese un correo valido</div>
+        </div>
+        
+    -->
+<!--===========Password==========-->
+<!--     
+            <app-custom-input 
+            [control]="form.controls.password"
+            icon="lock-close-outline"
+            type="password"
+            label="contraseña"
+            ></app-custom-input>
+        
+
+            <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
+                <div *ngIf="form.controls.password.errors?.['required']">la contraseña es requerida</div>                
+            </div>
+
+            <p routerLink="forgot-password" class="ion-text-end">¿Olvidaste tu contraseña?</p>
+
+
+            <ion-button expand="block" mode="ios" class="submit" type="submit" [disabled]="form.invalid">
+                ingresar
+                <ion-icon slot="end" name="log-in-outline"></ion-icon>
+            </ion-button>
+
+            <ion-button class="ion-margin-top" routerLink="registro" expand="block" mode="ios" fil="outline">
+                registrate
+                <ion-icon slot="end" name="person-add-outline"></ion-icon>
+            </ion-button>
+
+            </form>
+        
+
+
+    </div>
+
+
+    
+
+</ion-content>
+-->
