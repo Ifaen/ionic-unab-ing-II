@@ -1,0 +1,29 @@
+.offcanvas-body .btn {
+    width: 110px; /* Ancho fijo para el botón */
+    height: 80px; /* Alto fijo para el botón */
+    margin: 10px; /* Espacio fuera del botón */
+    white-space: normal; /* Permite que el texto pase a la siguiente línea si es necesario */
+  }
+  
+  /* Específico para los íconos dentro de los botones para asegurar alineación */
+.offcanvas-body .btn i {
+    margin-bottom: 5px; /* Espacio entre el ícono y el texto */
+  }
+  
+.offcanvas {
+    height: 70vh;
+  }
+
+.icon {
+    width: auto; /* Ajusta el ancho según sea necesario */
+    height: 40px; /* Ajusta la altura según sea necesario */
+  }
+.color{
+    background-color: rgb(231, 138, 32);
+}
+.agrandador{
+    height: 7em !important;
+}
+.centrador{
+    margin-top: 1em;
+}

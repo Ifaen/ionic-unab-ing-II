@@ -7,6 +7,8 @@ import { IonicModule } from "@ionic/angular";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MapaComponent } from "./component/mapa/mapa.component";
 import { TabsComponent } from "./component/tabs/tabs.component";
+import { BotonesComponent } from "./component/botones/botones.component";
+import { FiltrosComponent } from "./component/filtros/filtros.component";
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { TabsComponent } from "./component/tabs/tabs.component";
     LogoComponent,
     MapaComponent,
     TabsComponent,
+    BotonesComponent,
+    FiltrosComponent
   ],
   exports: [
     HeaderComponent,
@@ -23,6 +27,8 @@ import { TabsComponent } from "./component/tabs/tabs.component";
     ReactiveFormsModule,
     MapaComponent,
     TabsComponent,
+    BotonesComponent,
+    FiltrosComponent
   ],
   imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule],
 })

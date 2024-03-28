@@ -1,0 +1,18 @@
+{
+    "files.exclude": {
+        "tsconfig.spec.json": true,
+        "tsconfig.json": true,
+        "tsconfig.app.json": true,
+        "package.json": true,
+        "package-lock.json": true,
+        "karma.conf.js": true,
+        "ionic.config.json": true,
+        "capacitor.config.ts": true,
+        "angular.json": true,
+        ".gitignore": true,
+        "src\\zone-flags.ts": true,
+        "src\\test.ts": true,
+        "src\\polyfills.ts": true,
+        "src\\main.ts": true
+    }
+}
