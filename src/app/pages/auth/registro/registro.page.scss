@@ -2,7 +2,12 @@
 
 ion-content {
   --background: none;
-  background: linear-gradient(to bottom, #0f1035, #365486);
+  //background: linear-gradient(to bottom, #0f1035, #365486);
+  background: #28429F;
+}
+
+.boton_1{
+  color: white;
 }
 
 .app-container {
@@ -10,36 +15,33 @@ ion-content {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(to bottom, #0f1035, #365486);
+  //background: linear-gradient(to bottom, #0f1035, #365486);
+  background: #28429F;
+}
+
+
+.subtittle{
+  font-size: 20px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .Titulo_1 {
   text-align: center;
   font-size: 40px;
-  font-family: serif;
+  font-family: Arial, bold;
   margin-bottom: 20px;
+  color: white;
 }
 
-.form-container {
-  max-width: 600px;
-  width: 100%;
-  padding: 5px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.1
-  ); /* Añade transparencia a la caja del formulario */
-  margin: auto; /* Centra el contenedor verticalmente */
-}
+
 
 .my-label {
   font-size: 20px;
   display: block; /* Esto hace que los labels se apilen verticalmente */
   margin-bottom: 5px; /* Ajusta este valor para cambiar el espacio entre los labels */
-  color: #008dda;
+  color: white;
+  text-align: left;
 }
 
 .input {
@@ -50,6 +52,8 @@ ion-content {
   margin-top: 5px;
   border-radius: 5px;
   border: 1px solid #008dda;
+  //color: white;
+  background-color: white;
 }
 
 form {
@@ -64,8 +68,9 @@ form {
 
   ion-button {
     margin-top: 20px;
-    --background: #83a2ff;
+    --background: #5271FF;
     --border-radius: 20px !important;
+    box-shadow: white;
     --padding-start: 20px; /* Opcional: cambia el relleno izquierdo del botón */
     --padding-end: 20px;
   }

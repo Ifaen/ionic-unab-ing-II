@@ -3,6 +3,8 @@ import { ToastController } from "@ionic/angular";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { FirestoreService } from "src/app/services/firestore.service";
 import { User } from "src/app/models/user.model";
+import { Router } from "@angular/router";
+//import { setTimeout } from "timers";
 
 @Component({
   selector: "app-registro",
@@ -14,7 +16,8 @@ export class RegistroPage {
 
   constructor(
     private toastController: ToastController,
-    private firestoreSvc: FirestoreService
+    private firestoreSvc: FirestoreService,
+    private router : Router
   ) {
     this.registerForm = new FormGroup({
       nombre: new FormControl(null, Validators.required),
@@ -53,7 +56,10 @@ export class RegistroPage {
       };
       this.firestoreSvc.signUp(user).then((res) => {
         console.log(res);
-        this.mostrarNotificacionBuena("¡Cuenta Registrada con Exito! :)");
+        this.mostrarNotificacionBuena("¡Cuenta Registrada con Éxito! :)");
+        setTimeout(() => {
+          this.router.navigate(["/auth"]);
+        }, 3000); // 3000 milisegundos (3 segundos)
       });
     }
   }

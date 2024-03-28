@@ -3,15 +3,17 @@
     <div
       style="display: flex; align-items: center; justify-content: space-between"
     >
-      <ion-buttons slot="start">
+      <ion-buttons class= boton_1 slot="start">
         <ion-back-button defaultHref="/auth"></ion-back-button>
       </ion-buttons>
-      <h1 class="Titulo_1" style="text-align: center">Registro de Usuario</h1>
+      <h1 class="Titulo_1" style="text-align: center">Unete a V-Connect
+        <p class="subtittle">¿Quieres crearte una cuenta?</p></h1>
+      
       <div></div>
     </div>
     <form [formGroup]="registerForm" (ngSubmit)="validarFormulario()">
       <!--===========Nombre===========-->
-      <label class="my-label">Ingrese su Nombre Completo</label>
+      <label class="my-label">Nombre</label>
       <ion-input
         class="input"
         type="text"
@@ -19,7 +21,7 @@
         required
       ></ion-input>
       <!--===========Rut===========-->
-      <label class="my-label">Ingrese su Rut</label>
+      <label class="my-label">Rut</label>
       <ion-input
         class="input"
         type="text"
@@ -28,7 +30,7 @@
         placeholder="12345678-9"
       ></ion-input>
       <!--===========Correo Electronico===========-->
-      <label class="my-label">Correo electrónico</label>
+      <label class="my-label">Agregar Email</label>
       <ion-input
         class="input"
         type="text"
