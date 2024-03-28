@@ -1,4 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@font-face {
+  font-family: 'Montserrat';
+  src: url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap') format('truetype');
+}
 
 ion-content {
   --background: none;
@@ -23,13 +26,15 @@ ion-content {
 .subtittle{
   font-size: 20px;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
 }
 
 .Titulo_1 {
   text-align: center;
   font-size: 40px;
-  font-family: Arial, bold;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
   margin-bottom: 20px;
   color: white;
 }
