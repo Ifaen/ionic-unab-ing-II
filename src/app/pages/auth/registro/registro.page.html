@@ -50,20 +50,20 @@
       ></ion-input>
       <!--===========Contraseña===========-->
       <label class="my-label">Contraseña</label>
-      <ion-input
-        class="input"
-        type="password"
-        formControlName="contrasena"
-        required
-      ></ion-input>
+      <div style="display: flex; align-items: center; position: relative;">
+      <ion-input class="input" type="{{ mostrarContrasena ? 'text' : 'password' }}" formControlName="contrasena" required></ion-input>
+      <ion-button class="mostrar-contrasena" fill="clear" slot="end" (click)="toggleMostrarContrasena()" color="transparent" style="position: absolute; right: 0; z-index: 2;">
+      <ion-icon [name]="mostrarContrasena ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+      </ion-button>
+      </div>
       <!--===========Confirmar Contraseña===========-->
       <label class="my-label">Confirmar Contraseña</label>
-      <ion-input
-        class="input"
-        type="password"
-        formControlName="confirmar_contrasena"
-        required
-      ></ion-input>
+        <div style="display: flex; align-items: center; position: relative;">
+        <ion-input class="input" type="{{ mostrarConfirmarContrasena ? 'text' : 'password' }}" formControlName="confirmar_contrasena" required></ion-input>
+        <ion-button class="mostrar-contrasena" fill="clear" slot="end" (click)="toggleMostrarConfirmarContrasena()" color="transparent" style="position: absolute; right: 0; z-index: 2;">
+        <ion-icon [name]="mostrarConfirmarContrasena ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </ion-button>
+        </div>
 
       <ion-button expand="full" type="submit">Registrarse</ion-button>
     </form>

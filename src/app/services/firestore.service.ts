@@ -22,7 +22,7 @@ import {
 import { User } from "../models/user.model";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { UtilsService } from "./utils.service";
-
+import { firstValueFrom, lastValueFrom } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
@@ -66,6 +66,19 @@ export class FirestoreService {
         password: user.password,
       });
     });
+  }
+  
+  //validador que rut existe
+  async rutExists(rut: string): Promise<boolean> {
+    const docRef = this.firestore.collection('users', ref => ref.where('rut', '==', rut));
+    const docSnap = await firstValueFrom(docRef.get());
+    return docSnap.size > 0;
+  }
+  // Validador si correo existe
+  async emailExists(email: string): Promise<boolean> {
+    const docRef = this.firestore.collection('users', ref => ref.where('email', '==', email));
+    const docSnap = await firstValueFrom(docRef.get());
+    return docSnap.size > 0;
   }
 
   // enviar email para restablecer contraseña
@@ -112,7 +125,6 @@ export class FirestoreService {
   }
 
   // obtener documentos
-
   async getDocument(path: string) {
     return (await getDoc(doc(getFirestore(), path))).data();
   }

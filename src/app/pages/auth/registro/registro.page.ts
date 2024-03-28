@@ -13,6 +13,8 @@ import { Router } from "@angular/router";
 })
 export class RegistroPage {
   registerForm: FormGroup;
+  mostrarContrasena: boolean = false;
+  mostrarConfirmarContrasena: boolean = false;
 
   constructor(
     private toastController: ToastController,
@@ -32,8 +34,10 @@ export class RegistroPage {
     });
   }
 
-  validarFormulario() {
+  async validarFormulario() {
     // TODO Cambiar logica de esta funcion, para que muestre todos los errores de una vez, en ves de 1 en 1
+    const rutExists = await this.firestoreSvc.rutExists(this.registerForm.value.rut);
+    const emailExists = await this.firestoreSvc.emailExists(this.registerForm.value.correo);
     if (this.registerForm.controls["correo"].invalid) {
       this.mostrarNotificacion("Ingrese un correo válido");
     } else if (this.registerForm.controls["contrasena"].invalid) {
@@ -46,30 +50,37 @@ export class RegistroPage {
     ) {
       this.mostrarNotificacion("Las contraseñas no coinciden.");
     } else {
-      const user: User = {
-        uid: "",
-        nombre: this.registerForm.value.nombre,
-        rut: this.registerForm.value.rut,
-        password: this.registerForm.value.contrasena,
-        email: this.registerForm.value.correo,
-        telefono: this.registerForm.value.telefono,
-      };
-      this.firestoreSvc.signUp(user).then((res) => {
-        console.log(res);
-        this.mostrarNotificacionBuena("¡Cuenta Registrada con Éxito! :)");
-        setTimeout(() => {
-          this.router.navigate(["/auth"]);
-        }, 3000); // 3000 milisegundos (3 segundos)
-      });
+      if(rutExists){
+      this.mostrarNotificacion("El RUT ya está en uso.");
+      }else if(emailExists){
+        this.mostrarNotificacion("El correo electrónico ya está en uso.");
+      } 
+      else{
+        const user: User = {
+          uid: "",
+          nombre: this.registerForm.value.nombre,
+          rut: this.registerForm.value.rut,
+          password: this.registerForm.value.contrasena,
+          email: this.registerForm.value.correo,
+          telefono: this.registerForm.value.telefono,
+        };
+        this.firestoreSvc.signUp(user).then((res) => {
+          console.log(res);
+          this.mostrarNotificacionBuena("¡Cuenta Registrada con Éxito! :)");
+          setTimeout(() => {
+            this.router.navigate(["/auth"]);
+          }, 3000); // 3000 milisegundos (3 segundos)
+        });
+      }
     }
   }
 
-  entradaTelefono(event: any) {
-    const input = event.target;
-    const value = input.value;
-    if (!value.startsWith("+569")) {
-      input.value = "+569" + value.replace(/\D/g, "");
-    }
+  toggleMostrarContrasena() {
+    this.mostrarContrasena = !this.mostrarContrasena;
+  }
+
+  toggleMostrarConfirmarContrasena() {
+    this.mostrarConfirmarContrasena = !this.mostrarConfirmarContrasena;
   }
 
   async mostrarNotificacion(mensaje: string) {
