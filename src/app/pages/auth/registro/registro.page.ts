@@ -1,10 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { ToastController } from "@ionic/angular";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { FirestoreService } from "src/app/services/firestore.service";
 import { User } from "src/app/models/user.model";
 import { Router } from "@angular/router";
-//import { setTimeout } from "timers";
 
 @Component({
   selector: "app-registro",
@@ -19,7 +18,7 @@ export class RegistroPage {
   constructor(
     private toastController: ToastController,
     private firestoreSvc: FirestoreService,
-    private router : Router
+    private router: Router
   ) {
     this.registerForm = new FormGroup({
       nombre: new FormControl(null, Validators.required),
@@ -36,8 +35,12 @@ export class RegistroPage {
 
   async validarFormulario() {
     // TODO Cambiar logica de esta funcion, para que muestre todos los errores de una vez, en ves de 1 en 1
-    const rutExists = await this.firestoreSvc.rutExists(this.registerForm.value.rut);
-    const emailExists = await this.firestoreSvc.emailExists(this.registerForm.value.correo);
+    const rutExists = await this.firestoreSvc.rutExists(
+      this.registerForm.value.rut
+    );
+    const emailExists = await this.firestoreSvc.emailExists(
+      this.registerForm.value.correo
+    );
     if (this.registerForm.controls["correo"].invalid) {
       this.mostrarNotificacion("Ingrese un correo válido");
     } else if (this.registerForm.controls["contrasena"].invalid) {
@@ -50,12 +53,11 @@ export class RegistroPage {
     ) {
       this.mostrarNotificacion("Las contraseñas no coinciden.");
     } else {
-      if(rutExists){
-      this.mostrarNotificacion("El RUT ya está en uso.");
-      }else if(emailExists){
+      if (rutExists) {
+        this.mostrarNotificacion("El RUT ya está en uso.");
+      } else if (emailExists) {
         this.mostrarNotificacion("El correo electrónico ya está en uso.");
-      } 
-      else{
+      } else {
         const user: User = {
           uid: "",
           nombre: this.registerForm.value.nombre,

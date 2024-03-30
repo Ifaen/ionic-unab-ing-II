@@ -1,33 +1,24 @@
-@font-face {
-  font-family: 'Montserrat';
-  src: url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap') format('truetype');
-}
-
-
 .app-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #28429F;
+  background: #28429f;
 }
 
-.boton_1{
+.boton_1 {
   color: white;
 }
-
 
 .title_2 {
   text-align: center;
   font-size: 50px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   padding-top: 0px;
   padding-bottom: 0px;
   color: #fff;
 }
-
-
 
 .edit-button {
   --background: transparent;

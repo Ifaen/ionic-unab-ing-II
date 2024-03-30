@@ -3,12 +3,14 @@
     <div
       style="display: flex; align-items: center; justify-content: space-between"
     >
-      <ion-buttons class= boton_1 slot="start">
+      <ion-buttons class="boton_1" slot="start">
         <ion-back-button defaultHref="/auth"></ion-back-button>
       </ion-buttons>
-      <h1 class="Titulo_1" style="text-align: center">Unete a V-Connect
-        <p class="subtittle">¿Quieres crearte una cuenta?</p></h1>
-      
+      <h1 class="Titulo_1" style="text-align: center">
+        Unete a V-Connect
+        <p class="subtittle">¿Quieres crearte una cuenta?</p>
+      </h1>
+
       <div></div>
     </div>
     <form [formGroup]="registerForm" (ngSubmit)="validarFormulario()">
@@ -50,20 +52,48 @@
       ></ion-input>
       <!--===========Contraseña===========-->
       <label class="my-label">Contraseña</label>
-      <div style="display: flex; align-items: center; position: relative;">
-      <ion-input class="input" type="{{ mostrarContrasena ? 'text' : 'password' }}" formControlName="contrasena" required></ion-input>
-      <ion-button class="mostrar-contrasena" fill="clear" slot="end" (click)="toggleMostrarContrasena()" color="transparent" style="position: absolute; right: 0; z-index: 2;">
-      <ion-icon [name]="mostrarContrasena ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
-      </ion-button>
+      <div style="display: flex; align-items: center; position: relative">
+        <ion-input
+          class="input"
+          type="{{ mostrarContrasena ? 'text' : 'password' }}"
+          formControlName="contrasena"
+          required
+        ></ion-input>
+        <ion-button
+          class="mostrar-contrasena"
+          fill="clear"
+          slot="end"
+          (click)="toggleMostrarContrasena()"
+          color="transparent"
+          style="position: absolute; right: 0; z-index: 2"
+        >
+          <ion-icon
+            [name]="mostrarContrasena ? 'eye-off-outline' : 'eye-outline'"
+          ></ion-icon>
+        </ion-button>
       </div>
       <!--===========Confirmar Contraseña===========-->
       <label class="my-label">Confirmar Contraseña</label>
-        <div style="display: flex; align-items: center; position: relative;">
-        <ion-input class="input" type="{{ mostrarConfirmarContrasena ? 'text' : 'password' }}" formControlName="confirmar_contrasena" required></ion-input>
-        <ion-button class="mostrar-contrasena" fill="clear" slot="end" (click)="toggleMostrarConfirmarContrasena()" color="transparent" style="position: absolute; right: 0; z-index: 2;">
-        <ion-icon [name]="mostrarConfirmarContrasena ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+      <div style="display: flex; align-items: center; position: relative">
+        <ion-input
+          class="input"
+          type="{{ mostrarConfirmarContrasena ? 'text' : 'password' }}"
+          formControlName="confirmar_contrasena"
+          required
+        ></ion-input>
+        <ion-button
+          class="mostrar-contrasena"
+          fill="clear"
+          slot="end"
+          (click)="toggleMostrarConfirmarContrasena()"
+          color="transparent"
+          style="position: absolute; right: 0; z-index: 2"
+        >
+          <ion-icon
+            [name]="mostrarConfirmarContrasena ? 'eye-off-outline' : 'eye-outline'"
+          ></ion-icon>
         </ion-button>
-        </div>
+      </div>
 
       <ion-button expand="full" type="submit">Registrarse</ion-button>
     </form>

@@ -1,21 +1,9 @@
 import { Injectable, inject } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
-import {
-  Firestore,
-  collectionData,
-  collection,
-  getFirestore,
-  setDoc,
-  getDoc,
-  doc,
-} from "@angular/fire/firestore";
+import { getFirestore, setDoc, getDoc, doc } from "@angular/fire/firestore";
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  updateProfile,
-  updateEmail,
-  updatePassword,
-  updatePhoneNumber,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "firebase/auth";
@@ -67,16 +55,20 @@ export class FirestoreService {
       });
     });
   }
-  
+
   //validador que rut existe
   async rutExists(rut: string): Promise<boolean> {
-    const docRef = this.firestore.collection('users', ref => ref.where('rut', '==', rut));
+    const docRef = this.firestore.collection("users", (ref) =>
+      ref.where("rut", "==", rut)
+    );
     const docSnap = await firstValueFrom(docRef.get());
     return docSnap.size > 0;
   }
   // Validador si correo existe
   async emailExists(email: string): Promise<boolean> {
-    const docRef = this.firestore.collection('users', ref => ref.where('email', '==', email));
+    const docRef = this.firestore.collection("users", (ref) =>
+      ref.where("email", "==", email)
+    );
     const docSnap = await firstValueFrom(docRef.get());
     return docSnap.size > 0;
   }
@@ -84,39 +76,6 @@ export class FirestoreService {
   // enviar email para restablecer contraseña
   sendRecoveryEmail(email: string) {
     return sendPasswordResetEmail(getAuth(), email);
-  }
-
-  // Editar perfil
-  editProfile(user: User) {
-    const auth = getAuth();
-    const currentUser = auth.currentUser;
-
-    if (currentUser) {
-      // Actualizar el nombre de visualización
-
-      // Actualizar el correo electrónico
-      if (user.email !== currentUser.email) {
-        updateEmail(currentUser, user.email).then(() =>
-          console.log("Correo electrónico actualizado")
-        );
-      }
-
-      // Actualizar la contraseña
-      if (user.password) {
-        updatePassword(currentUser, user.password).then(() =>
-          console.log("Contraseña actualizada")
-        );
-      }
-
-      // Actualizar los datos del usuario en Firestore
-      this.firestore.collection("users").doc(currentUser.uid).update({
-        nombre: user.nombre,
-        rut: user.rut,
-        email: user.email,
-        telefono: user.telefono,
-        password: user.password,
-      });
-    }
   }
 
   // setear un documento

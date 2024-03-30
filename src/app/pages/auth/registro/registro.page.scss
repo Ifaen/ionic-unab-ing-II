@@ -1,15 +1,9 @@
-@font-face {
-  font-family: 'Montserrat';
-  src: url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap') format('truetype');
-}
-
 ion-content {
   --background: none;
-  //background: linear-gradient(to bottom, #0f1035, #365486);
-  background: #28429F;
+  background: #28429f;
 }
 
-.boton_1{
+.boton_1 {
   color: white;
 }
 
@@ -18,28 +12,24 @@ ion-content {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  //background: linear-gradient(to bottom, #0f1035, #365486);
-  background: #28429F;
+  background: #28429f;
 }
 
-
-.subtittle{
+.subtittle {
   font-size: 20px;
   text-align: center;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
 }
 
 .Titulo_1 {
   text-align: center;
   font-size: 40px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   margin-bottom: 20px;
   color: white;
 }
-
-
 
 .my-label {
   font-size: 20px;
@@ -73,7 +63,7 @@ form {
 
   ion-button {
     margin-top: 20px;
-    --background: #5271FF;
+    --background: #5271ff;
     --border-radius: 20px !important;
     box-shadow: white;
     --padding-start: 20px; /* Opcional: cambia el relleno izquierdo del botón */
