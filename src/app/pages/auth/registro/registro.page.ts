@@ -12,8 +12,8 @@ import { Router } from "@angular/router";
 })
 export class RegistroPage {
   registerForm: FormGroup;
-  mostrarContrasena: boolean = false;
-  mostrarConfirmarContrasena: boolean = false;
+  mostrarContrasena: boolean = false; 
+  mostrarConfirmarContrasena: boolean = false; // TODO Por lo general, cuando se hace un boton que permita mostrar el campo de contrasenias, se muestran a la vez, igual sugiero dejarlo de esa forma.
 
   constructor(
     private toastController: ToastController,
