@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
+// importaciones de la biblioteca ol
 import Map from "ol/Map";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
@@ -21,12 +22,15 @@ export class MapaComponent implements OnInit {
       target: 'map',
       layers: [
         new TileLayer({
-          source: new OSM(),
+          source: new OSM(),//invocacion de la biblioteca para hacer visual el mapa
         }),
       ],
       view: new View({
-        center: fromLonLat([-71.6273, -33.0472]), // Coordenadas de Valparaíso, Chile en EPSG:3857
+        center: fromLonLat([-71.6273, -33.0472]), 
+        // Coordenadas de Valparaiso para ingresar
+        // y ver directamente a la region
         zoom: 12,
+
       }),
     });
   }
