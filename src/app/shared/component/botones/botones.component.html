@@ -1,0 +1,54 @@
+
+    <button class="btn btn-danger position-absolute start-50 translate-middle-x" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" style="bottom: 7em">
+      <!-- boton de emergencia en el mapa con .css de boostrap y clases de boostrap -->
+      REPORTAR UNA EMERGENCIA
+    </button>
+
+    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+      <!-- desplegable de boostrap -->
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title lead" id="offcanvasBottomLabel">
+          <strong>
+            Modulos de Emergencia
+            <!-- boton descriptivo -->
+          </strong>
+        </h5>
+        <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+        ></button>
+      </div>
+      <hr>
+      
+      <div style="margin-left: 2.5em">
+        <!-- Seleccion de modulos -->
+        <div class="offcanvas-body small">
+          <a class="btn btn-danger agrandador" href="#" role="button">
+            <img src="assets/icon/fuego.png" class="icon">
+            <div class="centrador">
+              Incendios
+            </div>
+          </a>
+
+          <a class="btn btn-warning agrandador" href="#" role="button"> 
+            <img src="assets/icon/poste.png" class="icon">
+            <div class="centrador">
+              Alumbrado
+            </div>
+          </a>
+          <a class="btn color agrandador" href="#" role="button">
+            <img src="assets/icon/coche.png" class="icon">
+            Accidentes Vehiculares
+          </a>
+
+          <a class="btn btn-success agrandador" href="#" role="button">
+            <img src="assets/icon/basu.png" class="icon">
+            <div class="centrador">
+              Residuos
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>

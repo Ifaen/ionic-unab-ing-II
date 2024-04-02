@@ -1,76 +1,19 @@
 <ion-content [fullscreen]="true">
-  <div class="map-container">
-    <div id="map" class="map"></div>
-    <ion-fab
-      slot="fixed"
-      vertical="top"
-      horizontal="end"
-      [edge]="true"
-      style="margin-top: 5em"
-    >
-      <ion-fab-button>
-        <ion-icon name="chevron-down-circle"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-list side="bottom">
-        <ion-fab-button>
-          <ion-icon name="document"></ion-icon>
-        </ion-fab-button>
-        <ion-fab-button>
-          <ion-icon name="color-palette"></ion-icon>
-        </ion-fab-button>
-        <ion-fab-button>
-          <ion-icon name="globe"></ion-icon>
-        </ion-fab-button>
-      </ion-fab-list>
-    </ion-fab>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quick Start</title>
+  </head>
+  <body>
 
-    <!-- Botón de Bootstrap -->
-    <button
-      class="btn btn-danger position-absolute start-50 translate-middle-x"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasBottom"
-      aria-controls="offcanvasBottom"
-      style="bottom: 7em"
-    >
-      REPORTAR UNA EMERGENCIA
-    </button>
-  </div>
+    <!-- llamado al mapa desde el .ts -->
+    <div id="map"></div> 
+
+    <script type="module" src="./main.js"></script>
+  </body>
+  <!-- llamado al componente de filtros -->
+  <app-filtros></app-filtros>
+  <!-- llamado al componente de los modulos -->
+  <app-botones></app-botones>
+  
 </ion-content>
-
-<div
-  class="offcanvas offcanvas-bottom"
-  tabindex="-1"
-  id="offcanvasBottom"
-  aria-labelledby="offcanvasBottomLabel"
->
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasBottomLabel">
-      Seleccione el modulo de Emergencia
-    </h5>
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="offcanvas"
-      aria-label="Close"
-    ></button>
-  </div>
-  <div style="margin-left: 1.2em">
-    <div class="offcanvas-body small">
-      <a class="btn btn-primary text-center" href="#" role="button">
-        <i class="bi bi-fire"></i>
-        Incendios
-      </a>
-      <a class="btn btn-primary separacion" href="#" role="button"
-        ><i class="bi bi-lightbulb-off-fill"></i> Alumbrado
-      </a>
-      <a class="btn btn-primary separacion" href="#" role="button"
-        ><i class="bi bi-car-front-fill"></i>Accidentes Vehiculares</a
-      >
-      <a class="btn btn-primary separacion" href="#" role="button">
-        <i class="bi bi-trash" style="margin-top: 1em"></i>
-        Basura en la Calle
-      </a>
-    </div>
-  </div>
-</div>

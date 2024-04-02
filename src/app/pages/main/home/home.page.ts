@@ -12,31 +12,11 @@ import OSM from "ol/source/OSM";
   templateUrl: "./home.page.html",
   styleUrls: ["./home.page.scss"],
 })
-export class HomePage implements OnInit {
+export class HomePage{
   firebaseSvc = inject(FirestoreService);
   utilSvc = inject(UtilsService);
-
-  ngOnInit() {}
-
   // cerrar sesion
   signOut() {
     this.firebaseSvc.signOut();
-  }
-
-  map!: Map;
-
-  ngAfterViewInit(): void {
-    this.map = new Map({
-      target: "map",
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
-      ],
-      view: new View({
-        center: [0, 0],
-        zoom: 2,
-      }),
-    });
   }
 }
