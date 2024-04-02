@@ -3,7 +3,19 @@
     padding: 20px;
     margin-bottom: 20px;
   }
-  
+  ion-content{
+    --background: none;
+    background: #28429f;
+  }
+  ion-title{
+    color:white;
+  }
+  p{
+    color: white;
+  }
+  a{
+    color: white;
+  }
   .title {
     font-size: 2.5rem;
     margin-bottom: 0;
