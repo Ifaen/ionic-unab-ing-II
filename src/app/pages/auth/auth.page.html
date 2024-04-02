@@ -16,7 +16,7 @@
         <ion-icon name="person-outline"></ion-icon>
       </ion-item>
       <div
-        *ngIf="form.controls['email'].touched && form.controls['email'].errors['required']"
+        *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['required']"
       >
         <ion-text>El correo electrónico es obligatorio</ion-text>
       </div>
