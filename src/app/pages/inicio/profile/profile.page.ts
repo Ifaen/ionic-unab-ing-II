@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, inject } from "@angular/core";
 import { IonInput } from "@ionic/angular";
 import { User } from "firebase/auth";
 import { FirestoreService } from "src/app/services/firestore.service";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-profile",
@@ -17,6 +18,9 @@ export class ProfilePage implements OnInit {
   @ViewChild("contrasenaInput") contrasenaInput: IonInput | undefined;
   @ViewChild("correoInput") correoInput: IonInput | undefined;
   @ViewChild("telefonoInput") telefonoInput: IonInput | undefined;
+
+  router = inject(Router);
+  firebaseSvc = inject(FirestoreService);
 
   nombre: string = "";
   rut: string = "";
@@ -51,5 +55,10 @@ export class ProfilePage implements OnInit {
 
   toggleEdit() {
     this.isEditable = !this.isEditable;
+  }
+
+  //==========cerrar sesion============
+  signOut() {
+    this.firebaseSvc.signOut();
   }
 }

@@ -8,11 +8,11 @@ import { Router } from "@angular/router";
 import { LoadingController } from "@ionic/angular";
 
 @Component({
-  selector: "app-auth",
-  templateUrl: "./auth.page.html",
-  styleUrls: ["./auth.page.scss"],
+  selector: "app-login",
+  templateUrl: "./login.page.html",
+  styleUrls: ["./login.page.scss"],
 })
-export class AuthPage implements OnInit {
+export class LoginPage implements OnInit {
   form = new FormGroup({
     email: new FormControl("", [Validators.required, Validators.email]),
     password: new FormControl("", [Validators.required]),
@@ -61,7 +61,7 @@ export class AuthPage implements OnInit {
         .getDocument(path)
         .then((user: User) => {
           this.utilsSvc.saveInLocalStorage("user", user);
-          this.utilsSvc.routerLink("/main/home");
+          this.utilsSvc.routerLink("/inicio/home");
           this.form.reset();
 
           this.utilsSvc.presentToast({

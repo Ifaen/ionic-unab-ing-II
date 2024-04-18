@@ -30,7 +30,7 @@ export class FirestoreService {
   signOut() {
     getAuth().signOut();
     localStorage.removeItem("user");
-    this.utilsSvc.routerLink("/auth");
+    this.utilsSvc.routerLink("/login");
   }
 
   // ACCEDER
