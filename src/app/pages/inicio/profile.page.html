@@ -3,8 +3,8 @@
     <div
       style="display: flex; align-items: center; justify-content: space-between"
     >
-      <ion-buttons class= boton_1 slot="start">
-        <ion-back-button defaultHref="/main/home"></ion-back-button>
+      <ion-buttons class="boton_1" slot="start">
+        <ion-back-button defaultHref="/inicio/home"></ion-back-button>
       </ion-buttons>
       <h1 class="title_2" style="text-align: center">Perfil</h1>
       <div></div>
@@ -78,5 +78,15 @@
         <ion-icon name="create-outline" color="dark"></ion-icon>
       </ion-button>
     </ion-item>
+
+    <ion-footer class="ion-no-border safe-p-bottom">
+      <ion-menu-toggle auto-hide="false">
+        <ion-item (click)="signOut()" lines="none">
+          <ion-icon slot="start" name="log-out-outline"></ion-icon>
+          <ion-label>cerrar sesión</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-footer>
   </div>
 </div>
+<app-tabs style="z-index: 1"></app-tabs>
