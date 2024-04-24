@@ -1,13 +1,54 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>modulo-accidente-vehicular</ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="app-container">
+  <div class="form-container">
+    <div
+      style="display: flex; align-items: center; justify-content: space-between"
+    >
+      <ion-buttons class="boton_1" slot="start">
+        <!--FIXME Sugiero darme un nombre mas descriptivo a esta clase, como crear-cuenta-button o crear-cuenta-btn.-->
+        <ion-back-button defaultHref="#"></ion-back-button>
+      </ion-buttons>
+      <h1 class="Titulo_1" style="text-align: center">
+        <!--FIXME Sugiero darme un nombre mas descriptivo a esta clase, como titulo o titulo-registro. Por otro lado, evitar utilizar el style argument y en cambio, utilizar la clase creada y darle estilo en el .css-->
+        Realiza Tu Reporte!
+      </h1>
+    </div>
+    <form>
+      <!--===========Tipo de Reporte===========-->
+      <label class="my-label">Tipo de Reporte</label>
+      <ion-select class="input" required style="direction: rtl">
+        <ion-select-option value="accidente"
+          >Accidente vehicular</ion-select-option
+        >
+        <ion-select-option value="congestion"
+          >Congestión vehicular</ion-select-option
+        >
+      </ion-select>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">modulo-accidente-vehicular</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+      <!--=========== Ubicación ===========-->
+      <label class="my-label">Inserte su Ubicación</label>
+      <ion-button class="input_boton" expand="full" required>
+        <ion-icon size="large" name="compass-outline"></ion-icon>
+      </ion-button>
+      <!--===========Descripcion===========-->
+      <div class="textarea-container">
+        <label class="my-label">Detalles que podrian ser de ayuda</label>
+        <textarea
+          id="area_descripcion"
+          class="area_descripcion"
+          required
+          (input)="updateCount()"
+          maxlength="250"
+        ></textarea>
+        <div id="charCount" class="char-counter">0 / 250</div>
+      </div>
+
+      <!--=========== Foto ===========-->
+      <label class="my-label">Imagen del Lugar</label>
+      <ion-button class="input_boton" expand="full" required>
+        <ion-icon size="large" name="camera-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button expand="full" type="submit">REPORTAR</ion-button>
+    </form>
+  </div>
+</div>
