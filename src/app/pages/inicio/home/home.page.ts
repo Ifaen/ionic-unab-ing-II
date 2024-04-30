@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, EventEmitter, Output} from "@angular/core";
 // importaciones de la biblioteca ol
 import View from "ol/View";
 import Map from "ol/Map";
@@ -7,8 +7,9 @@ import Feature from "ol/Feature";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM, Vector as VectorSource } from "ol/source";
 import { fromLonLat } from "ol/proj";
-import { Point, Geometry } from "ol/geom";
+import { Point} from "ol/geom";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
+import { MapService } from "src/app/services/map.service";
 
 @Component({
   selector: "app-home",
@@ -23,7 +24,7 @@ export class HomePage {
   private accuracyFeature: Feature;
   private positionFeature: Feature;
 
-  constructor() {
+  constructor(private mapService: MapService) {
     this.accuracyFeature = new Feature();
     this.positionFeature = new Feature();
     this.positionFeature.setStyle(
@@ -82,12 +83,16 @@ export class HomePage {
     this.geolocation.on("change", () => this.getCurrentLocation()); // Observador que, cada cambio en la geolocalizacion, actualiza la ubicacion
   }
 
+  @Output() mapReady = new EventEmitter<boolean>();//emitir al servicio mapa
+
   getCurrentLocation(): void {
     let accuracy = this.geolocation.getAccuracyGeometry(); // Obtener precision geometrica, siendo el radio alrededor del punto
     this.accuracyFeature.setGeometry(accuracy); // Setear geometria en feature
-
     let position = this.geolocation.getPosition(); // Obtener posicion, siendo el punto de ubicacion
     this.positionFeature.setGeometry(position ? new Point(position) : null); // Setear geometria de posicion en feature
+    console.log(this.geolocation.getPosition()) //para ver la posicion en consola borrar al terminar de testear
+    this.mapService.map = this.map; //para enviar la ubicacion
+    this.mapReady.emit(true);//cuando este listo enviar al servicio
   }
 
   createVector() {

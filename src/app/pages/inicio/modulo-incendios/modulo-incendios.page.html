@@ -1,13 +1,62 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>modulo_incendios</ion-title>
+  <ion-toolbar color="primary"> <ion-title>Reporte de Incendio</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">modulo_incendios</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding fondo">
+
+  <div class="container">  
+    <select class="form-select" aria-label="Default select example" style="margin-bottom: 1em;">
+      <option selected>Seleccione el Tipo de Incendio</option>
+      <option value="1">Domestico</option>
+      <option value="2">Departamento</option>
+      <option value="3">Forestal</option>
+    </select>
+
+    <div class="mb-3">
+      <label for="ubicacion" class="form-label"><h3>Ingresar Ubicación</h3></label>
+      <div class="input-group">  <input type="text" class="form-control" id="ubicacion" placeholder="Escriba Inserte Ubicacion">
+        <button class="btn btn-primary" type="button" id="obtenerUbicacion">
+          <i class="bi bi-geo-alt-fill"></i>
+        </button>
+        
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="imagen" class="form-label"><h3>Fotografia del Incendio</h3></label>
+      <div class="input-group">  <input type="text" class="form-control" id="imagen" placeholder="Inserte una Fotografia">
+        <button class="btn btn-primary" type="button" id="obtenerImagen">
+          <i class="bi bi-camera"></i>
+        </button>
+      </div>
+    </div>
+
+    <h1 class="text-decoration-underline">Información Adicional</h1>  <div class="form-check">
+      <input class="form-check-input" type="radio" name="glifoCercano" id="glifoSi" value="true">
+      <label class="form-check-label" for="glifoSi">
+        Si, conozco un grifo cercano
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="glifoCercano" id="glifoNo" value="false" checked>
+      <label class="form-check-label" for="glifoNo">
+        No, desconozco grifos cercanos
+      </label>
+    </div>
+
+    <div class="mb-3" id="grifoContainer" style="display: none;">  <label for="grifoUbicacion" class="form-label">Localización del Grifo Cercano</label>
+      <textarea class="form-control" id="grifoUbicacion" placeholder="Describe la ubicación del grifo"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="detalles" class="form-label">Detalles adicionales</label>
+      <textarea class="form-control" id="detalles" placeholder="Describe cualquier detalle que ayude a los bomberos"></textarea>
+    </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button type="button" class="btn btn-primary btn-lg">Enviar Reporte</button>
+    </div>
+  </div>
+
 </ion-content>
