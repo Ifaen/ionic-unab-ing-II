@@ -1,0 +1,18 @@
+.content-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+
+.formulario {
+  margin: auto; /*Con esto centramos el formulario al centro*/
+  width: 90%; /* Ancho del formulario */
+  max-width: 400px; /* Ancho máximo del formulario */
+  padding: 20px; /*Margen del formulario con respecto a su caja */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
