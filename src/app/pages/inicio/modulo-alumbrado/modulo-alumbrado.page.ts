@@ -2,6 +2,151 @@ import { Component, OnInit, inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { FirestoreService } from "src/app/services/firestore.service";
 import { UtilsService } from "src/app/services/utils.service";
+import { AlertController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+
+@Component({
+  selector: "app-modulo-alumbrado",
+  templateUrl: "./modulo-alumbrado.page.html",
+  styleUrls: ["./modulo-alumbrado.page.scss"],
+})
+export class ModuloAlumbradoPage implements OnInit {
+  form = new FormGroup({
+    uid: new FormControl(""),
+    titulo: new FormControl("", [Validators.required]),
+    descripcion: new FormControl("", [Validators.required]),
+    horario: new FormControl("", [Validators.required]),
+  });
+
+  firebaseSvc = inject(FirestoreService);
+  utilsSvc = inject(UtilsService);
+
+  constructor(private alertController: AlertController,private navCtrl: NavController) {}
+
+  ngOnInit() {}
+  redireccionarAPagina() {
+    this.navCtrl.navigateForward('/inicio/modulo-alumbrado/formulario-alum');
+  }
+  
+  async mostrarOpciones1() {
+    const alert = await this.alertController.create({
+      header: '¿Problemas con Alumbrado publico?',
+      buttons: [
+        {
+          text: '800 720 077 (Viña Del Mar 08:30 a 19:00 hrs)',
+          handler: () => {
+            window.open('tel:800720077')
+          }
+        },
+        {
+          text: '32 3350 000 (Valparaiso 24 hrs)',
+          handler: () => {
+            window.open('tel:32335000')
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }
+      ]
+    });
+  
+    await alert.present();
+  }
+  async mostrarOpciones2() {
+    const alert = await this.alertController.create({
+      header: '¿Problemas con tu internet?',
+      buttons: [
+        {
+          text: 'Entel 600 3600 103',
+          handler: () => {
+            window.open('tel:6003600103')
+          }
+        },
+        {
+          text: 'Movistar 600 600 3200',
+          handler: () => {
+            window.open('tel:6006003200')
+          }
+        },
+        {
+          text: 'Vtr 600 800 9000',
+          handler: () => {
+            window.open('tel:6008009000')
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }
+      ]
+    });
+  
+    await alert.present();
+  }
+  async mostrarOpciones3() {
+    const alert = await this.alertController.create({
+      header: '¿Problemas con tus datos moviles?',
+      buttons: [
+        {
+          text: 'Claro 800 171 171',
+          handler: () => {
+            window.open('tel:800171171',)
+          }
+        },
+        {
+          text: 'Movistar 600 600 3000',
+          handler: () => {
+            window.open('tel:6006003000')
+          }
+        },
+        {
+          text: 'WOM 600 200 1000',
+          handler: () => {
+            window.open('tel:6002001000');
+          }
+        },
+        {
+          text: 'Entel 600 3700 104',
+          handler: () => {
+            window.open('tel:6003700104');
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }
+      ]
+    });
+  
+    await alert.present();
+  }
+  async mostrarOpciones4() {
+    const alert = await this.alertController.create({
+      header: 'Opciones adicionales',
+      buttons: [
+        {
+          text: 'CGE 800 800 767',
+          handler: () => {
+            window.open('tel:800800767')
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }
+      ]
+    })
+  
+    await alert.present();
+  }
+}
+
+/*
+import { Component, OnInit, inject } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FirestoreService } from "src/app/services/firestore.service";
+import { UtilsService } from "src/app/services/utils.service";
 
 @Component({
   selector: "app-modulo-alumbrado",
@@ -23,102 +168,4 @@ export class ModuloAlumbradoPage implements OnInit {
 
   ngOnInit() {}
 }
-
-/*import { Component, OnInit, inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { User } from 'src/app/models/user.model';
-import { FirestoreService } from 'src/app/services/firestore.service';
-import { UtilsService } from 'src/app/services/utils.service';
-@Component({
-  selector: 'app-registro',
-  templateUrl: './registro.page.html',
-  styleUrls: ['./registro.page.scss'],
-})
-export class RegistroPage implements OnInit {
-
-  form = new FormGroup({
-    uid: new FormControl(''),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-    name: new FormControl('', [Validators.required, Validators.minLength(4)])
-  })
-
-  firebaseSvc = inject(FirestoreService);
-  utilsSvc = inject(UtilsService);
-
-
-  ngOnInit() {
-  }
-
-  async submit() {
-    if (this.form.valid) {
-
-      const loading = await this.utilsSvc.loading();
-      await loading.present();
-
-      this.firebaseSvc.singUp(this.form.value as User).then(async res => {
-
-        await this.firebaseSvc.updateUser(this.form.value.name);
-
-        let uid = res.user.uid;
-        this.form.controls.uid.setValue(uid);
-
-        this.setUserInfo(uid);
-
-
-        
-      }).catch(error => {
-        console.log(error);
-
-        this.utilsSvc.presentToast({
-          message: error.message,
-          duration: 2500,
-          color: 'primary',
-          position: 'middle',
-          icon: 'alert-circle-outline'
-        })
-
-      }).finally(() => {
-        loading.dismiss();
-      })
-
-    }
-  }
-
-
-
-  async setUserInfo(uid: string) {
-    if (this.form.valid) {
-
-      const loading = await this.utilsSvc.loading();
-      await loading.present();
-
-      let path = `users/${uid}`
-      delete this.form.value.password;
-
-      this.firebaseSvc.setDocument(path, this.form.value).then(async res => {
-
-        this.utilsSvc.saveInLocalStorage('user', this.form.value)
-        this.utilsSvc.routerLink('/main/home');
-        this.form.reset();
-
-        console.log(res);
-        
-      }).catch(error => {
-        console.log(error);
-
-        this.utilsSvc.presentToast({
-          message: error.message,
-          duration: 2500,
-          color: 'primary',
-          position: 'middle',
-          icon: 'alert-circle-outline'
-        })
-
-      }).finally(() => {
-        loading.dismiss();
-      })
-
-    }
-  }
-}*/
+*/

@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: ModuloAlumbradoPage
+  },  {
+    path: 'formulario-alum',
+    loadChildren: () => import('./formulario-alum/formulario-alum.module').then( m => m.FormularioAlumPageModule)
   }
+
 ];
 
 @NgModule({
