@@ -24,31 +24,27 @@
       
       <div style="margin-left: 2.5em">
         <!-- Seleccion de modulos -->
-        <div class="offcanvas-body small">
-          <a class="btn btn-danger agrandador" routerLink="modulo-alumbrado" role="button">
-            <img src="assets/icon/fuego.png" class="icon">
-            <div class="centrador">
-              Incendios
-            </div>
-          </a>
+      <div class="offcanvas-body small">
 
-          <a class="btn btn-warning agrandador" href="/inicio/modulo-alumbrado" role="button"> 
-            <img src="assets/icon/poste.png" class="icon">
-            <div class="centrador">
-              Alumbrado
-            </div>
-          </a>
-          <a class="btn color agrandador" href="inicio/modulo-accidente-vehicular" role="button">
-            <img src="assets/icon/coche.png" class="icon">
-            Accidentes Vehiculares
-          </a>
-
-          <a class="btn btn-success agrandador" href="/inicio/modulo-basura" role="button">
-            <img src="assets/icon/basu.png" class="icon">
-            <div class="centrador">
-              Residuos
-            </div>
-          </a>
+        <div class="ion-page" #page>
+          <ion-content class="ion-padding">
+            <ion-button id="open-modal" expand="block">Modulo Incendios</ion-button>
+            <ion-modal #modal trigger="open-modal" [canDismiss]="canDismiss" [presentingElement]="page">
+              <ng-template>
+                <ion-header>
+                  <ion-toolbar>
+                    <ion-title>Reporte de Incendios</ion-title>
+                    <ion-buttons slot="end">
+                      <ion-button (click)="modal.dismiss()">Cerrar</ion-button>
+                    </ion-buttons>
+                  </ion-toolbar>
+                </ion-header>
+                <ion-content class="ion-padding">
+                  
+                </ion-content>
+              </ng-template>
+            </ion-modal>
+          </ion-content>
         </div>
       </div>
     </div>

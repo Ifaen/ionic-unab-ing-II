@@ -17,6 +17,7 @@ import { SharedModule } from "src/app/shared/shared.module";
     InicioPageRoutingModule,
     SharedModule,
   ],
+  
   declarations: [InicioPage],
 })
 export class InicioPageModule {}

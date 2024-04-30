@@ -15,6 +15,9 @@ import { ModuloIncendiosPage } from './modulo-incendios.page';
     IonicModule,
     ModuloIncendiosPageRoutingModule
   ],
-  declarations: [ModuloIncendiosPage]
+  declarations: [ModuloIncendiosPage],
+  exports: [
+    ModuloIncendiosPage
+  ],
 })
 export class ModuloIncendiosPageModule {}

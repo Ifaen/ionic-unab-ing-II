@@ -9,6 +9,7 @@ import { MapaComponent } from "./component/mapa/mapa.component";
 import { TabsComponent } from "./component/tabs/tabs.component";
 import { BotonesComponent } from "./component/botones/botones.component";
 import { FiltrosComponent } from "./component/filtros/filtros.component";
+import { ModuloIncendiosPage } from "../pages/inicio/modulo-incendios/modulo-incendios.page";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { FiltrosComponent } from "./component/filtros/filtros.component";
     MapaComponent,
     TabsComponent,
     BotonesComponent,
-    FiltrosComponent
+    FiltrosComponent,
   ],
   exports: [
     HeaderComponent,
@@ -28,7 +29,7 @@ import { FiltrosComponent } from "./component/filtros/filtros.component";
     MapaComponent,
     TabsComponent,
     BotonesComponent,
-    FiltrosComponent
+    FiltrosComponent,
   ],
   imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule],
 })
