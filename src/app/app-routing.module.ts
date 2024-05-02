@@ -21,6 +21,13 @@ const routes: Routes = [
       import("./pages/inicio/inicio.module").then((m) => m.InicioPageModule),
     //canActivate: [AuthGuard],
   },
+  {
+    path: "location",
+    loadChildren: () =>
+      import("./pages/inicio/location/location.module").then(
+        (m) => m.LocationPageModule
+      ),
+  },
 ];
 
 @NgModule({
