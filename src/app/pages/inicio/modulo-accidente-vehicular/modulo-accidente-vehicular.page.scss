@@ -62,15 +62,11 @@ ion-content {
     display: block;
     width: 100%;
     height: 40px;
-    padding-left: 2%;
+    padding: 5px;
     margin-top: 5px;
     border-radius: 5px;
     border: 1px solid #008dda;
     background-color: white;
-  }
-
-  ion-select::part(icon) {
-    display: none;
   }
   
   .input_boton {
@@ -84,25 +80,30 @@ ion-content {
   .input_boton ion-icon {
     margin-right: 0;
   }
+
+  .notificaciones{
+    color: rgb(204, 42, 42);
+    text-align: left;
+  }
   
   form {
     width: 100%;
     max-width: 600px;
     text-align: center;
+}
+
+ion-item {
+    --padding-start: 0;
+    --padding-end: 0;
+}
+
+ion-button {
+    margin-top: 20px;
+    --background: #5271ff;
+    --border-radius: 20px !important;
+    box-shadow: white;
+    --padding-start: 20px; /* Opcional: cambia el relleno izquierdo del botón */
+    --padding-end: 20px;
+}
+
   
-    ion-item {
-      --padding-start: 0;
-      --padding-end: 0;
-    }
-  
-    ion-button {
-      margin-top: 20px;
-      --background: #5271ff;
-      --border-radius: 20px !important;
-      box-shadow: white;
-      --padding-start: 20px; /* Opcional: cambia el relleno izquierdo del botón */
-      --padding-end: 20px;
-    }
-  }
-  
- 

@@ -1,0 +1,26 @@
+.botones-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px; /* Agregar un espacio entre los bordes y los botones */
+}
+.botones-container ion-button {
+  margin-bottom: 10px;
+  width: 400px; /* Ajustar el ancho de los botones */
+  border-radius: 55px; /* Agregar bordes redondeados */
+  background-color: #ffe0b2; /* Cambiar el color de fondo */
+  color: #ffffff; /* Cambiar el color del texto */
+  font-weight: bold; /* Hacer el texto en negrita */
+}
+
+ion-content {
+  --ion-background-color: #ffc107; /* Cambia el color de fondo */
+}
+.offcanvas-body .btn {
+  width: 110px; /* Ancho fijo para el botón */
+  height: 80px; /* Alto fijo para el botón */
+  margin: 10px; /* Espacio fuera del botón */
+  white-space: normal; /* Permite que el texto pase a la siguiente línea si es necesario */
+}

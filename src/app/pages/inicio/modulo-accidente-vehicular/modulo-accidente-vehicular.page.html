@@ -4,29 +4,29 @@
       style="display: flex; align-items: center; justify-content: space-between"
     >
       <ion-buttons class="boton_1" slot="start">
-        <!--FIXME Sugiero darme un nombre mas descriptivo a esta clase, como crear-cuenta-button o crear-cuenta-btn.-->
-        <ion-back-button defaultHref="#"></ion-back-button>
+        <ion-back-button defaultHref="/inicio/home"></ion-back-button>
       </ion-buttons>
       <h1 class="Titulo_1" style="text-align: center">
-        <!--FIXME Sugiero darme un nombre mas descriptivo a esta clase, como titulo o titulo-registro. Por otro lado, evitar utilizar el style argument y en cambio, utilizar la clase creada y darle estilo en el .css-->
         Realiza Tu Reporte!
       </h1>
     </div>
     <form>
       <!--===========Tipo de Reporte===========-->
       <label class="my-label">Tipo de Reporte</label>
-      <ion-select class="input" placeholder="Seleccione el tipo de reporte">
-        <ion-select-option value="accidente">Accidente vehicular</ion-select-option>
-        <ion-select-option value="congestion">Congestión vehicular</ion-select-option>
+      <ion-select class="input" required style="direction: rtl">
+        <ion-select-option value="accidente"
+          >Accidente vehicular</ion-select-option
+        >
+        <ion-select-option value="congestion"
+          >Congestión vehicular</ion-select-option
+        >
       </ion-select>
 
-
-      
-
       <!--=========== Ubicación ===========-->
+      <!-- Momentaneamente redirige al mapa --> 
       <label class="my-label">Inserte su Ubicación</label>
-      <ion-button class="input_boton" expand="full" required>
-        <ion-icon size="large" name="compass-outline"></ion-icon>
+      <ion-button href="/inicio/home" class="input_boton" expand="full" required>
+        <ion-icon size="large" name="location"></ion-icon>
       </ion-button>
       <!--===========Descripcion===========-->
       <div class="textarea-container">
@@ -36,16 +36,21 @@
           class="area_descripcion"
           required
           (input)="updateCount()"
-          maxlength="250"
+          maxlength="200"
         ></textarea>
-        <div id="charCount" class="char-counter">0 / 250</div>
+        <div id="charCount" class="char-counter">0 / 200</div>
       </div>
 
       <!--=========== Foto ===========-->
-      <label class="my-label">Imagen del Lugar</label>
-      <ion-button class="input_boton" expand="full" required>
+      <label class="my-label">Imagen del Suceso (Opcional)</label>
+      <ion-button class="input_boton" expand="full" (click)="takePhoto()">
         <ion-icon size="large" name="camera-outline"></ion-icon>
       </ion-button>
+      <!--Apartado para vizualizar la foto seleccionada-->
+      <ion-item *ngIf="photo">
+        <ion-icon size="large" name="camera-outline" [src]="photo"></ion-icon>
+      </ion-item>
+
 
       <ion-button expand="full" type="submit">REPORTAR</ion-button>
     </form>

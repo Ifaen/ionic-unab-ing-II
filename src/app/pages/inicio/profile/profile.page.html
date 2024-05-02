@@ -20,16 +20,6 @@
       ></ion-input>
     </ion-item>
 
-    <ion-item lines="none" class="ion-margin-top custom-item">
-      <ion-input
-        label="Rut: "
-        #rutInput
-        type="text"
-        readonly="true"
-        [(ngModel)]="rut"
-      ></ion-input>
-    </ion-item>
-
     <ion-item
       lines="none"
       button
@@ -61,23 +51,6 @@
         [(ngModel)]="correo"
       ></ion-input>
     </ion-item>
-    <ion-item lines="none" class="ion-margin-top custom-item">
-      <ion-input
-        [readonly]="isEditable"
-        label="Telefono: "
-        #telefonoInput
-        type="tel"
-        [(ngModel)]="telefono"
-      ></ion-input>
-      <ion-button
-        slot="end"
-        fill="clear"
-        class="edit-button"
-        (click)="toggleEdit()"
-      >
-        <ion-icon name="create-outline" color="dark"></ion-icon>
-      </ion-button>
-    </ion-item>
 
     <ion-footer class="ion-no-border safe-p-bottom">
       <ion-menu-toggle auto-hide="false">
@@ -90,3 +63,4 @@
   </div>
 </div>
 <app-tabs style="z-index: 1"></app-tabs>
+

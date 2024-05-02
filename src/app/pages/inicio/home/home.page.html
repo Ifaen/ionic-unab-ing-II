@@ -1,2 +1,17 @@
-<app-mapa></app-mapa>
-<app-tabs style="z-index: 1;"></app-tabs>
+<ion-content [fullscreen]="true">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mapa</title>
+  </head>
+  <body>
+    <!-- llamado al mapa desde el .ts -->
+    <div id="map" class="map"></div>
+
+    <!-- llamado al componente de filtros -->
+    <app-filtros></app-filtros>
+    <!-- llamado al componente de los modulos -->
+    <app-botones [geolocation]="geolocation"></app-botones>
+  </body>
+</ion-content>
+<app-tabs style="z-index: 1"></app-tabs>

@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
 import { InicioPage } from "./inicio.page";
+import { LocationPage } from "./location/location.page";
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
         path: "home",
         loadChildren: () =>
           import("./home/home.module").then((m) => m.HomePageModule),
+      },
+      {
+        path: "location",
+        component: LocationPage,
       },
       {
         path: "profile",
@@ -40,13 +45,14 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'modulo-accidente-vehicular',
-        loadChildren: () => import('./modulo-accidente-vehicular/modulo-accidente-vehicular.module').then( m => m.ModuloAccidenteVehicularPageModule)
+        path: "modulo-accidente-vehicular",
+        loadChildren: () =>
+          import(
+            "./modulo-accidente-vehicular/modulo-accidente-vehicular.module"
+          ).then((m) => m.ModuloAccidenteVehicularPageModule),
       },
     ],
   },
-  
-
 ];
 
 @NgModule({

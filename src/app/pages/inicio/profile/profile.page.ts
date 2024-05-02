@@ -14,19 +14,16 @@ export class ProfilePage implements OnInit {
   user: User;
 
   @ViewChild("nombreInput") nombreInput: IonInput | undefined;
-  @ViewChild("rutInput") rutInput: IonInput | undefined;
   @ViewChild("contrasenaInput") contrasenaInput: IonInput | undefined;
   @ViewChild("correoInput") correoInput: IonInput | undefined;
-  @ViewChild("telefonoInput") telefonoInput: IonInput | undefined;
+
 
   router = inject(Router);
   firebaseSvc = inject(FirestoreService);
 
   nombre: string = "";
-  rut: string = "";
   password: string = "";
   correo: string = "";
-  telefono: string = "";
   isEditable = true;
 
   constructor(
@@ -44,10 +41,8 @@ export class ProfilePage implements OnInit {
           .subscribe((snapshot) => {
             let userData = snapshot.data() as any; // Afirmación de tipo
             this.nombre = userData.nombre;
-            this.rut = userData.rut;
             this.password = userData.password;
             this.correo = userData.email;
-            this.telefono = userData.telefono;
           });
       }
     });

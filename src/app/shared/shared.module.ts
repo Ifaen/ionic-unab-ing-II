@@ -9,7 +9,7 @@ import { MapaComponent } from "./component/mapa/mapa.component";
 import { TabsComponent } from "./component/tabs/tabs.component";
 import { BotonesComponent } from "./component/botones/botones.component";
 import { FiltrosComponent } from "./component/filtros/filtros.component";
-import { MarcadoresService } from "../services/marcadores.service";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -19,7 +19,7 @@ import { MarcadoresService } from "../services/marcadores.service";
     MapaComponent,
     TabsComponent,
     BotonesComponent,
-    FiltrosComponent
+    FiltrosComponent,
   ],
   exports: [
     HeaderComponent,
@@ -29,9 +29,14 @@ import { MarcadoresService } from "../services/marcadores.service";
     MapaComponent,
     TabsComponent,
     BotonesComponent,
-    FiltrosComponent
+    FiltrosComponent,
   ],
-  imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule],
-  providers: [MarcadoresService],
+  imports: [
+    CommonModule,
+    IonicModule,
+    ReactiveFormsModule,
+    RouterModule,
+    FormsModule,
+  ],
 })
 export class SharedModule {}
