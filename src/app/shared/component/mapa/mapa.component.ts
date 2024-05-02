@@ -1,3 +1,7 @@
+/**
+ * @deprecated Debido a un bug y por la naturaleza de este componente que no es reutilizado, se movio directamente al page de home.
+ */
+
 import { Component, OnInit } from "@angular/core";
 
 // importaciones de la biblioteca ol
@@ -22,15 +26,14 @@ export class MapaComponent implements OnInit {
       target: 'map',
       layers: [
         new TileLayer({
-          source: new OSM(),//invocacion de la biblioteca para hacer visual el mapa
+          source: new OSM(), //invocacion de la biblioteca para hacer visual el mapa
         }),
       ],
       view: new View({
-        center: fromLonLat([-71.6273, -33.0472]), 
+        center: fromLonLat([-71.6273, -33.0472]),
         // Coordenadas de Valparaiso para ingresar
         // y ver directamente a la region
         zoom: 12,
-
       }),
     });
   }
