@@ -80,6 +80,13 @@
         <ion-text class="notificaciones"> Este campo es obligatorio</ion-text>
       </div>
 
+      <div *ngIf="registerForm.controls['contrasena'].touched && registerForm.controls['contrasena'].errors?.['minlength']">
+        <ion-icon name="alert-circle-outline" class="notificaciones"></ion-icon>
+        <ion-text class="notificaciones"> La contraseña debe tener más de 6 dígitos</ion-text>
+      </div>
+      
+      
+
       <!--===========Confirmar Contraseña===========-->
       <label class="my-label">Confirmar Contraseña</label>
       <div style="display: flex; align-items: center; position: relative">
@@ -109,7 +116,15 @@
         <ion-text class="notificaciones"> Este campo es obligatorio</ion-text>
       </div>
 
-      <ion-button expand="full" type="submit">Registrarse</ion-button>
+      <div
+        *ngIf="registerForm.controls['confirmar_contrasena'].touched && registerForm.value.contrasena !== registerForm.value.confirmar_contrasena"
+      >
+        <ion-icon name="alert-circle-outline" class="notificaciones"></ion-icon>
+        <ion-text class="notificaciones"> Las contraseñas deben ser iguales</ion-text>
+      </div>
+
+
+      <ion-button expand="full" type="submit" (click)="validarFormulario()">Registrarse</ion-button>
     </form>
   </div>
 </div>

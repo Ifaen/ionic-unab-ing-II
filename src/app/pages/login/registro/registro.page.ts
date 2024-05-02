@@ -48,6 +48,7 @@ export class RegistroPage {
     ) {
     } else {
       if (emailExists) {
+          this.mostrarAdvertencia("Este email ya esta en uso!");
       } else {
         const user: User = {
           uid: "",
@@ -61,7 +62,7 @@ export class RegistroPage {
           console.log(res);
           this.mostrarNotificacionBuena("¡Cuenta Registrada con Éxito! :)");
           setTimeout(() => {
-            this.router.navigate(["/auth"]);
+            this.router.navigate(["/login"]);
           }, 3000); // 3000 milisegundos (3 segundos)
         });
       }
@@ -85,4 +86,15 @@ export class RegistroPage {
     });
     toast.present();
   }
+
+  async mostrarAdvertencia(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 3000,
+      position: "bottom",
+      color: "warning",
+    });
+    toast.present();
+  }
+  
 }
