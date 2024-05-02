@@ -8,7 +8,7 @@ import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM, Vector as VectorSource } from "ol/source";
 import { fromLonLat } from "ol/proj";
 import { Point, Geometry } from "ol/geom";
-import { Circle as CircleStyle, Fill, Icon, Stroke, Style } from "ol/style";
+import { Circle, Fill, Icon, Stroke, Style } from "ol/style";
 import { Report } from "src/app/models/report.model";
 import { MapService } from "src/app/services/map.service";
 
@@ -19,15 +19,20 @@ import { MapService } from "src/app/services/map.service";
 })
 export class HomePage {
   public geolocation: Geolocation;
+  private view: View;
+  private map: Map; // Declarar la variable map como propiedad de la clase
   private iconFeatures = [];
 
   constructor(private mapService: MapService) {}
 
   private ngOnInit(): void {
-    //this.mapService.setView(-71.6273, -33.0472);
-    this.mapService.setView(-70.9377743, -53.1989798, 12); // Testing para Punta Arenas
+    //this.view = this.mapService.setView(fromLotLat([-71.6273, -33.0472]), 12);
+    this.view = this.mapService.setView(
+      [-7894288.481299472, -7010253.926397604], // Testing para Punta Arenas
+      12
+    );
 
-    this.mapService.setMap();
+    this.map = this.mapService.setMap(this.view);
 
     this.setGeolocation();
 
@@ -40,7 +45,7 @@ export class HomePage {
     let positionFeature = new Feature();
     positionFeature.setStyle(
       new Style({
-        image: new CircleStyle({
+        image: new Circle({
           radius: 6, // Radio del punto de la ubicacion
           fill: new Fill({
             color: "#3399CC", // Color del punto
@@ -58,19 +63,21 @@ export class HomePage {
       trackingOptions: {
         enableHighAccuracy: true, // Habilitar alta precision
       },
-      projection: this.mapService.getView().getProjection(), // Obtener la vista para la geolocalizacion
+      projection: this.view.getProjection(), // Obtener la vista para la geolocalizacion
     });
 
     // Crear vector para usuario
     let vectorUser = this.mapService.createVector(
+      this.map,
       new VectorSource({
         features: [accuracyFeature, positionFeature],
       })
     );
 
+    // Observador que, con cada cambio en la geolocalizacion, actualiza la ubicacion
     this.geolocation.on("change", () =>
       this.getCurrentLocation(accuracyFeature, positionFeature)
-    ); // Observador que, cada cambio en la geolocalizacion, actualiza la ubicacion
+    );
   }
 
   private getCurrentLocation(
@@ -135,6 +142,7 @@ export class HomePage {
     });
 
     this.mapService.createVector(
+      this.map,
       new VectorSource({
         features: this.iconFeatures,
       })
