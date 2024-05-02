@@ -1,11 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router"; // Importa Router para la redirección
-import Feature from "ol/Feature";
-import Point from "ol/geom/Point";
-import VectorSource from "ol/source/Vector";
-import { Icon, Style } from "ol/style";
-import VectorLayer from "ol/layer/Vector";
-import { fromLonLat } from "ol/proj";
+import { Router } from "@angular/router";
+
+import { CameraService } from "src/app/services/photo.service";
 
 @Component({
   selector: "app-modulo-accidente-vehicular",
@@ -13,19 +9,39 @@ import { fromLonLat } from "ol/proj";
   styleUrls: ["./modulo-accidente-vehicular.page.scss"],
 })
 export class ModuloAccidenteVehicularPage implements OnInit {
-  constructor(private router: Router) {} // Inyecta Router en el constructor
+  selectedOption: string;
+  description: string;
+  photo: string;
 
-  ngOnInit() {}
+  constructor(
+    //private afDB: AngularFireDatabase,
+    //private camera: Camera,
+    //private modalController: ModalController
+    private cameraService: CameraService
+  ) { }
+
+  ngOnInit() {
+  }
+
+  async takePhoto() {
+    //Lamamos al metodo takePhoto() del servicio de la camara para tomar una foto
+    const photo = await this.cameraService.takePhoto();
+    //Verificamos si la foto obtenida es valida (no es nula)
+    if (photo) {
+      //Si la foto es valida, la asignamos a la variable 'photo' del componente
+      this.photo = photo;
+    } else {
+      //Si la foto es nula, mostramos un mensaje de error en la consola
+      console.error('La foto es nula o no valida.');
+    }
+  }
 
   updateCount() {
     var textarea = document.getElementById(
       "area_descripcion"
     ) as HTMLTextAreaElement;
     var count = document.getElementById("charCount");
-    count.innerText = textarea.value.length + " / 250";
+    count.innerText = textarea.value.length + " / 200";
   }
 
-  reportar() {
-    this.router.navigate(["home"]);
-  }
 }

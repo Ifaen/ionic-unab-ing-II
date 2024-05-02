@@ -36,16 +36,21 @@
           class="area_descripcion"
           required
           (input)="updateCount()"
-          maxlength="250"
+          maxlength="200"
         ></textarea>
-        <div id="charCount" class="char-counter">0 / 250</div>
+        <div id="charCount" class="char-counter">0 / 200</div>
       </div>
 
       <!--=========== Foto ===========-->
-      <label class="my-label">Imagen del Lugar</label>
-      <ion-button class="input_boton" expand="full" required>
+      <label class="my-label">Imagen del Suceso (Opcional)</label>
+      <ion-button class="input_boton" expand="full" (click)="takePhoto()">
         <ion-icon size="large" name="camera-outline"></ion-icon>
       </ion-button>
+      <!--Apartado para vizualizar la foto seleccionada-->
+      <ion-item *ngIf="photo">
+        <ion-icon size="large" name="camera-outline" [src]="photo"></ion-icon>
+      </ion-item>
+
 
       <ion-button expand="full" type="submit">REPORTAR</ion-button>
     </form>
