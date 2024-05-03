@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 import { IonicModule } from '@ionic/angular';
 
 import { ModuloAccidenteVehicularPageRoutingModule } from './modulo-accidente-vehicular-routing.module';
@@ -13,7 +15,8 @@ import { ModuloAccidenteVehicularPage } from './modulo-accidente-vehicular.page'
     CommonModule,
     FormsModule,
     IonicModule,
-    ModuloAccidenteVehicularPageRoutingModule
+    ModuloAccidenteVehicularPageRoutingModule,
+    ReactiveFormsModule
   ],
   declarations: [ModuloAccidenteVehicularPage]
 })

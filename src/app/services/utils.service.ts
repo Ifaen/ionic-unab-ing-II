@@ -54,4 +54,11 @@ export class UtilsService {
   dismissModal(data?: any) {
     return this.modalCtrl.dismiss(data);
   }
+
+  //obtener Fecha y Hora
+  getDate(): string{
+    const fechaHoraActual = new Date();
+    // Hace que de la variable tipo date retorne como un string y solo la parte de la hora
+    return fechaHoraActual.toLocaleTimeString();
+  }
 }
