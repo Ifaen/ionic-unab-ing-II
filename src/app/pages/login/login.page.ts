@@ -20,6 +20,7 @@ export class LoginPage implements OnInit {
 
   firebaseSvc = inject(FirestoreService);
   utilsSvc = inject(UtilsService);
+  showPassword: boolean = false;
 
   ngOnInit() {}
 
@@ -87,5 +88,13 @@ export class LoginPage implements OnInit {
           loading.dismiss();
         });
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  getPasswordFieldType() {
+    return this.showPassword ? 'text' : 'password';
   }
 }
