@@ -6,22 +6,29 @@
       <ion-buttons class="boton_1" slot="start">
         <ion-back-button defaultHref="/inicio/home"></ion-back-button>
       </ion-buttons>
-      <h1 class="Titulo_1" style="text-align: center">
-        Realiza Tu Reporte!
-      </h1>
+      <h1 class="Titulo_1" style="text-align: center">Realiza Tu Reporte!</h1>
     </div>
     <form>
       <!--===========Tipo de Reporte===========-->
       <label class="my-label">Tipo de Reporte</label>
       <ion-select class="input" placeholder="Seleccione el tipo de reporte">
-        <ion-select-option value="accidente">Accidente vehicular</ion-select-option>
-        <ion-select-option value="congestion">Congestión vehicular</ion-select-option>
+        <ion-select-option value="accidente">
+          Accidente vehicular
+        </ion-select-option>
+        <ion-select-option value="congestion">
+          Congestión vehicular
+        </ion-select-option>
       </ion-select>
 
       <!--=========== Ubicación ===========-->
-      <!-- Momentaneamente redirige al mapa --> 
+      <!-- Momentaneamente redirige al mapa -->
       <label class="my-label">Inserte su Ubicación</label>
-      <ion-button href="/inicio/home" class="input_boton" expand="full" required>
+      <ion-button
+        href="/inicio/location"
+        class="input_boton"
+        expand="full"
+        required
+      >
         <ion-icon size="large" name="location"></ion-icon>
       </ion-button>
       <!--===========Descripcion===========-->
@@ -46,7 +53,6 @@
       <ion-item *ngIf="photo">
         <ion-icon size="large" name="camera-outline" [src]="photo"></ion-icon>
       </ion-item>
-
 
       <ion-button expand="full" type="submit">REPORTAR</ion-button>
     </form>

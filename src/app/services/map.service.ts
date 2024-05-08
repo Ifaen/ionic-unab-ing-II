@@ -5,13 +5,24 @@ import Map from "ol/Map";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM, Vector as VectorSource } from "ol/source";
 import { Coordinate } from "ol/coordinate";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Geolocation } from "ol";
 
 @Injectable({
   providedIn: "root",
 })
 export class MapService {
-  constructor(private router: Router) {}
+  private geolocation: Geolocation;
+
+  constructor(private router: Router) {
+    this.geolocation = new Geolocation({
+      tracking: true, // TODO Cambiar a una funcion cuando se solicite el permiso de trackear ubicacion usando this.geolocation.setTracking(BOOL CON PERMISO);
+      trackingOptions: {
+        enableHighAccuracy: true, // Habilitar alta precision
+      },
+      projection: new View().getProjection(), // Obtener la vista para la geolocalizacion
+    });
+  }
 
   public setView(coordinates: Coordinate, zoom: number): View {
     return new View({
@@ -37,5 +48,9 @@ export class MapService {
       map: map,
       source: source,
     });
+  }
+
+  public getGeolocation(): Geolocation {
+    return this.geolocation;
   }
 }

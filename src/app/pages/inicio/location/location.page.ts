@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Feature, Map, View } from "ol";
+import { Feature, Geolocation, Map, View } from "ol";
 import { Coordinate } from "ol/coordinate";
 import { Point } from "ol/geom";
 import { fromLonLat } from "ol/proj";
@@ -42,29 +42,29 @@ export class LocationPage implements OnInit {
   }
 
   ngOnInit() {
-    // Obtener los parametros enviados a traves de routerLink
-    this.activatedRoute.params.subscribe((params) => {
-      // Transformar params de tipo objeto a un array<float> de dos
-      this.coordinates = Object.keys(params).map((key) =>
-        parseFloat(params[key])
-      );
-    });
-    this.view = this.mapService.setView(this.coordinates, 16);
+    this.view = this.mapService.setView([0, 0], 16); // Inicialmente coordenadas 0,0 hasta que cargue la posicion actual del usuario
+
     this.map = this.mapService.setMap(this.view);
 
-    this.mapService.createVector(
-      this.map,
-      new VectorSource({
-        features: [this.pointer],
-      })
-    );
-    // Asignar al puntero el valor de las coordenadas obtenidas
-    this.point = new Point(this.coordinates);
-    this.pointer.setGeometry(this.point);
+    setTimeout(() => {
+      this.coordinates = this.mapService.getGeolocation().getPosition(); // Obtener coordenadas
+      this.map.getView().setCenter(this.coordinates); // Centrar vista con coordenadas
 
-    this.map.on("pointermove", (e) => {
-      this.point.setCoordinates(this.map.getView().getCenter());
-    });
+      this.mapService.createVector(
+        this.map,
+        new VectorSource({
+          features: [this.pointer],
+        })
+      );
+
+      // Asignar al puntero el valor de las coordenadas obtenidas
+      this.point = new Point(this.coordinates);
+      this.pointer.setGeometry(this.point);
+
+      this.map.on("pointermove", (e) => {
+        this.point.setCoordinates(this.map.getView().getCenter());
+      });
+    }, 5000); // Esperar x milisegundos hasta que geolocalizacion este actualizada
   }
 
   sendPosition(): void {
