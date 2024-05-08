@@ -1,52 +1,46 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary"> <ion-title>REPORTE DE BASURA</ion-title>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>REPORTE DE BASURA</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding fondo">
-  
-  <!-- Subtítulo y Botones de Tipos de Basura -->
-  <ion-title class="subtitulo">TIPOS DE BASURA</ion-title>
-  <div class="container">  
-    <select class="form-select" aria-label="Default select example" style="margin-bottom: 1em;">
-      <option selected>TIPO DE BASURA</option>
-      <option value="1">RESIDUOS ORGANICA</option>
-      <option value="2">RESIDUOS INORGANICOS</option>
-      <option value="3">RESIDUOS PELIGROSOS O INFLAMABLES</option>
-      <option value="4">RESIDUOS DE CONTRUCCION Y DEMOLICION</option>
-      <option value="5">RESIDUOS ELECTRONICOS</option>
-    </select>
-
-  
-  <div class="mb-3">
-    <label for="ubicacion" class="form-label"><h3>Ingresar Ubicación</h3></label>
-    <div class="input-group">  <input type="text" class="form-control" id="ubicacion" placeholder="Escriba Inserte Ubicacion">
-      <button class="btn btn-primary" type="button" id="obtenerUbicacion">
-        <i class="bi bi-geo-alt-fill"></i>
-      </button> 
+<ion-content class="ion-padding fondo">
+  <div class="container">
+    <div class="box">
+      <ion-select placeholder="SELECIONE EL TIPO DE BASURA">
+        <ion-select-option value="1">RESIDUOS ORGANICO O BIODEGRADABLE</ion-select-option>
+        <ion-select-option value="2">RESIDUOS INORGANICOS O NOBIODEGRADABLES</ion-select-option>
+        <ion-select-option value="3">RESIDUOS TOXICOS O INFLAMABLES</ion-select-option>
+        <ion-select-option value="4">RESIDUOS DE CONTRUCION O DEMOLICIÓN</ion-select-option>
+        <ion-select-option value="5">RESIDUOS RECICLABLES</ion-select-option>
+      </ion-select>
     </div>
-  </div>
- 
-  <ion-item>
-    <ion-input placeholder="Texto" clearInput></ion-input>
-  </ion-item>
 
-  <div class="mb-3">
-    <label for="imagen" class="form-label"><h3>FOTOGRAFIA DE BASURA</h3></label>
-    <div class="input-group">  <input type="text" class="form-control" id="imagen" placeholder="Inserte una Fotografia">
-      <button class="btn btn-primary" type="button" id="obtenerImagen">
-        <i class="bi bi-camera"></i>
-      </button>
+    <div class="box">
+      <ion-item>
+        <ion-label position="floating">INGRESAR UBICACIÓN</ion-label>
+        <ion-input id="ubicacion" placeholder="Escriba Inserte Ubicacion"></ion-input>
+        <ion-button fill="clear" slot="end" id="obtenerUbicacion">
+          <ion-icon name="location-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">IMAGEN DEL BASURAL</ion-label>
+        <ion-input id="imagen" placeholder="Inserte una Fotografia"></ion-input>
+        <ion-button fill="clear" slot="end" id="obtenerImagen">
+          <ion-icon name="camera-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
     </div>
-  </div>
 
-  <div class="mb-3">
-    <label for="detalles" class="form-label">Detalles adicionales</label>
-    <textarea class="form-control" id="detalles" placeholder="DESCRIBE SOBRE EL BASURAL"></textarea>
-  </div>
+    <div class="box">
+      <ion-item>
+        <ion-label position="floating">DETALLES ADICIONALES</ion-label>
+        <ion-textarea id="detalles" placeholder="DESCRIBA DETALLES QUE AYUDEN EN EL REPORTE"></ion-textarea>
+      </ion-item>
+    </div>
 
-  <div class="d-grid gap-2 col-6 mx-auto">
-    <button type="button" class="btn btn-primary btn-lg">Enviar Reporte</button>
+    <ion-button expand="full">ENVIAR</ion-button>
   </div>
-</div>
 </ion-content>
