@@ -42,7 +42,10 @@ export class LocationPage implements OnInit {
   }
 
   ngOnInit() {
-    this.view = this.mapService.setView([0, 0], 16); // Inicialmente coordenadas 0,0 hasta que cargue la posicion actual del usuario
+    this.view = this.mapService.setView(
+      [-7973514.562897045, -3901570.651086505],
+      16
+    ); // Inicialmente coordenadas 0,0 hasta que cargue la posicion actual del usuario
 
     this.map = this.mapService.setMap(this.view);
 

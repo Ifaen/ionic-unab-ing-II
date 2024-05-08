@@ -26,7 +26,11 @@ export class HomePage {
   constructor(private mapService: MapService) {}
 
   private ngOnInit(): void {
-    this.view = this.mapService.setView(fromLonLat([-71.6273, -33.0472]), 12);
+    this.view = this.mapService.setView(
+      [-7973514.562897045, -3901570.651086505],
+      12
+    );
+    // TODO Borrar esto en build final
     //this.view = this.mapService.setView(
     //  [-7894288.481299472, -7010253.926397604], // Testing para Punta Arenas
     //  12
