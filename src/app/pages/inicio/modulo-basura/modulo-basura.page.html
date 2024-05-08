@@ -28,7 +28,7 @@
       <ion-item>
         <ion-label position="floating">IMAGEN DEL BASURAL</ion-label>
         <ion-input id="imagen" placeholder="Inserte una Fotografia"></ion-input>
-        <ion-button fill="clear" slot="end" id="obtenerImagen">
+        <ion-button fill="clear" slot="end" (click)="takePhoto()">
           <ion-icon name="camera-outline"></ion-icon>
         </ion-button>
       </ion-item>
