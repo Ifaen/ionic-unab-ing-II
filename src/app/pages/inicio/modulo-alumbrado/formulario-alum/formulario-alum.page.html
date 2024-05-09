@@ -49,8 +49,11 @@
           Tomar Foto</ion-button
         >
         <!--Apartado para vizualizar la foto seleccionada-->
-        <ion-item *ngIf="photo">
-          <ion-img [src]="photo" style="width: 200px; height: 200px"></ion-img>
+        <ion-item *ngIf="formAlumbrado.photo">
+          <ion-img
+            [src]="formAlumbrado.photo"
+            style="width: 200px; height: 200px"
+          ></ion-img>
         </ion-item>
         <!--Boton para tomar la ubicacion-->
         <!--De momento redirige al map-->
