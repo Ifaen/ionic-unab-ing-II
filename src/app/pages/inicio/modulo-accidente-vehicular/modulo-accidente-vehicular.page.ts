@@ -15,7 +15,7 @@ import { ReportFormService } from "src/app/services/reportForm.service";
 export class ModuloAccidenteVehicularPage implements OnInit {
   photo: string; // FIXME Quizas borrar en html, conservado para evitar posible break
 
-  formVehicular: FormVehicular = {
+  public formVehicular: FormVehicular = {
     module: "accidente-vehicular",
     coordinate: [0, 0],
     photo: "",
@@ -30,25 +30,28 @@ export class ModuloAccidenteVehicularPage implements OnInit {
     //private modalController: ModalController
     private cameraService: CameraService,
     private mapService: MapService,
-    private reportFormService: ReportFormService
-  ) {}
+    private reportFormService: ReportFormService,
+    private navController: NavController
+  ) {
+    this.reportFormService.formData = this.formVehicular;
+  }
 
   ngOnInit() {}
 
-  async takePhoto() {
+  public async takePhoto() {
     //Lamamos al metodo takePhoto() del servicio de la camara para tomar una foto
     const photo = await this.cameraService.takePhoto();
     //Verificamos si la foto obtenida es valida (no es nula)
     if (photo) {
       //Si la foto es valida, la asignamos a la variable 'photo' del componente
-      this.formVehicular.photo = photo;
+      this.photo = photo;
     } else {
       //Si la foto es nula, mostramos un mensaje de error en la consola
       console.error("La foto es nula o no valida.");
     }
   }
 
-  updateCount() {
+  public updateCount() {
     var textarea = document.getElementById(
       "area_descripcion"
     ) as HTMLTextAreaElement;
@@ -56,17 +59,16 @@ export class ModuloAccidenteVehicularPage implements OnInit {
     count.innerText = textarea.value.length + " / 200";
   }
 
-  // Ir a seleccionar localizacion, enviando la informacion del formulario en un servicio
-  goToLocationPage() {
-    this.mapService.goToLocationPage(this.formVehicular);
+  public goToLocationPage() {
+    this.navController.navigateForward("/inicio/location");
   }
 
   // Enviar formulario
-  sendForm() {
+  public sendForm() {
     let isValid = true;
     // TODO Validaciones exclusivas de este modulo
 
-    isValid = this.reportFormService.sendForm(this.formVehicular, isValid); // Enviar formulario a servicio
+    isValid = this.reportFormService.sendForm(isValid); // Enviar formulario a servicio
 
     if (!isValid) {
       return;

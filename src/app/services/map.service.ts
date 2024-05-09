@@ -66,17 +66,21 @@ export class MapService {
     return this.geolocation;
   }
 
-  goToLocationPage(
-    formData: FormAlumbrado | FormBasura | FormIncendio | FormVehicular
-  ) {
-    this.navController.navigateForward("/inicio/location");
-    this.reportFormService.formData = formData;
-  }
-
+  /**
+   * Funcion encargada de volver a la pagina anterior.
+   * En el caso de module-alumbrado, se devuelve a una subpagina.
+   * @param coordinate coordenadas entregadas en LocationPage
+   */
   goToFormPage(coordinate: Coordinate) {
-    this.navController.navigateBack(
-      "/inicio/modulo-" + this.reportFormService.formData.module
-    );
+    if (this.reportFormService.formData.module == "alumbrado") {
+      this.navController.navigateBack(
+        "/inicio/modulo-alumbrado/formulario-alum"
+      );
+    } else {
+      this.navController.navigateBack(
+        "/inicio/modulo-" + this.reportFormService.formData.module
+      );
+    }
     this.reportFormService.formData.coordinate = coordinate;
   }
 }

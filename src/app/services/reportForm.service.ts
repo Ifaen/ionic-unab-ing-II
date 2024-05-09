@@ -16,22 +16,19 @@ export class ReportFormService {
 
   // TODO Firebase endpoints
 
-  public sendForm(
-    formData: FormAlumbrado | FormBasura | FormIncendio | FormVehicular,
-    isValid: boolean
-  ): boolean {
-    if (formData.module == "") {
+  public sendForm(isValid: boolean): boolean {
+    if (this.formData.module == "") {
       // TODO Mostrar popup con error
       isValid = false;
     }
-    if (formData.coordinate[0] == 0 || formData.coordinate[1] == 0) {
+    if (this.formData.coordinate[0] == 0 || this.formData.coordinate[1] == 0) {
       // TODO Mostrar popup con error
       //isValid = false;
     }
 
     if (isValid) {
       // TODO Enviar form a backend
-      console.log(formData);
+      console.log(this.formData);
     }
 
     return isValid;
