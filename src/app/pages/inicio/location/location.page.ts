@@ -56,14 +56,11 @@ export class LocationPage implements OnInit {
 
   private getUserLocation() {
     this.view = this.mapService.setView([0, 0], 16); // Inicialmente coordenadas 0,0 hasta que cargue la posicion actual del usuario
-
     this.map = this.mapService.setMap(this.view);
 
     setTimeout(() => {
       this.coordinates = this.mapService.getGeolocation().getPosition(); // Obtener coordenadas
-
       this.map.getView().setCenter(this.coordinates); // Centrar vista con coordenadas
-
       this.loading.dismiss(); // Ocultar loading
     }, 5000); // Esperar x milisegundos hasta que geolocalizacion este actualizada
   }
