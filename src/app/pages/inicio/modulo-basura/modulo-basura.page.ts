@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Router } from '@angular/router';
 import { CameraService } from "src/app/services/photo.service";
 
 @Component({
@@ -7,25 +8,37 @@ import { CameraService } from "src/app/services/photo.service";
   styleUrls: ['./modulo-basura.page.scss'],
 })
 export class ModuloBasuraPage {
-  
-  constructor(private cameraService: CameraService) {}
+  capturedImg: string;
 
-  async takePhoto() {
+
+  constructor(private cameraService: CameraService, private router: Router) { }
+
+  goToLocationPage() {
+    this.router.navigate(['/inicio/location']);
+  }
+
+  ngOnInit() { }
+
+  async executeImageCapture() {
     try {
       const photo = await this.cameraService.takePhoto();
       if (photo) {
-        // Aquí puedes hacer lo que quieras con la foto, por ejemplo, mostrarla en un elemento de imagen en tu página
-        const imageElement = document.getElementById('imagen') as HTMLInputElement; // Asegúrate de tener un elemento con el id 'imagen' en tu HTML
-        imageElement.value = photo;
+        this.capturedImg = photo;
       } else {
-        // Manejar el caso en el que la foto no se captura correctamente
+        console.error('Error: Captured image is null or invalid.');
       }
     } catch (error) {
-      // Manejar el error
+      console.error('Error: Unable to capture image.', error);
     }
   }
 
-  ngOnInit() {
+  refreshCharacterLimit() {
+    let inputField = document.querySelector("#input_description") as HTMLTextAreaElement;
+    let limitDisplay = document.querySelector("#limitDisplay");
 
+    let currentLength = inputField.value.length;
+    let maxLength = 200;
+
+    limitDisplay.textContent = `${currentLength} of ${maxLength} characters used`;
   }
 }
