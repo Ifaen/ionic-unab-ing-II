@@ -20,6 +20,7 @@
         <ion-item>
           <ion-select
             label="Selecciona el Titulo"
+            name="typeIncident"
             [(ngModel)]="formAlumbrado.typeIncident"
           >
             <ion-select-option value="corteLuz">Corte de Luz</ion-select-option>
@@ -35,6 +36,7 @@
             labelPlacement="floating"
             placeholder="Escribenos tus comentarios sobre el reporte"
             rows="4"
+            name="description"
             [(ngModel)]="formAlumbrado.description"
           ></ion-textarea>
         </ion-item>

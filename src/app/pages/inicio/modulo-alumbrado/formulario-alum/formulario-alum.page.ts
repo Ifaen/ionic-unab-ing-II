@@ -33,7 +33,6 @@ export class FormularioAlumPage implements OnInit {
     //private camera: Camera,
     //private modalController: ModalController
     private cameraService: CameraService,
-    private mapService: MapService,
     private reportFormService: ReportFormService,
     private navController: NavController
   ) {
