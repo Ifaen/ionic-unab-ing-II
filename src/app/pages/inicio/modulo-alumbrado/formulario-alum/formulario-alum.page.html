@@ -16,7 +16,7 @@
 
     <div class="formulario">
       <!--Lista seleccionable del titulo-->
-      <ion-list>
+      <ion-list class="lista">
         <ion-item>
           <ion-select
             label="Selecciona el Titulo"
@@ -37,22 +37,32 @@
             placeholder="Escribenos tus comentarios sobre el reporte"
             rows="4"
             name="description"
+          [counter]="true"
+            maxlength="200"
             [(ngModel)]="formAlumbrado.description"
           ></ion-textarea>
         </ion-item>
 
         <!--Botón para tomar la foto-->
-        <ion-button expand="full" (click)="takePhoto()">Tomar Foto</ion-button>
+        <ion-button expand="full" (click)="takePhoto()">
+          <ion-icon slot="icon-only" name="camera"></ion-icon>
+          Tomar Foto</ion-button
+        >
         <!--Apartado para vizualizar la foto seleccionada-->
         <ion-item *ngIf="photo">
           <ion-img [src]="photo" style="width: 200px; height: 200px"></ion-img>
         </ion-item>
-
-        <ion-button expand="full" (click)="goToLocationPage()">
-          Ingresar Ubicación
+        <!--Boton para tomar la ubicacion-->
+        <!--De momento redirige al map-->
+        <ion-button expand="full" href="/inicio/location"
+          >Ingresar Ubicación
+          <ion-icon slot="icon-only" name="location"></ion-icon>
         </ion-button>
-
-        <ion-button expand="full" (click)="sendForm()">Enviar</ion-button>
+        <!--Boton Enviar los datos del formulario (de momento de forma local)-->
+        <ion-button expand="full" (click)="saveItem()"
+          >Enviar
+          <ion-icon slot="icon-only" name="send"></ion-icon>
+        </ion-button>
       </ion-list>
     </div>
   </ion-content>

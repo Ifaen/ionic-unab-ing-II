@@ -4,6 +4,9 @@ import { FormAlumbrado } from "src/app/models/formsReport.model";
 import { MapService } from "src/app/services/map.service";
 import { CameraService } from "src/app/services/photo.service";
 import { ReportFormService } from "src/app/services/reportForm.service";
+import { ToastController } from "@ionic/angular";
+import { Storage } from "@ionic/storage-angular";
+
 
 @Component({
   selector: "app-formulario-alum",
@@ -11,10 +14,11 @@ import { ReportFormService } from "src/app/services/reportForm.service";
   styleUrls: ["./formulario-alum.page.scss"],
 })
 export class FormularioAlumPage implements OnInit {
+
   /**
    * @deprecated reemplazados por interface de formAlumbrado
    */
-  selectedOption: string;
+  selectedTittle: string;
   description: string;
   photo: string;
   locationCoords: { lat: number; lng: number };
@@ -33,17 +37,28 @@ export class FormularioAlumPage implements OnInit {
     //private camera: Camera,
     //private modalController: ModalController
     private cameraService: CameraService,
+    private storage: Storage,
+    private toastController: ToastController,
     private reportFormService: ReportFormService,
     private navController: NavController
   ) {
     this.reportFormService.formData = this.formAlumbrado;
   }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.storage.create();
+  }
 
   async takePhoto() {
     // Verificamos si se ha seleccionado una opción antes de permitir tomar la foto, para esto debe estar el titulo seleccionado
-    if (!this.selectedOption) {
+    if (!this.selectedTittle) {
+      const toast = await this.toastController.create({
+        message:
+          "Por favor, selecciona un título antes de seleccionar la foto.",
+        duration: 2000, //Duracion de la notificacion en milisegundos
+        position: "bottom", //Posicion de la notificacion
+      });
+      toast.present();
       console.error(
         "Por favor, seleccione una opción antes de tomar una foto."
       );
@@ -61,6 +76,27 @@ export class FormularioAlumPage implements OnInit {
     }
   }
 
+
+  async saveItem() {
+    // Guardar los datos localmente
+    const newItem = {
+      title: this.selectedTittle,
+      description: this.description,
+      image: this.photo,
+      location: this.locationCoords,
+    };
+
+    // Guardar el nuevo item en el almacenamiento local
+    await this.storage.set("item", newItem);
+    console.log("Item almacenado localmente:", newItem);
+
+    // Limpiar los campos después de guardar
+    this.selectedTittle = "";
+    this.description = "";
+    this.photo = "";
+    this.locationCoords = null;
+   }
+
   public goToLocationPage() {
     this.navController.navigateForward("/inicio/location");
   }
@@ -76,5 +112,6 @@ export class FormularioAlumPage implements OnInit {
       return;
     }
     // TODO ir al /inicio/home
+
   }
 }
