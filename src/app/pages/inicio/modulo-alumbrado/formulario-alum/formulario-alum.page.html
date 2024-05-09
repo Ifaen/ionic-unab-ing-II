@@ -1,0 +1,65 @@
+<div class="content-center">
+  <ion-content [fullscreen]="true">
+    <!--Titulo de la Layout-->
+    <ion-header collapse="condense"></ion-header>
+    <div
+      style="display: flex; align-items: center; justify-content: space-between"
+    >
+      <ion-buttons class="boton_1" slot="start">
+        <ion-back-button
+          defaultHref="/inicio/modulo-alumbrado"
+        ></ion-back-button>
+      </ion-buttons>
+      <h1 class="title_2" style="text-align: center">Formulario</h1>
+      <div></div>
+    </div>
+
+    <div class="formulario">
+      <!--Lista seleccionable del titulo-->
+      <ion-list class="lista">
+        <ion-item>
+          <ion-select label="Selecciona el Titulo" [(ngModel)]="selectedTittle">
+            <ion-select-option value="corteLuz">Corte de Luz</ion-select-option>
+            <ion-select-option value="danoInfra"
+              >Daño de Infraestructura</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
+        <!--Descripcion del Reporte-->
+        <ion-item>
+          <ion-textarea
+            label="Descripción"
+            labelPlacement="floating"
+            placeholder="Escribenos tus comentarios sobre el reporte"
+            rows="4"
+            [counter]="true"
+            maxlength="200"
+            [(ngModel)]="description"
+          ></ion-textarea>
+        </ion-item>
+
+        <!--Botón para tomar la foto-->
+        <ion-button expand="full" (click)="takePhoto()">
+          <ion-icon slot="icon-only" name="camera"></ion-icon>
+          Tomar Foto</ion-button
+        >
+        <!--Apartado para vizualizar la foto seleccionada-->
+        <ion-item *ngIf="photo">
+          <ion-img [src]="photo" style="width: 200px; height: 200px"></ion-img>
+        </ion-item>
+
+        <!--Boton para tomar la ubicacion-->
+        <!--De momento redirige al map-->
+        <ion-button expand="full" href="/inicio/location"
+          >Ingresar Ubicación
+          <ion-icon slot="icon-only" name="location"></ion-icon>
+        </ion-button>
+        <!--Boton Enviar los datos del formulario (de momento de forma local)-->
+        <ion-button expand="full" (click)="saveItem()"
+          >Enviar
+          <ion-icon slot="icon-only" name="send"></ion-icon>
+        </ion-button>
+      </ion-list>
+    </div>
+  </ion-content>
+</div>

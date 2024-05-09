@@ -1,10 +1,14 @@
+/**
+ * @deprecated Debido a un bug y por la naturaleza de este componente que no es reutilizado, se movio directamente al page de home.
+ */
+
 import { Component, OnInit } from "@angular/core";
 
 // importaciones de la biblioteca ol
 import Map from "ol/Map";
 import View from "ol/View";
-import TileLayer from "ol/layer/Tile";
-import OSM from "ol/source/OSM";
+import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer.js";
+import { OSM, Vector as VectorSource } from "ol/source.js";
 import { fromLonLat } from "ol/proj";
 
 @Component({
@@ -19,18 +23,17 @@ export class MapaComponent implements OnInit {
 
   ngOnInit(): void {
     this.map = new Map({
-      target: 'map',
+      target: "map",
       layers: [
         new TileLayer({
-          source: new OSM(),//invocacion de la biblioteca para hacer visual el mapa
+          source: new OSM(), //invocacion de la biblioteca para hacer visual el mapa
         }),
       ],
       view: new View({
-        center: fromLonLat([-71.6273, -33.0472]), 
+        center: fromLonLat([-71.6273, -33.0472]),
         // Coordenadas de Valparaiso para ingresar
         // y ver directamente a la region
         zoom: 12,
-
       }),
     });
   }

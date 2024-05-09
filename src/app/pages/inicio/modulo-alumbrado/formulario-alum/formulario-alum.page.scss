@@ -1,0 +1,35 @@
+.content-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.title_2 {
+  text-align: center;
+  font-size: 40px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: black;
+}
+
+ion-content {
+  --ion-background-color: #ffc107; /*Con esto cambiamos el color del fondo de la pantalla completa*/
+}
+
+.lista {
+  --ion-background-color: white; /*Con esto cambiamos el color del fondo de la lista completa*/
+}
+
+.formulario {
+  background: white; /*Con esto cambiamos el color del borde del formulario*/
+  margin: auto; /*Con esto centramos el formulario al centro*/
+  width: 90%; /* Ancho del formulario */
+  max-width: 400px; /* Ancho máximo del formulario */
+  padding: 20px; /*Margen del formulario con respecto a su caja */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
