@@ -36,15 +36,18 @@ export class ModuloIncendiosPage implements OnInit {
   }
 
   // Enviar formulario
-  public sendForm() {
+  public async sendForm() {
     let isValid = true;
     // TODO Validaciones exclusivas de este modulo
 
-    isValid = this.reportFormService.sendForm(isValid); // Enviar formulario a servicio
+    isValid = await this.reportFormService.sendForm(isValid); // Enviar formulario a servicio
 
-    if (!isValid) {
-      return;
+    if (isValid) {
+      console.log("Data added successfully");
+      // TODO ir al /inicio/home
+      this.navController.navigateRoot("/inicio/home");
+    } else {
+      console.log("Failed to add data");
     }
-    // TODO ir al /inicio/home
   }
 }
