@@ -21,6 +21,6 @@ export class BotonesComponent implements OnInit {
    */
   public navigate(module: string) {
     let path = "/inicio/" + module;
-    this.router.navigate([module, this.geolocation.getPosition()]);
+    this.router.navigate([path, this.geolocation.getPosition()]);
   }
 }
