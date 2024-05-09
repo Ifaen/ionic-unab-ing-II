@@ -58,11 +58,11 @@
       </ion-button>
       <!--Apartado para vizualizar la foto seleccionada-->
       <ion-item *ngIf="formVehicular.photo">
-        <ion-icon
+        <ion-img
           size="large"
           name="camera-outline"
           [src]="formVehicular.photo"
-        ></ion-icon>
+        ></ion-img>
       </ion-item>
 
       <ion-button expand="full" type="submit" (click)="sendForm()">
