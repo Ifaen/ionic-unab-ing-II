@@ -30,6 +30,7 @@
     "@capacitor/status-bar": "^6.0.0",
     "@ionic/angular": "^7.0.0",
     "@ionic/cli": "^7.2.0",
+    "@ionic/storage-angular": "^4.0.0",
     "firebase": "^10.9.0",
     "firebase-tools": "^13.5.2",
     "ionic": "^5.4.16",

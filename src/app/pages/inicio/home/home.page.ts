@@ -96,7 +96,10 @@ export class HomePage {
   }
 
   private getReports(): void {
-    // var reportes = this.reportServices.getReports()// TODO Crear endpoint que obtenga informacion de los reportes
+    // var reportes = this.reportServices.getReports() // TODO Crear endpoint que obtenga informacion de los reportes
+    /**
+     * @deprecated reemplazar por FormReport
+     */
     var reportes: Report[] = [
       {
         id: 1,
@@ -157,7 +160,7 @@ export class HomePage {
     switch (type) {
       case "incendio":
         return "assets/icon/fuego.png";
-      case "automovilistico":
+      case "vehicular":
         return "assets/icon/coche.png";
       default:
         return "assets/icon/favicon.png";
