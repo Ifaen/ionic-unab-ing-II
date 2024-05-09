@@ -11,7 +11,11 @@
     <form>
       <!--===========Tipo de Reporte===========-->
       <label class="my-label">Tipo de Reporte</label>
-      <ion-select class="input" placeholder="Seleccione el tipo de reporte">
+      <ion-select
+        class="input"
+        placeholder="Seleccione el tipo de reporte"
+        [(ngModel)]="formVehicular.typeIncident"
+      >
         <ion-select-option value="accidente">
           Accidente vehicular
         </ion-select-option>
@@ -24,7 +28,7 @@
       <!-- Momentaneamente redirige al mapa -->
       <label class="my-label">Inserte su Ubicación</label>
       <ion-button
-        href="/inicio/location"
+        (click)="goToLocationPage()"
         class="input_boton"
         expand="full"
         required
@@ -40,6 +44,8 @@
           required
           (input)="updateCount()"
           maxlength="200"
+          name="description"
+          [(ngModel)]="formVehicular.description"
         ></textarea>
         <div id="charCount" class="char-counter">0 / 200</div>
       </div>
@@ -54,7 +60,9 @@
         <ion-icon size="large" name="camera-outline" [src]="photo"></ion-icon>
       </ion-item>
 
-      <ion-button expand="full" type="submit">REPORTAR</ion-button>
+      <ion-button expand="full" type="submit" (click)="sendForm()">
+        REPORTAR
+      </ion-button>
     </form>
   </div>
 </div>
