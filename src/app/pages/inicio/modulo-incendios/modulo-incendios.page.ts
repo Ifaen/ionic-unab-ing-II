@@ -12,4 +12,6 @@ export class ModuloIncendiosPage implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  setReportLocation() {}
 }

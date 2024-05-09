@@ -15,6 +15,9 @@ import { AngularFireModule } from "@angular/fire/compat";
 import { environment } from "src/environments/environment";
 import { SharedModule } from "./shared/shared.module";
 
+// Importa Storage
+import { Storage } from "@ionic/storage-angular";
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -23,9 +26,12 @@ import { SharedModule } from "./shared/shared.module";
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    SharedModule
+    SharedModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Storage,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
