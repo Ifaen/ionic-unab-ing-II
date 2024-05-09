@@ -43,7 +43,7 @@ export class ModuloAccidenteVehicularPage implements OnInit {
     //Verificamos si la foto obtenida es valida (no es nula)
     if (photo) {
       //Si la foto es valida, la asignamos a la variable 'photo' del componente
-      this.photo = photo;
+      this.formVehicular.photo = photo;
     } else {
       //Si la foto es nula, mostramos un mensaje de error en la consola
       console.error("La foto es nula o no valida.");
@@ -71,7 +71,7 @@ export class ModuloAccidenteVehicularPage implements OnInit {
 
     if (isValid) {
       console.log("Data added successfully");
-      // TODO ir al /inicio/home
+      this.navController.navigateRoot("/inicio/home");
     } else {
       console.log("Failed to add data");
     }

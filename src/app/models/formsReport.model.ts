@@ -29,4 +29,7 @@ export interface FormVehicular extends FormReport {
   description: string;
 }
 
-export interface FormBasura extends FormReport {}
+export interface FormBasura extends FormReport {
+  typeIncident: string;
+  description: string;
+}
