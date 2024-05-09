@@ -9,6 +9,7 @@
       class="form-select"
       aria-label="Default select example"
       style="margin-bottom: 1em"
+      [(ngModel)]="formIncendio.typeIncident"
     >
       <option selected>Seleccione el Tipo de Incendio</option>
       <option value="1">Domestico</option>
@@ -25,7 +26,7 @@
           type="text"
           class="form-control"
           id="ubicacion"
-          placeholder="Escriba Inserte Ubicacion"
+          placeholder="Inserte Ubicacion"
         />
         <button
           class="btn btn-primary"
@@ -56,6 +57,8 @@
     </div>
 
     <h1 class="text-decoration-underline">Información Adicional</h1>
+    <!--TODO Cambiar utilizando ion-select, para ello, ver el archivo formulario-alum.page.html, cerca de la linea 21
+    Ya que de esta forma, no se puede agregar ngModel-->
     <div class="form-check">
       <input
         class="form-check-input"
