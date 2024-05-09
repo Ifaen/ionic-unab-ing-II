@@ -1,7 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { ToastController } from "@ionic/angular";
+import { NavController } from "@ionic/angular";
+import { FormAlumbrado } from "src/app/models/formsReport.model";
+import { MapService } from "src/app/services/map.service";
 import { CameraService } from "src/app/services/photo.service";
+import { ReportFormService } from "src/app/services/reportForm.service";
+import { ToastController } from "@ionic/angular";
 import { Storage } from "@ionic/storage-angular";
+
 
 @Component({
   selector: "app-formulario-alum",
@@ -9,10 +14,23 @@ import { Storage } from "@ionic/storage-angular";
   styleUrls: ["./formulario-alum.page.scss"],
 })
 export class FormularioAlumPage implements OnInit {
+
+  /**
+   * @deprecated reemplazados por interface de formAlumbrado
+   */
   selectedTittle: string;
   description: string;
   photo: string;
   locationCoords: { lat: number; lng: number };
+
+  formAlumbrado: FormAlumbrado = {
+    module: "alumbrado",
+    coordinate: [0, 0],
+    photo: "", // Link de la foto
+    date: new Date(),
+    typeIncident: "",
+    description: "",
+  };
 
   constructor(
     //private afDB: AngularFireDatabase,
@@ -20,8 +38,12 @@ export class FormularioAlumPage implements OnInit {
     //private modalController: ModalController
     private cameraService: CameraService,
     private storage: Storage,
-    private toastController: ToastController
-  ) {}
+    private toastController: ToastController,
+    private reportFormService: ReportFormService,
+    private navController: NavController
+  ) {
+    this.reportFormService.formData = this.formAlumbrado;
+  }
 
   async ngOnInit() {
     await this.storage.create();
@@ -54,6 +76,7 @@ export class FormularioAlumPage implements OnInit {
     }
   }
 
+
   async saveItem() {
     // Guardar los datos localmente
     const newItem = {
@@ -72,5 +95,23 @@ export class FormularioAlumPage implements OnInit {
     this.description = "";
     this.photo = "";
     this.locationCoords = null;
+   }
+
+  public goToLocationPage() {
+    this.navController.navigateForward("/inicio/location");
+  }
+
+  // Enviar formulario
+  public sendForm() {
+    let isValid = true;
+    // TODO Validaciones exclusivas de este modulo
+
+    isValid = this.reportFormService.sendForm(isValid); // Enviar formulario a servicio
+
+    if (!isValid) {
+      return;
+    }
+    // TODO ir al /inicio/home
+
   }
 }

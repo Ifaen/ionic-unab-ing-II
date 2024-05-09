@@ -18,11 +18,15 @@
       <!--Lista seleccionable del titulo-->
       <ion-list class="lista">
         <ion-item>
-          <ion-select label="Selecciona el Titulo" [(ngModel)]="selectedTittle">
+          <ion-select
+            label="Selecciona el Titulo"
+            name="typeIncident"
+            [(ngModel)]="formAlumbrado.typeIncident"
+          >
             <ion-select-option value="corteLuz">Corte de Luz</ion-select-option>
-            <ion-select-option value="danoInfra"
-              >Daño de Infraestructura</ion-select-option
-            >
+            <ion-select-option value="danoInfra">
+              Daño de Infraestructura
+            </ion-select-option>
           </ion-select>
         </ion-item>
         <!--Descripcion del Reporte-->
@@ -32,9 +36,10 @@
             labelPlacement="floating"
             placeholder="Escribenos tus comentarios sobre el reporte"
             rows="4"
-            [counter]="true"
+            name="description"
+          [counter]="true"
             maxlength="200"
-            [(ngModel)]="description"
+            [(ngModel)]="formAlumbrado.description"
           ></ion-textarea>
         </ion-item>
 
@@ -47,7 +52,6 @@
         <ion-item *ngIf="photo">
           <ion-img [src]="photo" style="width: 200px; height: 200px"></ion-img>
         </ion-item>
-
         <!--Boton para tomar la ubicacion-->
         <!--De momento redirige al map-->
         <ion-button expand="full" href="/inicio/location"
