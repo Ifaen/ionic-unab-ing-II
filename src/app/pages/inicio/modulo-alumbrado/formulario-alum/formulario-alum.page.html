@@ -37,7 +37,7 @@
             placeholder="Escribenos tus comentarios sobre el reporte"
             rows="4"
             name="description"
-          [counter]="true"
+            [counter]="true"
             maxlength="200"
             [(ngModel)]="formAlumbrado.description"
           ></ion-textarea>
@@ -54,7 +54,7 @@
         </ion-item>
         <!--Boton para tomar la ubicacion-->
         <!--De momento redirige al map-->
-        <ion-button expand="full" href="/inicio/location"
+        <ion-button expand="full" (click)="goToLocationPage()"
           >Ingresar Ubicación
           <ion-icon slot="icon-only" name="location"></ion-icon>
         </ion-button>

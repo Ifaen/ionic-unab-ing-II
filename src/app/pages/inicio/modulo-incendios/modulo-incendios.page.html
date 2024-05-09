@@ -31,7 +31,7 @@
           class="btn btn-primary"
           type="button"
           id="obtenerUbicacion"
-          (click)="setReportLocation()"
+          (click)="goToLocationPage()"
         >
           <i class="bi bi-geo-alt-fill"></i>
         </button>
@@ -90,6 +90,8 @@
         class="form-control"
         id="grifoUbicacion"
         placeholder="Describe la ubicación del grifo"
+        name="descriptionGrifo"
+        [(ngModel)]="formIncendio.descriptionGrifo"
       ></textarea>
     </div>
 
@@ -99,6 +101,8 @@
         class="form-control"
         id="detalles"
         placeholder="Describe cualquier detalle que ayude a los bomberos"
+        name="description"
+        [(ngModel)]="formIncendio.description"
       ></textarea>
     </div>
 

@@ -7,14 +7,12 @@ import { ReportFormService } from "src/app/services/reportForm.service";
 import { ToastController } from "@ionic/angular";
 import { Storage } from "@ionic/storage-angular";
 
-
 @Component({
   selector: "app-formulario-alum",
   templateUrl: "./formulario-alum.page.html",
   styleUrls: ["./formulario-alum.page.scss"],
 })
 export class FormularioAlumPage implements OnInit {
-
   /**
    * @deprecated reemplazados por interface de formAlumbrado
    */
@@ -51,7 +49,7 @@ export class FormularioAlumPage implements OnInit {
 
   async takePhoto() {
     // Verificamos si se ha seleccionado una opción antes de permitir tomar la foto, para esto debe estar el titulo seleccionado
-    if (!this.selectedTittle) {
+    if (!this.formAlumbrado.typeIncident) {
       const toast = await this.toastController.create({
         message:
           "Por favor, selecciona un título antes de seleccionar la foto.",
@@ -64,38 +62,26 @@ export class FormularioAlumPage implements OnInit {
       );
       return; // Salimos de la función si no hay una opción seleccionada
     }
-    //Lamamos al metodo takePhoto() del servicio de la camara para tomar una foto
+    //Llamamos al metodo takePhoto() del servicio de la camara para tomar una foto
     const photo = await this.cameraService.takePhoto();
     //Verificamos si la foto obtenida es valida (no es nula)
     if (photo) {
       //Si la foto es valida, la asignamos a la variable 'photo' del componente
-      this.photo = photo;
+      this.formAlumbrado.photo = photo;
     } else {
       //Si la foto es nula, mostramos un mensaje de error en la consola
       console.error("La foto es nula o no valida.");
     }
   }
 
-
+  /**
+   * @deprecated reemplazar por sendForm
+   */
   async saveItem() {
-    // Guardar los datos localmente
-    const newItem = {
-      title: this.selectedTittle,
-      description: this.description,
-      image: this.photo,
-      location: this.locationCoords,
-    };
-
     // Guardar el nuevo item en el almacenamiento local
-    await this.storage.set("item", newItem);
-    console.log("Item almacenado localmente:", newItem);
-
-    // Limpiar los campos después de guardar
-    this.selectedTittle = "";
-    this.description = "";
-    this.photo = "";
-    this.locationCoords = null;
-   }
+    await this.storage.set("item", this.formAlumbrado);
+    console.log("Item almacenado localmente:", this.formAlumbrado);
+  }
 
   public goToLocationPage() {
     this.navController.navigateForward("/inicio/location");
@@ -112,6 +98,5 @@ export class FormularioAlumPage implements OnInit {
       return;
     }
     // TODO ir al /inicio/home
-
   }
 }

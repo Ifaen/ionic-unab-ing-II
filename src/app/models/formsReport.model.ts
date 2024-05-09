@@ -15,6 +15,7 @@ export interface FormReport {
 export interface FormIncendio extends FormReport {
   typeIncident: string;
   knowsGrifo: boolean;
+  descriptionGrifo: string;
   description: string;
 }
 
