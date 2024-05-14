@@ -1,63 +1,73 @@
 import { Injectable } from "@angular/core";
 import {
-  FormAlumbrado,
-  FormBasura,
-  FormIncendio,
-  FormReport,
-  FormVehicular,
-} from "../models/formsReport.model";
+  ReportAlumbrado,
+  ReportBasura,
+  ReportIncendio,
+  Report,
+  ReportVehicular,
+} from "../models/report.model";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { NavController } from "@ionic/angular";
 
 @Injectable({
   providedIn: "root",
 })
-export class ReportFormService {
-  public formData: FormAlumbrado | FormBasura | FormIncendio | FormVehicular;
+export class ReportService {
+  public formData:
+    | ReportAlumbrado
+    | ReportBasura
+    | ReportIncendio
+    | ReportVehicular;
 
-  constructor(private firestore: AngularFirestore) {}
+  constructor(
+    private firestore: AngularFirestore,
+    private navController: NavController
+  ) {}
 
   // TODO Firebase endpoints
 
-  public async sendForm(isValid: boolean): Promise<boolean> {
+  public sendForm(isValid: boolean): void {
     if (this.formData.module == "") {
       // TODO Mostrar popup con error
-      console.log("No modulo");
+      console.log("No modulo"); // TODO Borrar esto
       isValid = false;
     }
     if (this.formData.coordinate[0] == 0 || this.formData.coordinate[1] == 0) {
       // TODO Mostrar popup con error
-      console.log("No coordenadas");
+      console.log("No coordenadas"); // TODO Borrar esto
       isValid = false;
     }
 
     if (!isValid) {
-      return isValid;
+      return;
     }
 
-    return new Promise<boolean>((resolve, reject) => {
+    let result = new Promise<boolean>((resolve, reject) => {
       this.firestore
         .collection("reportes")
         .add(this.formData)
-        .then((result) => {
-          console.log("Document written with ID: ", result.id);
+        .then((response) => {
+          console.log(response.id);
           resolve(true);
         })
         .catch((error) => {
-          console.error("Error adding document: ", error);
+          console.error(error);
           resolve(false);
         });
     });
+
+    if (result) this.navController.navigateRoot("/inicio/home");
   }
 
-  public async getReports(): Promise<FormReport[]> {
-    const reports: FormReport[] = [];
+  public async getReports(): Promise<Report[]> {
+    const reports: Report[] = [];
     try {
       const snapshot = await this.firestore
         .collection("reportes")
         .get()
         .toPromise();
       snapshot.forEach((doc) => {
-        reports.push(doc.data() as FormReport);
+        reports.push(doc.data() as Report);
       });
       return reports;
     } catch (error) {

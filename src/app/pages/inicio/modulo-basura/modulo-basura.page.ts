@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { NavController } from "@ionic/angular";
-import { FormBasura } from "src/app/models/formsReport.model";
+import { ReportBasura } from "src/app/models/report.model";
 import { CameraService } from "src/app/services/photo.service";
-import { ReportFormService } from "src/app/services/reportForm.service";
+import { ReportService } from "src/app/services/report.service";
 
 @Component({
   selector: "app-modulo-basura",
@@ -15,7 +15,8 @@ export class ModuloBasuraPage {
    * @deprecated
    */
   capturedImg: string;
-  formBasura: FormBasura = {
+
+  formBasura: ReportBasura = {
     module: "basura",
     coordinate: [0, 0],
     photo: "", // Link de la foto
@@ -26,10 +27,10 @@ export class ModuloBasuraPage {
 
   constructor(
     private cameraService: CameraService,
-    private reportFormService: ReportFormService,
+    private reportService: ReportService,
     private navController: NavController
   ) {
-    this.reportFormService.formData = this.formBasura;
+    this.reportService.formData = this.formBasura;
   }
 
   ngOnInit() {}
@@ -65,17 +66,10 @@ export class ModuloBasuraPage {
   }
 
   // Enviar formulario
-  public async sendForm() {
+  public sendForm(): void {
     let isValid = true;
     // TODO Validaciones exclusivas de este modulo
 
-    isValid = await this.reportFormService.sendForm(isValid); // Enviar formulario a servicio
-
-    if (isValid) {
-      console.log("Data added successfully");
-      this.navController.navigateRoot("/inicio/home");
-    } else {
-      console.log("Failed to add data");
-    }
+    this.reportService.sendForm(isValid); // Enviar formulario a servicio
   }
 }
