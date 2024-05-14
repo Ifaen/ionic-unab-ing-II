@@ -44,7 +44,6 @@ export class ModuloIncendiosPage implements OnInit {
 
     if (isValid) {
       console.log("Data added successfully");
-      // TODO ir al /inicio/home
       this.navController.navigateRoot("/inicio/home");
     } else {
       console.log("Failed to add data");

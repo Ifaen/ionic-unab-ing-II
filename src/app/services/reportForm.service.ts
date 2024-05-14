@@ -3,6 +3,7 @@ import {
   FormAlumbrado,
   FormBasura,
   FormIncendio,
+  FormReport,
   FormVehicular,
 } from "../models/formsReport.model";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
@@ -46,5 +47,22 @@ export class ReportFormService {
           resolve(false);
         });
     });
+  }
+
+  public async getReports(): Promise<FormReport[]> {
+    const reports: FormReport[] = [];
+    try {
+      const snapshot = await this.firestore
+        .collection("reportes")
+        .get()
+        .toPromise();
+      snapshot.forEach((doc) => {
+        reports.push(doc.data() as FormReport);
+      });
+      return reports;
+    } catch (error) {
+      console.error("Error getting reports:", error);
+      throw error;
+    }
   }
 }
