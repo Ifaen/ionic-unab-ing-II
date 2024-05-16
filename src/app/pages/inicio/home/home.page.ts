@@ -11,6 +11,7 @@ import { Point, Geometry } from "ol/geom";
 import { Circle, Fill, Icon, Stroke, Style } from "ol/style";
 import { Report } from "src/app/models/report.model";
 import { MapService } from "src/app/services/map.service";
+import { ReportService } from "src/app/services/report.service";
 
 @Component({
   selector: "app-home",
@@ -23,18 +24,16 @@ export class HomePage {
   private map: Map; // Declarar la variable map como propiedad de la clase
   private iconFeatures = [];
 
-  constructor(private mapService: MapService) {}
+  constructor(
+    private mapService: MapService,
+    private reportService: ReportService
+  ) {}
 
   private ngOnInit(): void {
     this.view = this.mapService.setView(
       [-7973514.562897045, -3901570.651086505],
       12
     );
-    // TODO Borrar esto en build final
-    //this.view = this.mapService.setView(
-    //  [-7894288.481299472, -7010253.926397604], // Testing para Punta Arenas
-    //  12
-    //);
 
     this.map = this.mapService.setMap(this.view);
 
@@ -95,43 +94,14 @@ export class HomePage {
     positionFeature.setGeometry(new Point(position)); // Setear geometria de posicion en feature
   }
 
-  private getReports(): void {
-    // var reportes = this.reportServices.getReports() // TODO Crear endpoint que obtenga informacion de los reportes
-    /**
-     * @deprecated reemplazar por FormReport
-     */
-    var reportes: Report[] = [
-      {
-        id: 1,
-        type: "incendio",
-        description: "testing",
-        coordinates: [-71.6273, -33.0422],
-      },
-      {
-        id: 2,
-        type: "automovilistico",
-        description: "testing",
-        coordinates: [-71.6223, -33.0472],
-      },
-      {
-        id: 3,
-        type: "incendio",
-        description: "testing",
-        coordinates: [-71.6223, -33.041],
-      },
-      {
-        id: 4,
-        type: "automovilistico",
-        description: "testing",
-        coordinates: [-71.6283, -33.0572],
-      },
-    ];
+  private async getReports(): Promise<void> {
+    let reports = await this.reportService.getReports();
 
-    reportes.forEach((reporte) => {
-      let src = this.getIcon(reporte.type);
+    reports.forEach((report) => {
+      let src = this.getIcon(report.module);
 
       var reporteFeature = new Feature({
-        geometry: new Point(fromLonLat(reporte.coordinates)),
+        geometry: new Point(report.coordinate),
       });
       reporteFeature.setStyle(
         new Style({
@@ -141,7 +111,7 @@ export class HomePage {
             anchorXUnits: "fraction",
             anchorYUnits: "pixels",
             src: src,
-            scale: 0.05, // Ajusta el tamaño del icono
+            scale: 0.08, // Ajusta el tamaño del icono
           }),
         })
       );
@@ -156,14 +126,18 @@ export class HomePage {
     );
   }
 
-  private getIcon(type: string) {
+  private getIcon(type: string): string {
     switch (type) {
+      case "alumbrado":
+        return "assets/icon/icon-modulo-1.png";
+      case "accidente-vehicular":
+        return "assets/icon/icon-modulo-2.png";
       case "incendio":
-        return "assets/icon/fuego.png";
-      case "vehicular":
-        return "assets/icon/coche.png";
+        return "assets/icon/icon-modulo-3.png";
+      case "basura":
+        return "assets/icon/icon-modulo-4.png";
       default:
-        return "assets/icon/favicon.png";
+        return "";
     }
   }
 }

@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { NavController } from "@ionic/angular";
-import { FormVehicular } from "src/app/models/formsReport.model";
+import { ReportVehicular } from "src/app/models/report.model";
 import { MapService } from "src/app/services/map.service";
 
-import { CameraService } from "src/app/services/photo.service";
-import { ReportFormService } from "src/app/services/reportForm.service";
+import { CameraService } from "src/app/services/camera.service";
+import { ReportService } from "src/app/services/report.service";
 
 @Component({
   selector: "app-modulo-accidente-vehicular",
@@ -15,7 +15,7 @@ import { ReportFormService } from "src/app/services/reportForm.service";
 export class ModuloAccidenteVehicularPage implements OnInit {
   photo: string; // FIXME Quizas borrar en html, conservado para evitar posible break
 
-  public formVehicular: FormVehicular = {
+  public formVehicular: ReportVehicular = {
     module: "accidente-vehicular",
     coordinate: [0, 0],
     photo: "",
@@ -25,14 +25,11 @@ export class ModuloAccidenteVehicularPage implements OnInit {
   };
 
   constructor(
-    //private afDB: AngularFireDatabase,
-    //private camera: Camera,
-    //private modalController: ModalController
     private cameraService: CameraService,
-    private reportFormService: ReportFormService,
+    private reportService: ReportService,
     private navController: NavController
   ) {
-    this.reportFormService.formData = this.formVehicular;
+    this.reportService.formData = this.formVehicular;
   }
 
   ngOnInit() {}
@@ -63,17 +60,10 @@ export class ModuloAccidenteVehicularPage implements OnInit {
   }
 
   // Enviar formulario
-  public async sendForm() {
+  public sendForm(): void {
     let isValid = true;
     // TODO Validaciones exclusivas de este modulo
 
-    isValid = await this.reportFormService.sendForm(isValid); // Enviar formulario a servicio
-
-    if (isValid) {
-      console.log("Data added successfully");
-      this.navController.navigateRoot("/inicio/home");
-    } else {
-      console.log("Failed to add data");
-    }
+    this.reportService.sendForm(isValid); // Enviar formulario a servicio
   }
 }

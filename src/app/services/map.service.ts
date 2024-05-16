@@ -7,14 +7,14 @@ import { OSM, Vector as VectorSource } from "ol/source";
 import { Coordinate } from "ol/coordinate";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Geolocation } from "ol";
-import { ReportFormService } from "./reportForm.service";
+import { ReportService } from "./report.service";
 import { NavController } from "@ionic/angular";
 import {
-  FormAlumbrado,
-  FormBasura,
-  FormIncendio,
-  FormVehicular,
-} from "../models/formsReport.model";
+  ReportAlumbrado,
+  ReportBasura,
+  ReportIncendio,
+  ReportVehicular,
+} from "../models/report.model";
 
 @Injectable({
   providedIn: "root",
@@ -25,7 +25,7 @@ export class MapService {
   constructor(
     private router: Router,
     private navController: NavController,
-    private reportFormService: ReportFormService
+    private reportService: ReportService
   ) {
     this.geolocation = new Geolocation({
       tracking: true, // TODO Cambiar a una funcion cuando se solicite el permiso de trackear ubicacion usando this.geolocation.setTracking(BOOL CON PERMISO);
@@ -72,15 +72,15 @@ export class MapService {
    * @param coordinate coordenadas entregadas en LocationPage
    */
   goToFormPage(coordinate: Coordinate) {
-    if (this.reportFormService.formData.module == "alumbrado") {
+    if (this.reportService.formData.module == "alumbrado") {
       this.navController.navigateBack(
         "/inicio/modulo-alumbrado/formulario-alum"
       );
     } else {
       this.navController.navigateBack(
-        "/inicio/modulo-" + this.reportFormService.formData.module
+        "/inicio/modulo-" + this.reportService.formData.module
       );
     }
-    this.reportFormService.formData.coordinate = coordinate;
+    this.reportService.formData.coordinate = coordinate;
   }
 }

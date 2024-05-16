@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NavController } from "@ionic/angular";
 import { Coordinate } from "ol/coordinate";
-import { FormIncendio } from "src/app/models/formsReport.model";
+import { ReportIncendio } from "src/app/models/report.model";
 import { MapService } from "src/app/services/map.service";
-import { ReportFormService } from "src/app/services/reportForm.service";
+import { ReportService } from "src/app/services/report.service";
 
 @Component({
   selector: "app-modulo-incendios",
@@ -12,7 +12,7 @@ import { ReportFormService } from "src/app/services/reportForm.service";
   styleUrls: ["./modulo-incendios.page.scss"],
 })
 export class ModuloIncendiosPage implements OnInit {
-  public formIncendio: FormIncendio = {
+  public formIncendio: ReportIncendio = {
     module: "incendios",
     coordinate: [0, 0],
     photo: "",
@@ -23,10 +23,10 @@ export class ModuloIncendiosPage implements OnInit {
     description: "",
   };
   constructor(
-    private reportFormService: ReportFormService,
+    private reportService: ReportService,
     private navController: NavController
   ) {
-    this.reportFormService.formData = this.formIncendio;
+    this.reportService.formData = this.formIncendio;
   }
 
   ngOnInit() {}
@@ -36,18 +36,10 @@ export class ModuloIncendiosPage implements OnInit {
   }
 
   // Enviar formulario
-  public async sendForm() {
+  public sendForm(): void {
     let isValid = true;
     // TODO Validaciones exclusivas de este modulo
 
-    isValid = await this.reportFormService.sendForm(isValid); // Enviar formulario a servicio
-
-    if (isValid) {
-      console.log("Data added successfully");
-      // TODO ir al /inicio/home
-      this.navController.navigateRoot("/inicio/home");
-    } else {
-      console.log("Failed to add data");
-    }
+    this.reportService.sendForm(isValid); // Enviar formulario a servicio
   }
 }
