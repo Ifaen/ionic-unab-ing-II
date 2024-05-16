@@ -7,8 +7,8 @@ import {
   ReportVehicular,
 } from "../models/report.model";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
-import { NavController } from "@ionic/angular";
-import { CameraService } from "./photo.service";
+import { LoadingController, NavController } from "@ionic/angular";
+import { CameraService } from "./camera.service";
 
 @Injectable({
   providedIn: "root",
@@ -23,43 +23,65 @@ export class ReportService {
   constructor(
     private firestore: AngularFirestore,
     private navController: NavController,
-    private photoService: CameraService
+    private loadingController: LoadingController,
+    private cameraService: CameraService
   ) {}
 
   public async sendForm(isValid: boolean): Promise<void> {
-    if (this.formData.module == "") {
-      // TODO Mostrar popup con error
-      console.log("No modulo"); // TODO Borrar esto
-      isValid = false;
-    }
-    if (this.formData.coordinate[0] == 0 || this.formData.coordinate[1] == 0) {
-      // TODO Mostrar popup con error
-      console.log("No coordenadas"); // TODO Borrar esto
-      isValid = false;
-    }
+    const loading = await this.loadingController.create({
+      spinner: "crescent",
+    });
 
-    if (isValid) {
-      // Enviar foto a firebase storage y almacenar el url resultante
-      this.formData.photo = await this.photoService.sendPhoto(
-        this.formData.photo
-      );
+    await loading.present();
 
-      // Enviar formulario a collection reportes
-      let result = new Promise<boolean>((resolve, reject) => {
-        this.firestore
-          .collection("reportes")
-          .add(this.formData)
-          .then((response) => {
-            console.log(response.id);
-            resolve(true);
-          })
-          .catch((error) => {
-            console.error(error);
-            resolve(false);
-          });
-      });
+    try {
+      if (this.formData.module == "") {
+        // TODO Mostrar popup con error
+        console.log("No modulo"); // TODO Borrar esto
+        isValid = false;
+      }
+      if (
+        this.formData.coordinate[0] == 0 ||
+        this.formData.coordinate[1] == 0
+      ) {
+        // TODO Mostrar popup con error
+        console.log("No coordenadas"); // TODO Borrar esto
+        isValid = false;
+      }
 
-      if (result) this.navController.navigateRoot("/inicio/home");
+      if (this.formData.photo == "") {
+        // TODO Mostrar popup con error
+        console.log("No imagen"); // TODO Borrar esto
+        isValid = false;
+      } else {
+        // Enviar foto a firebase storage y almacenar el url resultante
+        this.formData.photo = await this.cameraService.sendPhoto(
+          this.formData.photo
+        );
+      }
+
+      if (isValid) {
+        // Enviar formulario a collection reportes
+        let result = new Promise<boolean>((resolve, reject) => {
+          this.firestore
+            .collection("reportes")
+            .add(this.formData)
+            .then((response) => {
+              console.log(response.id);
+              resolve(true);
+            })
+            .catch((error) => {
+              console.error(error);
+              resolve(false);
+            });
+        });
+        // Volver al inicio
+        if (result) this.navController.navigateRoot("/inicio/home");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      await loading.dismiss(); // Ocultar loading
     }
   }
 
@@ -75,7 +97,7 @@ export class ReportService {
       });
       return reports;
     } catch (error) {
-      console.error("Error getting reports:", error);
+      console.error(error);
       throw error;
     }
   }

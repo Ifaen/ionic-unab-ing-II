@@ -4,7 +4,7 @@ import { NavController } from "@ionic/angular";
 import { ReportVehicular } from "src/app/models/report.model";
 import { MapService } from "src/app/services/map.service";
 
-import { CameraService } from "src/app/services/photo.service";
+import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
 
 @Component({
@@ -25,9 +25,6 @@ export class ModuloAccidenteVehicularPage implements OnInit {
   };
 
   constructor(
-    //private afDB: AngularFireDatabase,
-    //private camera: Camera,
-    //private modalController: ModalController
     private cameraService: CameraService,
     private reportService: ReportService,
     private navController: NavController

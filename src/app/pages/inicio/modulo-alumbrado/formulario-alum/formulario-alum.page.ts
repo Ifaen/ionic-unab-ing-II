@@ -2,10 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { NavController } from "@ionic/angular";
 import { ReportAlumbrado } from "src/app/models/report.model";
 import { MapService } from "src/app/services/map.service";
-import { CameraService } from "src/app/services/photo.service";
+import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
 import { ToastController } from "@ionic/angular";
-import { Storage } from "@ionic/storage-angular";
 
 @Component({
   selector: "app-formulario-alum",
@@ -13,14 +12,6 @@ import { Storage } from "@ionic/storage-angular";
   styleUrls: ["./formulario-alum.page.scss"],
 })
 export class FormularioAlumPage implements OnInit {
-  /**
-   * @deprecated reemplazados por interface de formAlumbrado
-   */
-  selectedTittle: string;
-  description: string;
-  photo: string;
-  locationCoords: { lat: number; lng: number };
-
   formAlumbrado: ReportAlumbrado = {
     module: "alumbrado",
     coordinate: [0, 0],
@@ -31,11 +22,7 @@ export class FormularioAlumPage implements OnInit {
   };
 
   constructor(
-    //private afDB: AngularFireDatabase,
-    //private camera: Camera,
-    //private modalController: ModalController
     private cameraService: CameraService,
-    private storage: Storage,
     private toastController: ToastController,
     private reportService: ReportService,
     private navController: NavController
@@ -43,9 +30,7 @@ export class FormularioAlumPage implements OnInit {
     this.reportService.formData = this.formAlumbrado;
   }
 
-  async ngOnInit() {
-    await this.storage.create();
-  }
+  async ngOnInit() {}
 
   async takePhoto() {
     // Verificamos si se ha seleccionado una opción antes de permitir tomar la foto, para esto debe estar el titulo seleccionado
@@ -72,15 +57,6 @@ export class FormularioAlumPage implements OnInit {
       //Si la foto es nula, mostramos un mensaje de error en la consola
       console.error("La foto es nula o no valida.");
     }
-  }
-
-  /**
-   * @deprecated reemplazar por sendForm
-   */
-  async saveItem() {
-    // Guardar el nuevo item en el almacenamiento local
-    await this.storage.set("item", this.formAlumbrado);
-    console.log("Item almacenado localmente:", this.formAlumbrado);
   }
 
   public goToLocationPage() {

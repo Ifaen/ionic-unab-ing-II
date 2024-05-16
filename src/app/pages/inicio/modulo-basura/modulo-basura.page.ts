@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { NavController } from "@ionic/angular";
 import { ReportBasura } from "src/app/models/report.model";
-import { CameraService } from "src/app/services/photo.service";
+import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
 
 @Component({
@@ -11,11 +11,6 @@ import { ReportService } from "src/app/services/report.service";
   styleUrls: ["./modulo-basura.page.scss"],
 })
 export class ModuloBasuraPage {
-  /**
-   * @deprecated
-   */
-  capturedImg: string;
-
   formBasura: ReportBasura = {
     module: "basura",
     coordinate: [0, 0],
@@ -39,7 +34,6 @@ export class ModuloBasuraPage {
     try {
       const photo = await this.cameraService.takePhoto();
       if (photo) {
-        //this.capturedImg = photo;
         this.formBasura.photo = photo;
       } else {
         console.error("Error: Captured image is null or invalid.");
