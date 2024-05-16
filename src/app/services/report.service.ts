@@ -8,6 +8,7 @@ import {
 } from "../models/report.model";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { NavController } from "@ionic/angular";
+import { CameraService } from "./photo.service";
 
 @Injectable({
   providedIn: "root",
@@ -21,12 +22,11 @@ export class ReportService {
 
   constructor(
     private firestore: AngularFirestore,
-    private navController: NavController
+    private navController: NavController,
+    private photoService: CameraService
   ) {}
 
-  // TODO Firebase endpoints
-
-  public sendForm(isValid: boolean): void {
+  public async sendForm(isValid: boolean): Promise<void> {
     if (this.formData.module == "") {
       // TODO Mostrar popup con error
       console.log("No modulo"); // TODO Borrar esto
@@ -42,6 +42,12 @@ export class ReportService {
       return;
     }
 
+    // Enviar foto a firebase storage y almacenar el url resultante
+    this.formData.photo = await this.photoService.sendPhoto(
+      this.formData.photo
+    );
+
+    // Enviar formulario a collection reportes
     let result = new Promise<boolean>((resolve, reject) => {
       this.firestore
         .collection("reportes")
