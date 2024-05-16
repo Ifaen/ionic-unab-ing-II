@@ -38,31 +38,29 @@ export class ReportService {
       isValid = false;
     }
 
-    if (!isValid) {
-      return;
+    if (isValid) {
+      // Enviar foto a firebase storage y almacenar el url resultante
+      this.formData.photo = await this.photoService.sendPhoto(
+        this.formData.photo
+      );
+
+      // Enviar formulario a collection reportes
+      let result = new Promise<boolean>((resolve, reject) => {
+        this.firestore
+          .collection("reportes")
+          .add(this.formData)
+          .then((response) => {
+            console.log(response.id);
+            resolve(true);
+          })
+          .catch((error) => {
+            console.error(error);
+            resolve(false);
+          });
+      });
+
+      if (result) this.navController.navigateRoot("/inicio/home");
     }
-
-    // Enviar foto a firebase storage y almacenar el url resultante
-    this.formData.photo = await this.photoService.sendPhoto(
-      this.formData.photo
-    );
-
-    // Enviar formulario a collection reportes
-    let result = new Promise<boolean>((resolve, reject) => {
-      this.firestore
-        .collection("reportes")
-        .add(this.formData)
-        .then((response) => {
-          console.log(response.id);
-          resolve(true);
-        })
-        .catch((error) => {
-          console.error(error);
-          resolve(false);
-        });
-    });
-
-    if (result) this.navController.navigateRoot("/inicio/home");
   }
 
   public async getReports(): Promise<Report[]> {
