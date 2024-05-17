@@ -19,7 +19,7 @@ export class ModuloAccidenteVehicularPage implements OnInit {
     module: "accidente-vehicular",
     coordinate: [0, 0],
     photo: "",
-    date: new Date(),
+    date: null,
     typeIncident: "",
     description: "",
   };

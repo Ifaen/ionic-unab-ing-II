@@ -4,7 +4,7 @@ export interface Report {
   module: string;
   coordinate: Coordinate;
   photo: string; // Link de la foto
-  date: Date;
+  date: string;
 }
 
 /**

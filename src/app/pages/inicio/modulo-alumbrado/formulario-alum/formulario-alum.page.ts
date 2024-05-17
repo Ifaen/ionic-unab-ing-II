@@ -16,7 +16,7 @@ export class FormularioAlumPage implements OnInit {
     module: "alumbrado",
     coordinate: [0, 0],
     photo: "", // Link de la foto
-    date: new Date(),
+    date: null,
     typeIncident: "",
     description: "",
   };

@@ -16,9 +16,9 @@ export class ModuloIncendiosPage implements OnInit {
     module: "incendios",
     coordinate: [0, 0],
     photo: "",
-    date: new Date(),
+    date: null,
     typeIncident: "",
-    knowsGrifo: true,
+    knowsGrifo: false,
     descriptionGrifo: "",
     description: "",
   };

@@ -9,6 +9,8 @@ import {
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { LoadingController, NavController } from "@ionic/angular";
 import { CameraService } from "./camera.service";
+import { Timestamp } from "firebase/firestore";
+import firebase from "firebase/compat";
 
 @Injectable({
   providedIn: "root",
@@ -61,6 +63,11 @@ export class ReportService {
       }
 
       if (isValid) {
+        // Agregar fecha y hora de envio del reporte
+        this.formData.date = new Date().toLocaleString("es-ES", {
+          timeZone: "America/Santiago",
+        });
+
         // Enviar formulario a collection reportes
         let result = new Promise<boolean>((resolve, reject) => {
           this.firestore
@@ -75,8 +82,8 @@ export class ReportService {
               resolve(false);
             });
         });
-        // Volver al inicio
-        if (result) this.navController.navigateRoot("/inicio/home");
+
+        if (result) this.navController.navigateRoot("/inicio/home"); // Volver al inicio
       }
     } catch (error) {
       console.log(error);
