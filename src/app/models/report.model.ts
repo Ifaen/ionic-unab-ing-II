@@ -1,6 +1,8 @@
+import { Feature } from "ol";
 import { Coordinate } from "ol/coordinate";
 
 export interface Report {
+  id?: string; // Id creada por firebase
   module: string;
   coordinate: Coordinate;
   photo: string; // Link de la foto
@@ -32,4 +34,9 @@ export interface ReportVehicular extends Report {
 export interface ReportBasura extends Report {
   typeIncident: string;
   description: string;
+}
+
+export interface ReportIcon {
+  data: Report;
+  iconFeature: Feature;
 }

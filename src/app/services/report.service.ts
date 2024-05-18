@@ -27,7 +27,7 @@ export class ReportService {
     private cameraService: CameraService
   ) {}
 
-  public async sendForm(isValid: boolean): Promise<void> {
+  public async validateForm(isValid: boolean): Promise<void> {
     const loading = await this.loadingController.create({
       spinner: "crescent",
     });
@@ -58,27 +58,7 @@ export class ReportService {
       }
 
       if (isValid) {
-        // Agregar fecha y hora de envio del reporte
-        this.formData.date = new Date().toLocaleString("es-ES", {
-          timeZone: "America/Santiago",
-        });
-
-        // Enviar formulario a collection reportes
-        let result = new Promise<boolean>((resolve, reject) => {
-          this.firestore
-            .collection("reports")
-            .add(this.formData)
-            .then((response) => {
-              console.log(response.id);
-              resolve(true);
-            })
-            .catch((error) => {
-              console.error(error);
-              resolve(false);
-            });
-        });
-
-        if (result) this.navController.navigateRoot("/inicio/home"); // Volver al inicio
+        this.sendForm();
       }
     } catch (error) {
       console.log(error);
@@ -87,20 +67,66 @@ export class ReportService {
     }
   }
 
+  // Enviar formulario a backend
+  sendForm() {
+    // Agregar fecha y hora de envio del reporte
+    this.formData.date = new Date().toLocaleString("es-ES", {
+      timeZone: "America/Santiago",
+    });
+
+    // Enviar formulario a collection reportes
+    let result = new Promise<boolean>((resolve, reject) => {
+      this.firestore
+        .collection("reports")
+        .add(this.formData)
+        .then((response) => {
+          console.log(response.id);
+          resolve(true);
+        })
+        .catch((error) => {
+          console.error(error);
+          resolve(false);
+        });
+    });
+
+    if (result) this.navController.navigateRoot("/inicio/home"); // Volver al inicio
+  }
+
   public async getReports(): Promise<Report[]> {
     const reports: Report[] = [];
+
     try {
       const snapshot = await this.firestore
         .collection("reports")
         .get()
         .toPromise();
+
       snapshot.forEach((doc) => {
-        reports.push(doc.data() as Report);
+        const report = doc.data() as Report; // Obtener la data del documento
+        report.id = doc.id; // Obtener la id creada por firebase
+        reports.push(report); // Agregarlo a la lista
       });
+
       return reports;
     } catch (error) {
       console.error(error);
       throw error;
+    }
+  }
+
+  public getIcon(module: string): string {
+    switch (module) {
+      case "alumbrado":
+        return "assets/icon/icon-modulo-1.png";
+      case "accidente-vehicular":
+        return "assets/icon/icon-modulo-2.png";
+      case "incendios":
+        return "assets/icon/icon-modulo-3.png";
+      case "basura":
+        return "assets/icon/icon-modulo-4.png";
+      default:
+        console.log(module);
+        return "";
     }
   }
 }

@@ -25,7 +25,8 @@ export class LocationPage implements OnInit {
 
   constructor(
     private mapService: MapService,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private navController: NavController
   ) {
     this.pointer = new Feature();
     this.pointer.setStyle(
@@ -60,14 +61,19 @@ export class LocationPage implements OnInit {
         this.map.getView().setCenter(this.coordinates); // Centrar vista con coordenadas
         break; // Romper loop
       }
-      await new Promise((resolve) => setTimeout(resolve, 500)); // Esperar 500 milisegundos
+      await new Promise((resolve) => setTimeout(resolve, 100)); // Esperar x milisegundos
     }
 
     await loading.dismiss();
   }
 
   public sendPosition(): void {
-    let coordinates = this.map.getView().getCenter(); // Obtain the coordinates of the current center of the map
-    this.mapService.goToFormPage(coordinates); // Go to the previos page
+    let coordinates = this.map.getView().getCenter(); // Obtener las coordenadas del centro del mapa
+    try {
+      this.mapService.goToFormPage(coordinates); // Volverse a la pagina anterior
+    } catch (error) {
+      console.log(error);
+      this.navController.navigateRoot("/inicio/home");
+    }
   }
 }

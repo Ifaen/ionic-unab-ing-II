@@ -1,29 +1,43 @@
 <ion-fab
-
   slot="fixed"
   vertical="top"
   horizontal="end"
   [edge]="true"
-  style="margin-top: 5em">
-
-<!-- filtros para modulos sin funcion por el momento-->
+  style="margin-top: 5em"
+>
+  <!-- filtros para modulos sin funcion por el momento-->
 
   <ion-fab-button>
     <ion-icon name="chevron-down-circle"></ion-icon>
   </ion-fab-button>
   <ion-fab-list side="bottom">
     <ion-fab-button>
-      <img src="assets/icon/fuego.png" class="icon">
+      <img
+        src="assets/icon/fuego.png"
+        (click)="filterReports('incendios')"
+        class="icon"
+      />
     </ion-fab-button>
     <ion-fab-button>
-      <img src="assets/icon/poste.png" class="icon">
+      <img
+        src="assets/icon/poste.png"
+        (click)="filterReports('alumbrado')"
+        class="icon"
+      />
     </ion-fab-button>
     <ion-fab-button>
-      <img src="assets/icon/coche.png" class="icon">
+      <img
+        src="assets/icon/coche.png"
+        (click)="filterReports('accidente-vehicular')"
+        class="icon"
+      />
     </ion-fab-button>
     <ion-fab-button>
-      <img src="assets/icon/basu.png" class="icon">
+      <img
+        src="assets/icon/basu.png"
+        (click)="filterReports('basura')"
+        class="icon"
+      />
     </ion-fab-button>
   </ion-fab-list>
-  
 </ion-fab>
