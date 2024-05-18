@@ -14,6 +14,8 @@ import { ReportService } from "src/app/services/report.service";
 })
 export class ModuloAccidenteVehicularPage implements OnInit {
   photo: string; // FIXME Quizas borrar en html, conservado para evitar posible break
+  locationSaved = false;
+  photoTaken = false;
 
   public formVehicular: ReportVehicular = {
     module: "accidente-vehicular",
@@ -41,6 +43,7 @@ export class ModuloAccidenteVehicularPage implements OnInit {
     if (photo) {
       //Si la foto es valida, la asignamos a la variable 'photo' del componente
       this.formVehicular.photo = photo;
+      this.photoTaken = true;
     } else {
       //Si la foto es nula, mostramos un mensaje de error en la consola
       console.error("La foto es nula o no valida.");
@@ -57,6 +60,7 @@ export class ModuloAccidenteVehicularPage implements OnInit {
 
   public goToLocationPage() {
     this.navController.navigateForward("/inicio/location");
+    this.locationSaved = true;
   }
 
   // Enviar formulario
