@@ -1,6 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-title>Reporte de Incendio</ion-title>
+    <ion-buttons class="boton_1" slot="start">
+      <ion-back-button defaultHref="/inicio/home"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" class="ion-padding fondo">
@@ -27,6 +30,9 @@
           class="form-control"
           id="ubicacion"
           placeholder="Inserte Ubicacion"
+          [(ngModel)]="formIncendio.coordinate"
+          [value]="formIncendio.coordinate | json"
+          readonly
         />
         <button
           class="btn btn-primary"
@@ -39,33 +45,27 @@
       </div>
     </div>
 
-    <div class="mb-3">
-      <label for="imagen" class="form-label"
-        ><h3>Fotografia del Incendio</h3></label
-      >
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          id="imagen"
-          placeholder="Inserte una Fotografia"
-        />
-        <button class="btn btn-primary" type="button" id="obtenerImagen">
-          <i class="bi bi-camera"></i>
-        </button>
-      </div>
-    </div>
+    <ion-button expand="full" (click)="takePhoto()">
+      <ion-icon slot="icon-only" name="camera"></ion-icon>
+      Tomar Foto</ion-button
+    >
+    <!--Apartado para vizualizar la foto seleccionada-->
+    <ion-item *ngIf="formIncendio.photo">
+      <ion-img
+        [src]="formIncendio.photo"
+        style="width: 200px; height: 200px"
+      ></ion-img>
+    </ion-item>
 
     <h1 class="text-decoration-underline">Información Adicional</h1>
-    <!--TODO Cambiar utilizando ion-select, para ello, ver el archivo formulario-alum.page.html, cerca de la linea 21
-    Ya que de esta forma, no se puede agregar ngModel-->
     <div class="form-check">
       <input
         class="form-check-input"
         type="radio"
         name="glifoCercano"
         id="glifoSi"
-        value="true"
+        [(ngModel)]="formIncendio.knowsGrifo"
+        [value]="true"
       />
       <label class="form-check-label" for="glifoSi">
         Si, conozco un grifo cercano
@@ -77,15 +77,15 @@
         type="radio"
         name="glifoCercano"
         id="glifoNo"
-        value="false"
-        checked
+        [(ngModel)]="formIncendio.knowsGrifo"
+        [value]="false"
       />
       <label class="form-check-label" for="glifoNo">
         No, desconozco grifos cercanos
       </label>
     </div>
 
-    <div class="mb-3" id="grifoContainer" style="display: none">
+    <div class="mb-3" *ngIf="formIncendio.knowsGrifo">
       <label for="grifoUbicacion" class="form-label"
         >Localización del Grifo Cercano</label
       >
