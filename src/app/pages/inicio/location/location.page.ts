@@ -60,7 +60,7 @@ export class LocationPage implements OnInit {
         this.map.getView().setCenter(this.coordinates); // Centrar vista con coordenadas
         break; // Romper loop
       }
-      await new Promise((resolve) => setTimeout(resolve, 100)); // Esperar 100 milisegundos
+      await new Promise((resolve) => setTimeout(resolve, 500)); // Esperar 500 milisegundos
     }
 
     await loading.dismiss();
