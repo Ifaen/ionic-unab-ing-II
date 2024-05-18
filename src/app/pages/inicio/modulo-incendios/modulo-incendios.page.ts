@@ -16,7 +16,7 @@ export class ModuloIncendiosPage implements OnInit {
     module: "incendios",
     coordinate: [0, 0],
     photo: "",
-    date: new Date(),
+    date: null,
     typeIncident: "",
     knowsGrifo: false,
     descriptionGrifo: "",
@@ -49,14 +49,10 @@ export class ModuloIncendiosPage implements OnInit {
     }
   }
   // Enviar formulario
-  public sendForm(): void {
+  public validateForm(): void {
     let isValid = true;
     // TODO Validaciones exclusivas de este modulo
 
-    // Imprimir el contenido del formulario en la consola
-    console.log(this.formIncendio);
-
-    // Enviar formulario a servicio
-    this.reportService.sendForm(isValid);
+    this.reportService.validateForm(isValid); // Enviar formulario a servicio
   }
 }

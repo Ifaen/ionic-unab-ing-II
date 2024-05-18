@@ -15,7 +15,7 @@ export class ModuloBasuraPage {
     module: "basura",
     coordinate: [0, 0],
     photo: "", // Link de la foto
-    date: new Date(),
+    date: null,
     typeIncident: "",
     description: "",
   };
@@ -60,10 +60,10 @@ export class ModuloBasuraPage {
   }
 
   // Enviar formulario
-  public sendForm(): void {
+  public validateForm(): void {
     let isValid = true;
     // TODO Validaciones exclusivas de este modulo
 
-    this.reportService.sendForm(isValid); // Enviar formulario a servicio
+    this.reportService.validateForm(isValid); // Enviar formulario a servicio
   }
 }
