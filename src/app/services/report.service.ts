@@ -9,8 +9,6 @@ import {
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { LoadingController, NavController } from "@ionic/angular";
 import { CameraService } from "./camera.service";
-import { Timestamp } from "firebase/firestore";
-import firebase from "firebase/compat";
 
 @Injectable({
   providedIn: "root",
@@ -39,7 +37,6 @@ export class ReportService {
     try {
       if (this.formData.module == "") {
         // TODO Mostrar popup con error
-        console.log("No modulo"); // TODO Borrar esto
         isValid = false;
       }
       if (
@@ -47,13 +44,11 @@ export class ReportService {
         this.formData.coordinate[1] == 0
       ) {
         // TODO Mostrar popup con error
-        console.log("No coordenadas"); // TODO Borrar esto
         isValid = false;
       }
 
       if (this.formData.photo == "") {
-        // TODO Mostrar popup con error
-        console.log("No imagen"); // TODO Borrar esto
+        // TODO Mostrar popup con errors
         isValid = false;
       } else {
         // Enviar foto a firebase storage y almacenar el url resultante
@@ -71,7 +66,7 @@ export class ReportService {
         // Enviar formulario a collection reportes
         let result = new Promise<boolean>((resolve, reject) => {
           this.firestore
-            .collection("reportes")
+            .collection("reports")
             .add(this.formData)
             .then((response) => {
               console.log(response.id);
@@ -96,7 +91,7 @@ export class ReportService {
     const reports: Report[] = [];
     try {
       const snapshot = await this.firestore
-        .collection("reportes")
+        .collection("reports")
         .get()
         .toPromise();
       snapshot.forEach((doc) => {

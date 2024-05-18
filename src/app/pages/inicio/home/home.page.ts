@@ -78,20 +78,11 @@ export class HomePage {
     );
 
     // Observador que, con cada cambio en la geolocalizacion, actualiza la ubicacion
-    this.geolocation.on("change", () =>
-      this.getCurrentLocation(accuracyFeature, positionFeature)
-    );
-  }
-
-  private getCurrentLocation(
-    accuracyFeature: Feature,
-    positionFeature: Feature
-  ): void {
-    let accuracy = this.geolocation.getAccuracyGeometry(); // Obtener precision geometrica, siendo el radio alrededor del punto
-    accuracyFeature.setGeometry(accuracy); // Setear geometria en feature
-
-    let position = this.geolocation.getPosition(); // Obtener posicion, siendo el punto de ubicacion
-    positionFeature.setGeometry(new Point(position)); // Setear geometria de posicion en feature
+    this.geolocation.on("change", () => {
+      // Obtener precision geometrica y posicion
+      accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry());
+      positionFeature.setGeometry(new Point(this.geolocation.getPosition()));
+    });
   }
 
   private async getReports(): Promise<void> {
@@ -126,17 +117,18 @@ export class HomePage {
     );
   }
 
-  private getIcon(type: string): string {
-    switch (type) {
+  private getIcon(module: string): string {
+    switch (module) {
       case "alumbrado":
         return "assets/icon/icon-modulo-1.png";
       case "accidente-vehicular":
         return "assets/icon/icon-modulo-2.png";
-      case "incendio":
+      case "incendios":
         return "assets/icon/icon-modulo-3.png";
       case "basura":
         return "assets/icon/icon-modulo-4.png";
       default:
+        console.log(module);
         return "";
     }
   }

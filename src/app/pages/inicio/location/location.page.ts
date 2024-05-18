@@ -22,12 +22,10 @@ export class LocationPage implements OnInit {
   private map: Map; // Declarar la variable map como propiedad de la clase
   private pointer: Feature;
   private point: Point;
-  private loading: any;
 
   constructor(
     private mapService: MapService,
-    private utilsService: UtilsService,
-    private navController: NavController
+    private loadingController: LoadingController
   ) {
     this.pointer = new Feature();
     this.pointer.setStyle(
@@ -46,26 +44,30 @@ export class LocationPage implements OnInit {
     );
   }
 
-  async ngOnInit() {
-    this.loading = await this.utilsService.loading();
+  async ngOnInit(): Promise<void> {
+    const loading = await this.loadingController.create({
+      spinner: "crescent",
+    });
 
-    await this.loading.present();
+    await loading.present();
 
-    this.getUserLocation();
-  }
-
-  private getUserLocation() {
     this.view = this.mapService.setView([0, 0], 16); // Inicialmente coordenadas 0,0 hasta que cargue la posicion actual del usuario
     this.map = this.mapService.setMap(this.view);
 
-    setTimeout(() => {
+    while (!this.coordinates) {
       this.coordinates = this.mapService.getGeolocation().getPosition(); // Obtener coordenadas
-      this.map.getView().setCenter(this.coordinates); // Centrar vista con coordenadas
-      this.loading.dismiss(); // Ocultar loading
-    }, 5000); // Esperar x milisegundos hasta que geolocalizacion este actualizada
+      if (this.coordinates) {
+        this.map.getView().setCenter(this.coordinates); // Centrar vista con coordenadas
+        break; // Romper loop
+      }
+      await new Promise((resolve) => setTimeout(resolve, 100)); // Esperar 100 milisegundos
+    }
+
+    await loading.dismiss();
   }
 
-  sendPosition(): void {
-    this.mapService.goToFormPage(this.map.getView().getCenter());
+  public sendPosition(): void {
+    let coordinates = this.map.getView().getCenter(); // Obtain the coordinates of the current center of the map
+    this.mapService.goToFormPage(coordinates); // Go to the previos page
   }
 }
