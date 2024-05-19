@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
 import { NavController } from "@ionic/angular";
-import { Coordinate } from "ol/coordinate";
 import { ReportIncendio } from "src/app/models/report.model";
-import { MapService } from "src/app/services/map.service";
+import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
-
+import { MapService } from "src/app/services/map.service";
+import { Coordinate } from "ol/coordinate";
+import { ActivatedRoute, Router } from "@angular/router";
 @Component({
   selector: "app-modulo-incendios",
   templateUrl: "./modulo-incendios.page.html",
@@ -16,13 +16,15 @@ export class ModuloIncendiosPage implements OnInit {
     module: "incendios",
     coordinate: [0, 0],
     photo: "",
-    date: new Date(),
+    date: null,
     typeIncident: "",
-    knowsGrifo: true,
+    knowsGrifo: false,
     descriptionGrifo: "",
     description: "",
   };
+
   constructor(
+    private cameraService: CameraService,
     private reportService: ReportService,
     private navController: NavController
   ) {
@@ -34,12 +36,23 @@ export class ModuloIncendiosPage implements OnInit {
   public goToLocationPage() {
     this.navController.navigateForward("/inicio/location");
   }
-
+  async takePhoto() {
+    //Llamamos al metodo takePhoto() del servicio de la camara para tomar una foto
+    const photo = await this.cameraService.takePhoto();
+    //Verificamos si la foto obtenida es valida (no es nula)
+    if (photo) {
+      //Si la foto es valida, la asignamos a la variable 'photo' del componente
+      this.formIncendio.photo = photo;
+    } else {
+      //Si la foto es nula, mostramos un mensaje de error en la consola
+      console.error("La foto es nula o no valida.");
+    }
+  }
   // Enviar formulario
-  public sendForm(): void {
+  public validateForm(): void {
     let isValid = true;
     // TODO Validaciones exclusivas de este modulo
 
-    this.reportService.sendForm(isValid); // Enviar formulario a servicio
+    this.reportService.validateForm(isValid); // Enviar formulario a servicio
   }
 }
