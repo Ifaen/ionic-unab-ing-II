@@ -132,7 +132,7 @@ export class HomePage {
         return "assets/icon/icon-modulo-1.png";
       case "accidente-vehicular":
         return "assets/icon/icon-modulo-2.png";
-      case "incendio":
+      case "incendios":
         return "assets/icon/icon-modulo-3.png";
       case "basura":
         return "assets/icon/icon-modulo-4.png";
