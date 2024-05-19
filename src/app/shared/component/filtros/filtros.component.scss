@@ -1,8 +1,77 @@
-.selected-button {
-    border-radius: 50%; /* Hace que el botón sea circular */
+.selected-button1 {
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 40px rgba(254, 0, 0, 0.7); /* Añade una aureola ( sombra ) alrededor del botón */
+  }
+  
+  .selected-button1::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px; /* Ajusta el tamaño para que sea más grande que el botón */
+    height: 50px; /* Ajusta el tamaño para que sea más grande que el botón */
+    border-radius: 50%;
+    background-color: rgba(246, 63, 63, 1); /* Color y opacidad de la "sombra" */
+    transform: translate(-50%, -50%); /* Centra el pseudo-elemento */
+    z-index: -1; /* Asegura que esté detrás del botón */
+  }
+  .selected-button2 {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .selected-button2::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px; /* Ajusta el tamaño para que sea más grande que el botón */
+    height: 50px; /* Ajusta el tamaño para que sea más grande que el botón */
+    border-radius: 50%;
+    background-color: rgba(255, 193, 7, 1); /* Color y opacidad de la "sombra" */
+    transform: translate(-50%, -50%); /* Centra el pseudo-elemento */
+    z-index: -1; /* Asegura que esté detrás del botón */
+  }
+  .selected-button3 {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .selected-button3::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px; /* Ajusta el tamaño para que sea más grande que el botón */
+    height: 50px; /* Ajusta el tamaño para que sea más grande que el botón */
+    border-radius: 50%;
+    background-color: rgba(231, 138, 32, 1); /* Color y opacidad de la "sombra" */
+    transform: translate(-50%, -50%); /* Centra el pseudo-elemento */
+    z-index: -1; /* Asegura que esté detrás del botón */
+  }
+  .selected-button4 {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .selected-button4::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px; /* Ajusta el tamaño para que sea más grande que el botón */
+    height: 50px; /* Ajusta el tamaño para que sea más grande que el botón */
+    border-radius: 50%;
+    background-color: rgba(0, 128, 0, 1); /* Color y opacidad de la "sombra" */
+    transform: translate(-50%, -50%); /* Centra el pseudo-elemento */
+    z-index: -1; /* Asegura que esté detrás del botón */
   }
   

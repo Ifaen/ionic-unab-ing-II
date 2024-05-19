@@ -5,7 +5,7 @@ import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
 import { ToastController } from "@ionic/angular";
 import { NavigationEnd, Router } from "@angular/router";
-import { ConfirmationModalComponent } from "src/app/shared/component/confirmation-modal/confirmation-modal.component";
+//import { ConfirmationModalComponent } from "src/app/shared/component/confirmation-modal/confirmation-modal.component";
 
 @Component({
   selector: "app-formulario-alum",
