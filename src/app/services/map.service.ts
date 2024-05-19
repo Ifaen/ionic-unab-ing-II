@@ -72,6 +72,11 @@ export class MapService {
    * @param coordinate coordenadas entregadas en LocationPage
    */
   goToFormPage(coordinate: Coordinate) {
+    //TODO PROBANDO NOTIFICACION --> FUNCIONA
+    //Guardar un indicador en localStorage antes de navegar de regresso al formulario
+    localStorage.setItem("showLocationSelectedToast", "true");
+    //TODO
+    //Navegar de regreso al formulario segun el modulo
     if (this.reportService.formData.module == "alumbrado") {
       this.navController.navigateBack(
         "/inicio/modulo-alumbrado/formulario-alum"
@@ -81,6 +86,7 @@ export class MapService {
         "/inicio/modulo-" + this.reportService.formData.module
       );
     }
+    //Actualizar las coordenadas en formData
     this.reportService.formData.coordinate = coordinate;
   }
 }

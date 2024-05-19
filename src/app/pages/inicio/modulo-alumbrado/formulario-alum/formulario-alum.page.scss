@@ -33,3 +33,18 @@ ion-content {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.error-message ul {
+  padding-left: 20px;
+}
+
+.error-message li {
+  list-style-type: disc;
+}
+
+/*TODO PROBANDO*/
