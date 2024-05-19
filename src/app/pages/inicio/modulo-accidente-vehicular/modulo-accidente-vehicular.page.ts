@@ -21,7 +21,6 @@ export class ModuloAccidenteVehicularPage implements OnInit {
     date: null,
     typeIncident: "",
     description: "",
-    address: "",
   };
 
   constructor(
@@ -56,9 +55,8 @@ export class ModuloAccidenteVehicularPage implements OnInit {
     return (
       this.formVehicular.typeIncident &&
       this.formVehicular.description &&
-      this.formVehicular.address &&
+      this.locationSaved
       /* otros campos necesarios */
-      true
     );
   }
 

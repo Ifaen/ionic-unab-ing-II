@@ -27,7 +27,6 @@ export interface ReportAlumbrado extends Report {
 }
 
 export interface ReportVehicular extends Report {
-  address: string; 
   typeIncident: string;
   description: string;
 }
