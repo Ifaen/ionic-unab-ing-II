@@ -1,9 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
 import { NavController } from "@ionic/angular";
 import { ReportVehicular } from "src/app/models/report.model";
-import { MapService } from "src/app/services/map.service";
-
 import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
 
@@ -13,10 +10,10 @@ import { ReportService } from "src/app/services/report.service";
   styleUrls: ["./modulo-accidente-vehicular.page.scss"],
 })
 export class ModuloAccidenteVehicularPage implements OnInit {
-  photo: string; // FIXME Quizas borrar en html, conservado para evitar posible break
+  photo: string;
   locationSaved = false;
   photoTaken = false;
-
+  
   public formVehicular: ReportVehicular = {
     module: "accidente-vehicular",
     coordinate: [0, 0],
@@ -24,6 +21,7 @@ export class ModuloAccidenteVehicularPage implements OnInit {
     date: null,
     typeIncident: "",
     description: "",
+    address: "",
   };
 
   constructor(
@@ -37,25 +35,31 @@ export class ModuloAccidenteVehicularPage implements OnInit {
   ngOnInit() {}
 
   public async takePhoto() {
-    //Lamamos al metodo takePhoto() del servicio de la camara para tomar una foto
     const photo = await this.cameraService.takePhoto();
-    //Verificamos si la foto obtenida es valida (no es nula)
     if (photo) {
-      //Si la foto es valida, la asignamos a la variable 'photo' del componente
       this.formVehicular.photo = photo;
-      this.photoTaken = true;
     } else {
-      //Si la foto es nula, mostramos un mensaje de error en la consola
-      console.error("La foto es nula o no valida.");
+      console.error("La foto es nula o no válida.");
     }
   }
 
   public updateCount() {
-    var textarea = document.getElementById(
+    const textarea = document.getElementById(
       "area_descripcion"
     ) as HTMLTextAreaElement;
-    var count = document.getElementById("charCount");
+    const count = document.getElementById("charCount");
     count.innerText = textarea.value.length + " / 200";
+  }
+
+  public isFormValid(): boolean {
+    // Verifica si todos los campos necesarios están llenos
+    return (
+      this.formVehicular.typeIncident &&
+      this.formVehicular.description &&
+      this.formVehicular.address &&
+      /* otros campos necesarios */
+      true
+    );
   }
 
   public goToLocationPage() {
@@ -63,11 +67,13 @@ export class ModuloAccidenteVehicularPage implements OnInit {
     this.locationSaved = true;
   }
 
-  // Enviar formulario
   public validateForm(): void {
-    let isValid = true;
-    // TODO Validaciones exclusivas de este modulo
-
-    this.reportService.validateForm(isValid); // Enviar formulario a servicio
+    if (this.isFormValid()) {
+      // Realiza las validaciones exclusivas de este módulo si es necesario
+      this.reportService.validateForm(true); // Enviar formulario al servicio
+    } else {
+      console.error("Por favor, complete todos los campos requeridos.");
+    }
   }
 }
+
