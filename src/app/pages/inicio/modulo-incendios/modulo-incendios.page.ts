@@ -26,7 +26,8 @@ export class ModuloIncendiosPage implements OnInit {
   constructor(
     private cameraService: CameraService,
     private reportService: ReportService,
-    private navController: NavController
+    private navController: NavController,
+    private router: Router
   ) {
     this.reportService.formData = this.formIncendio;
   }
@@ -36,6 +37,7 @@ export class ModuloIncendiosPage implements OnInit {
   public goToLocationPage() {
     this.navController.navigateForward("/inicio/location");
   }
+
   async takePhoto() {
     //Llamamos al metodo takePhoto() del servicio de la camara para tomar una foto
     const photo = await this.cameraService.takePhoto();
@@ -50,13 +52,15 @@ export class ModuloIncendiosPage implements OnInit {
   }
   // Enviar formulario
   public sendForm(): void {
+    const { typeIncident, coordinate, photo } = this.formIncendio;
+    
+    if (!typeIncident || !coordinate || coordinate.length === 0 || !photo) {
+      alert("Por favor, complete todos los campos obligatorios antes de enviar el reporte.");
+      return;
+    }
+
     let isValid = true;
-    // TODO Validaciones exclusivas de este modulo
-
-    // Imprimir el contenido del formulario en la consola
-    console.log(this.formIncendio);
-
-    // Enviar formulario a servicio
     this.reportService.sendForm(isValid);
+    this.router.navigate(['/inicio/modulo-incendios/redireccion']);
   }
 }
