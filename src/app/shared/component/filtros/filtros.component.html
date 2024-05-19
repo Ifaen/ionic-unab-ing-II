@@ -5,39 +5,33 @@
   [edge]="true"
   style="margin-top: 5em"
 >
-  <!-- filtros para modulos sin funcion por el momento-->
-
   <ion-fab-button>
     <ion-icon name="chevron-down-circle"></ion-icon>
   </ion-fab-button>
   <ion-fab-list side="bottom">
-    <ion-fab-button>
-      <img
-        src="assets/icon/fuego.png"
-        (click)="filterReports('incendios')"
-        class="icon"
-      />
+    <ion-fab-button
+      [ngClass]="{ 'selected-button': filters['incendios'] }"
+      (click)="filterReports('incendios')"
+    >
+      <img src="assets/icon/fuego.png" class="icon" />
     </ion-fab-button>
-    <ion-fab-button>
-      <img
-        src="assets/icon/poste.png"
-        (click)="filterReports('alumbrado')"
-        class="icon"
-      />
+    <ion-fab-button
+      [ngClass]="{ 'selected-button': filters['alumbrado'] }"
+      (click)="filterReports('alumbrado')"
+    >
+      <img src="assets/icon/poste.png" class="icon" />
     </ion-fab-button>
-    <ion-fab-button>
-      <img
-        src="assets/icon/coche.png"
-        (click)="filterReports('accidente-vehicular')"
-        class="icon"
-      />
+    <ion-fab-button
+      [ngClass]="{ 'selected-button': filters['accidente-vehicular'] }"
+      (click)="filterReports('accidente-vehicular')"
+    >
+      <img src="assets/icon/coche.png" class="icon" />
     </ion-fab-button>
-    <ion-fab-button>
-      <img
-        src="assets/icon/basu.png"
-        (click)="filterReports('basura')"
-        class="icon"
-      />
+    <ion-fab-button
+      [ngClass]="{ 'selected-button': filters['basura'] }"
+      (click)="filterReports('basura')"
+    >
+      <img src="assets/icon/basu.png" class="icon" />
     </ion-fab-button>
   </ion-fab-list>
 </ion-fab>
