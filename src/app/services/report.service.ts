@@ -47,11 +47,8 @@ export class ReportService {
         isValid = false;
       }
 
-      if (this.formData.photo == "") {
-        // TODO Mostrar popup con errors
-        isValid = false;
-      } else {
-        // Enviar foto a firebase storage y almacenar el url resultante
+      // Si tiene una photo, enviarla al storage de firebase y almacenar el url resultante
+      if (this.formData.photo != "") {
         this.formData.photo = await this.cameraService.sendPhoto(
           this.formData.photo
         );

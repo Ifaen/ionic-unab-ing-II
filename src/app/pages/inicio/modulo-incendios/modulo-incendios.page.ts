@@ -36,6 +36,7 @@ export class ModuloIncendiosPage implements OnInit {
   public goToLocationPage() {
     this.navController.navigateForward("/inicio/location");
   }
+
   async takePhoto() {
     //Llamamos al metodo takePhoto() del servicio de la camara para tomar una foto
     const photo = await this.cameraService.takePhoto();
@@ -52,6 +53,11 @@ export class ModuloIncendiosPage implements OnInit {
   public validateForm(): void {
     let isValid = true;
     // TODO Validaciones exclusivas de este modulo
+
+    if (this.formIncendio.photo == "") {
+      // TODO Validacion
+      console.log("No hay foto");
+    }
 
     this.reportService.validateForm(isValid); // Enviar formulario a servicio
   }
