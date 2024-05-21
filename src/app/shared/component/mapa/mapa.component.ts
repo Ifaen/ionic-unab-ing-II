@@ -31,6 +31,7 @@ export class MapaComponent implements OnInit {
       ],
       view: new View({
         center: fromLonLat([-71.6273, -33.0472]),
+       
         // Coordenadas de Valparaiso para ingresar
         // y ver directamente a la region
         zoom: 12,
