@@ -11,6 +11,8 @@ import { ReportService } from "src/app/services/report.service";
   styleUrls: ["./modulo-basura.page.scss"],
 })
 export class ModuloBasuraPage {
+  
+  LocationSelected = false; // Añade esta línea
   formBasura: ReportBasura = {
     module: "basura",
     coordinate: [0, 0],
@@ -19,6 +21,7 @@ export class ModuloBasuraPage {
     typeIncident: "",
     description: "",
   };
+  
 
   constructor(
     private cameraService: CameraService,
@@ -29,6 +32,10 @@ export class ModuloBasuraPage {
   }
 
   ngOnInit() {}
+
+  public goToHomePage() {
+    this.navController.navigateBack("/inicio/home");
+  }
 
   async executeImageCapture() {
     try {
@@ -43,19 +50,18 @@ export class ModuloBasuraPage {
     }
   }
 
-  refreshCharacterLimit() {
+  CharacterLimit() {
     let inputField = document.querySelector(
       "#input_description"
     ) as HTMLTextAreaElement;
     let limitDisplay = document.querySelector("#limitDisplay");
-
     let currentLength = inputField.value.length;
     let maxLength = 200;
-
     limitDisplay.textContent = `${currentLength} of ${maxLength} characters used`;
   }
 
   public goToLocationPage() {
+    this.LocationSelected = true;
     this.navController.navigateForward("/inicio/location");
   }
 
