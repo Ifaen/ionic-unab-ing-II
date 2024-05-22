@@ -74,4 +74,23 @@
     transform: translate(-50%, -50%); /* Centra el pseudo-elemento */
     z-index: -1; /* Asegura que esté detrás del botón */
   }
+
+  .selected-button5 {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   
+  .selected-button5::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px; /* Ajusta el tamaño para que sea más grande que el botón */
+    height: 50px; /* Ajusta el tamaño para que sea más grande que el botón */
+    border-radius: 50%;
+    background-color: rgb(0, 0, 0); /* Color y opacidad de la "sombra" */
+    transform: translate(-50%, -50%); /* Centra el pseudo-elemento */
+    z-index: -1; /* Asegura que esté detrás del botón */
+  }

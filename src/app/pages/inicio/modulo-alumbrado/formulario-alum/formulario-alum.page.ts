@@ -5,6 +5,7 @@ import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
 import { ToastController } from "@ionic/angular";
 import { NavigationEnd, Router } from "@angular/router";
+import { PermissionsService } from "src/app/services/permissions.service";
 //import { ConfirmationModalComponent } from "src/app/shared/component/confirmation-modal/confirmation-modal.component";
 
 @Component({
@@ -31,6 +32,7 @@ export class FormularioAlumPage implements OnInit {
     private reportService: ReportService,
     private navController: NavController,
     private modalController: ModalController, // TODO No fucniona de momento
+    private permissionsService: PermissionsService,
     private router: Router //TODO se debe de agregar para utilizar la redireccion del toast luego de que escogo la ubicacion
   ) {
     this.reportService.formData = this.formAlumbrado;
@@ -40,6 +42,20 @@ export class FormularioAlumPage implements OnInit {
   async ngOnInit() {}
 
   async takePhoto() {
+
+    const hasPermission = await this.permissionsService.checkCameraPermissions();// guardamos en "hasPermission" el estado actual del permiso
+    if (hasPermission) {//verificamos si el permiso fue concedido 
+      const photo = await this.cameraService.takePhoto();//Llamamos al metodo takePhoto() del servicio de la camara para tomar una foto
+      if (photo) {//Verificamos si la foto obtenida es valida (no es nula)
+        this.formAlumbrado.photo = photo; //Si la foto es valida, la asignamos a la variable 'photo' del componente
+      } else {
+        console.error('La foto es nula o no válida.');//Si la foto es nula, mostramos un mensaje de error en la consola
+      }
+    } else {
+      console.error('El permiso de la camara no fue otorgado');//si no fue otorgada, sale el mensaje
+    }
+
+
     // Verificamos si se ha seleccionado una opción antes de permitir tomar la foto, para esto debe estar el titulo seleccionado
     if (!this.formAlumbrado.typeIncident) {
       const toast = await this.toastController.create({
@@ -54,16 +70,7 @@ export class FormularioAlumPage implements OnInit {
       );
       return; // Salimos de la función si no hay una opción seleccionada
     }
-    //Llamamos al metodo takePhoto() del servicio de la camara para tomar una foto
-    const photo = await this.cameraService.takePhoto();
-    //Verificamos si la foto obtenida es valida (no es nula)
-    if (photo) {
-      //Si la foto es valida, la asignamos a la variable 'photo' del componente
-      this.formAlumbrado.photo = photo;
-    } else {
-      //Si la foto es nula, mostramos un mensaje de error en la consola
-      console.error("La foto es nula o no valida.");
-    }
+
   }
 
   public goToLocationPage() {
@@ -143,58 +150,3 @@ export class FormularioAlumPage implements OnInit {
   }
 }
 
-/*
-//Esto funciona en base a las notificaciones usando el Toast
-
-// Enviar formulario
-  public async sendForm() {
-    let isValid = true;
-    // TODO Validaciones exclusivas de este modulo
-    // Probando Validaciones --> Validaciones Funcionan
-    //Validamos que el titulo sea obligatorio
-    if (!this.formAlumbrado.typeIncident) {
-      isValid = false;
-      const toast = await this.toastController.create({
-        message: "El Título es obligatorio.",
-        duration: 2000,
-        position: "bottom",
-      });
-      toast.present();
-    }
-
-    // TODO VER SI SE PUEDE CAMBIAR A OPCIONAL
-    //Valiadamos la Foto
-    if (!this.formAlumbrado.photo) {
-      isValid = false;
-      const toast = await this.toastController.create({
-        message: "La Foto es Obligatoria.",
-        duration: 2000,
-        position: "bottom",
-      });
-      toast.present();
-    }
-
-    //Validamos que la ubicacion sea obligatoria
-    if (
-      !this.formAlumbrado.coordinate ||
-      (this.formAlumbrado.coordinate[0] === 0 &&
-        this.formAlumbrado.coordinate[1] === 0)
-    ) {
-      isValid = false;
-      const toast = await this.toastController.create({
-        message: "La ubicación es obligatoria.",
-        duration: 2000,
-        position: "bottom",
-      });
-      toast.present();
-    }
-
-    //Enviamos el formulario una vez que se valide lo anterior
-    if (isValid) {
-      this.reportService.sendForm(isValid); // Enviar formulario a servicio
-    }
-
-    //this.reportService.sendForm(isValid); // Enviar formulario a servicio
-  }
-
-*/

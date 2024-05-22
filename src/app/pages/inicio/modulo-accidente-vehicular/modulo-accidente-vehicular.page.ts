@@ -3,6 +3,7 @@ import { NavController } from "@ionic/angular";
 import { ReportVehicular } from "src/app/models/report.model";
 import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
+import { PermissionsService } from "src/app/services/permissions.service";
 
 @Component({
   selector: "app-modulo-accidente-vehicular",
@@ -26,7 +27,8 @@ export class ModuloAccidenteVehicularPage implements OnInit {
   constructor(
     private cameraService: CameraService,
     private reportService: ReportService,
-    private navController: NavController
+    private navController: NavController,
+    private permissionsService: PermissionsService
   ) {
     this.reportService.formData = this.formVehicular;
   }
@@ -34,12 +36,19 @@ export class ModuloAccidenteVehicularPage implements OnInit {
   ngOnInit() {}
 
   public async takePhoto() {
-    const photo = await this.cameraService.takePhoto();
-    if (photo) {
-      this.formVehicular.photo = photo;
+
+    const hasPermission = await this.permissionsService.checkCameraPermissions();// guardamos en "hasPermission" el estado actual del permiso
+    if (hasPermission) {//verificamos si el permiso fue concedido 
+      const photo = await this.cameraService.takePhoto();//Llamamos al metodo takePhoto() del servicio de la camara para tomar una foto
+      if (photo) {//Verificamos si la foto obtenida es valida (no es nula)
+        this.formVehicular.photo = photo; //Si la foto es valida, la asignamos a la variable 'photo' del componente
+      } else {
+        console.error('La foto es nula o no válida.');//Si la foto es nula, mostramos un mensaje de error en la consola
+      }
     } else {
-      console.error("La foto es nula o no válida.");
+      console.error('El permiso de la camara no fue otorgado');//si no fue otorgada, sale el mensaje
     }
+
   }
 
   public updateCount() {
@@ -60,9 +69,15 @@ export class ModuloAccidenteVehicularPage implements OnInit {
     );
   }
 
-  public goToLocationPage() {
-    this.navController.navigateForward("/inicio/location");
-    this.locationSaved = true;
+  public async goToLocationPage() {
+    // Verificar los permisos antes de navegar a la página de ubicación
+    const hasPermission = await this.permissionsService.checkLocationPermissions();
+    if (hasPermission) {
+      // Si los permisos están concedidos, navega a la página de ubicación
+      this.navController.navigateForward("/inicio/location");
+      this.locationSaved = true;
+    }
+    
   }
 
   public validateForm(): void {

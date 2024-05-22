@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #28429f;
+  background: #060c24;
 }
 
 .boton_1 {
@@ -33,6 +33,10 @@
 
 .custom-item {
   --background: white; /* Cambia este valor al color que prefieras */
-  margin-top: 5px;
   padding: 5px;
+  --border-radius: 20px; /* Establece el radio de borde para hacerlo redondo */
+  --highlight-background-focused: none; /* Evita que el resaltado en foco afecte el diseño */
+}
+ion-item{
+  margin-top:25px;
 }

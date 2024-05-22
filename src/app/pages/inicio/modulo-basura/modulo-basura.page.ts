@@ -4,6 +4,7 @@ import { NavController } from "@ionic/angular";
 import { ReportBasura } from "src/app/models/report.model";
 import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
+import { PermissionsService } from "src/app/services/permissions.service";
 
 @Component({
   selector: "app-modulo-basura",
@@ -26,7 +27,8 @@ export class ModuloBasuraPage {
   constructor(
     private cameraService: CameraService,
     private reportService: ReportService,
-    private navController: NavController
+    private navController: NavController,
+    private permissionsService: PermissionsService
   ) {
     this.reportService.formData = this.formBasura;
   }
@@ -60,9 +62,15 @@ export class ModuloBasuraPage {
     limitDisplay.textContent = `${currentLength} of ${maxLength} characters used`;
   }
 
-  public goToLocationPage() {
-    this.LocationSelected = true;
-    this.navController.navigateForward("/inicio/location");
+  public async goToLocationPage() {
+    
+    // Verificar los permisos antes de navegar a la página de ubicación
+    const hasPermission = await this.permissionsService.checkLocationPermissions();
+    if (hasPermission) {
+      // Si los permisos están concedidos, navega a la página de ubicación
+      this.navController.navigateForward("/inicio/location");
+      this.LocationSelected = true;
+    }
   }
 
   // Enviar formulario
