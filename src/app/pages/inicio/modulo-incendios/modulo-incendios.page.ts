@@ -6,6 +6,7 @@ import { ReportService } from "src/app/services/report.service";
 import { MapService } from "src/app/services/map.service";
 import { Coordinate } from "ol/coordinate";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ReportSinRetornoService } from "src/app/services/reportSinRetorno.service";
 @Component({
   selector: "app-modulo-incendios",
   templateUrl: "./modulo-incendios.page.html",
@@ -61,6 +62,7 @@ export class ModuloIncendiosPage implements OnInit {
 
     let isValid = true;
     this.reportService.sendForm(isValid);
-    this.router.navigate(['/inicio/modulo-incendios/redireccion']);
+    // this.router.navigate(['/inicio/modulo-incendios/redireccion']); para despues
   }
+  
 }
