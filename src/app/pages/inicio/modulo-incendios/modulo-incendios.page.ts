@@ -36,38 +36,41 @@ export class ModuloIncendiosPage implements OnInit {
   ngOnInit() {}
 
   public async goToLocationPage() {
-    // Verificar los permisos antes de navegar a la página de ubicación
-    const hasPermission = await this.permissionsService.checkLocationPermissions();
-    if (hasPermission) {
-      // Si los permisos están concedidos, navega a la página de ubicación
-      this.navController.navigateForward("/inicio/location");
-    }
+     // Verificar los permisos antes de navegar a la página de ubicación
+     const hasPermission = await this.permissionsService.checkLocationPermissions();
+     if (hasPermission) {
+       // Si los permisos están concedidos, navega a la página de ubicación
+       this.navController.navigateForward("/inicio/location");
+     }else{
+      console.error("active los permisos desde la configuracion de su dispositivo")
+     }
   }
-
   async takePhoto() {
 
-    const hasPermission = await this.permissionsService.checkCameraPermissions();// guardamos en "hasPermission" el estado actual del permiso
-    if (hasPermission) {//verificamos si el permiso fue concedido 
-      const photo = await this.cameraService.takePhoto();//Llamamos al metodo takePhoto() del servicio de la camara para tomar una foto
-      if (photo) {//Verificamos si la foto obtenida es valida (no es nula)
-        this.formIncendio.photo = photo; //Si la foto es valida, la asignamos a la variable 'photo' del componente
-      } else {
-        console.error('La foto es nula o no válida.');//Si la foto es nula, mostramos un mensaje de error en la consola
+    const hasPermission = await this.permissionsService.checkCameraPermissions();
+    if (!hasPermission) {
+      const granted = await this.permissionsService.requestCameraPermissions();
+      if (!granted) {
+        alert("Permiso de cámara no concedido. Por favor, habilítalo en la configuración.");
+        return;
       }
-    } else {
-      console.error('El permiso de la camara no fue otorgado');//si no fue otorgada, sale el mensaje
     }
-    
+
+    //Llamamos al metodo takePhoto() del servicio de la camara para tomar una foto
+    const photo = await this.cameraService.takePhoto();
+    //Verificamos si la foto obtenida es valida (no es nula)
+    if (photo) {
+      //Si la foto es valida, la asignamos a la variable 'photo' del componente
+      this.formIncendio.photo = photo;
+    } else {
+      //Si la foto es nula, mostramos un mensaje de error en la consola
+      console.error("La foto es nula o no valida.");
+    }
   }
   // Enviar formulario
   public validateForm(): void {
     let isValid = true;
     // TODO Validaciones exclusivas de este modulo
-
-    if (this.formIncendio.photo == "") {
-      // TODO Validacion
-      console.log("No hay foto");
-    }
 
     this.reportService.validateForm(isValid); // Enviar formulario a servicio
   }

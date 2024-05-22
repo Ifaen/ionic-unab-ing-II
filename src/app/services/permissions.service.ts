@@ -47,4 +47,14 @@ export class PermissionsService {
     const cameraGranted = await this.checkCameraPermissions();
     return locationGranted && cameraGranted;
   }
+  
+  async requestCameraPermissions(): Promise<boolean> {
+    try {
+      const status = await Camera.requestPermissions();
+      return status.camera === 'granted';
+    } catch (error) {
+      console.error('Error al solicitar permisos de cámara', error);
+      return false;
+    }
+  }
 }

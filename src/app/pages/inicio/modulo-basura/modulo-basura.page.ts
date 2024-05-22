@@ -22,7 +22,6 @@ export class ModuloBasuraPage {
     typeIncident: "",
     description: "",
   };
-  
 
   constructor(
     private cameraService: CameraService,
@@ -41,6 +40,17 @@ export class ModuloBasuraPage {
 
   async executeImageCapture() {
     try {
+      // Verificar permisos de la cámara antes de tomar la foto
+      const hasPermission = await this.permissionsService.checkCameraPermissions();
+    if (!hasPermission) {
+      const granted = await this.permissionsService.requestCameraPermissions();
+      if (!granted) {
+        alert("Permiso de cámara no concedido. Por favor, habilítalo en la configuración.");
+        return;
+      }
+    }
+  
+      // Intentar tomar la foto
       const photo = await this.cameraService.takePhoto();
       if (photo) {
         this.formBasura.photo = photo;
@@ -52,25 +62,28 @@ export class ModuloBasuraPage {
     }
   }
 
-  CharacterLimit() {
+  refreshCharacterLimit() {
     let inputField = document.querySelector(
       "#input_description"
     ) as HTMLTextAreaElement;
     let limitDisplay = document.querySelector("#limitDisplay");
+
     let currentLength = inputField.value.length;
     let maxLength = 200;
+
     limitDisplay.textContent = `${currentLength} of ${maxLength} characters used`;
   }
 
   public async goToLocationPage() {
-    
     // Verificar los permisos antes de navegar a la página de ubicación
     const hasPermission = await this.permissionsService.checkLocationPermissions();
     if (hasPermission) {
       // Si los permisos están concedidos, navega a la página de ubicación
       this.navController.navigateForward("/inicio/location");
       this.LocationSelected = true;
-    }
+    }else{
+      console.error("active los permisos desde la configuracion de su dispositivo")
+     }
   }
 
   // Enviar formulario
