@@ -12,6 +12,22 @@ export class CameraService {
   private fileRef: AngularFireStorageReference;
   constructor(private storage: AngularFireStorage) {}
 
+  // Método para verificar y solicitar permisos de la cámara
+  private async checkCameraPermissions(): Promise<boolean> {
+    try {
+      const status = await Camera.checkPermissions();
+      if (status.camera === 'granted') {
+        return true;
+      }
+
+      const request = await Camera.requestPermissions();
+      return request.camera === 'granted';
+    } catch (error) {
+      console.error('Error checking camera permissions', error);
+      return false;
+    }
+  }
+
   public async takePhoto(): Promise<string | null> {
     try {
       const image = await Camera.getPhoto({

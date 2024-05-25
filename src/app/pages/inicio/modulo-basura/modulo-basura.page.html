@@ -79,7 +79,7 @@
           required
           [(ngModel)]="formBasura.description"
           placeholder="Describa detalles que ayuden en el reporte"
-          (ionChange)="CharacterLimit()"
+          (ionChange)="refreshCharacterLimit()"
           maxlength="300"
         ></ion-textarea>
       </ion-item>
