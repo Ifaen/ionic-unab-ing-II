@@ -34,13 +34,13 @@
         <ion-icon size="large" name="location"></ion-icon>
       </ion-button>
       <p *ngIf="LocationSelected" class="confirmacion_campo">Su ubicación fue guardada con éxito</p>
-
-      <label class="my-label">Detalles que podrian ser de ayuda</label>
-      <textarea id="area_descripcion" class="area_descripcion" required (input)="updateCount()" maxlength="200"
-        name="description" [(ngModel)]="formBasura.description"> 
-        <div id="charCount" class="char-counter">0 / 200</div>
+      <div class="textarea-container">
+        <label class="my-label">Detalles</label>
+        <textarea id="area_descripcion" class="area_descripcion" required (input)="updateCount()" maxlength="200"
+          name="description" [(ngModel)]="formBasura.description">
       </textarea>
-      
+        <div id="charCount" class="char-counter">0 / 200</div>
+      </div>
 
       <label class="my-label">Imagen</label>
       <ion-button class="input_boton" expand="full" (click)="executeImageCapture()">
