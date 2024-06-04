@@ -14,6 +14,7 @@ import { PermissionsService } from "src/app/services/permissions.service";
 export class ModuloBasuraPage {
   
   LocationSelected = false; // Añade esta línea
+  photoTaken = false;
   formBasura: ReportBasura = {
     module: "basura",
     coordinate: [0, 0],
@@ -84,6 +85,14 @@ export class ModuloBasuraPage {
     }else{
       console.error("active los permisos desde la configuracion de su dispositivo")
      }
+  }
+
+  public updateCount() {
+    var textarea = document.getElementById(
+      "area_descripcion"
+    ) as HTMLTextAreaElement;
+    var count = document.getElementById("charCount");
+    count.innerText = textarea.value.length + " / 200";
   }
 
   // Enviar formulario
