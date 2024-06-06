@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import Feature from "ol/Feature";
 // importaciones de la biblioteca ol
 import View from "ol/View";
 import Map from "ol/Map";
@@ -61,6 +62,23 @@ export class MapService {
       source: source,
     });
   }
+
+
+//===================================esto esta en veremos================================
+  /*public handleReportRemoval(source: VectorSource, reportRemovedCallback: () => void): void {
+    source.on('removefeature', reportRemovedCallback);
+  }
+  
+  /*public removeFeature(map: Map, feature: Feature): void {
+    const layers = map.getLayers().getArray();
+    layers.forEach(layer => {
+      if (layer instanceof VectorLayer) {
+        const source = layer.getSource();
+        source.removeFeature(feature);
+      }
+    });
+  }*/
+  //=======================================================================================
 
   public getGeolocation(): Geolocation {
     return this.geolocation;

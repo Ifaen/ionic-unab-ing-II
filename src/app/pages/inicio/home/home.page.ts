@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject, OnDestroy } from "@angular/core";
+import { Subscription } from 'rxjs';
 // importaciones de la biblioteca ol
 import View from "ol/View";
 import Map from "ol/Map";
@@ -24,6 +25,7 @@ export class HomePage {
   private view: View;
   private map: Map; // Declarar la variable map como propiedad de la clase
   public reportIcons: ReportIcon[] = [];
+  private reportUpdatesSubscription: Subscription;
 
   constructor(
     private mapService: MapService,
@@ -53,6 +55,25 @@ export class HomePage {
       reports.forEach((report) => {
         this.setReportIcons(report);
       });
+
+
+      // Suscribirse a las actualizaciones en tiempo real de los reportes
+      this.reportUpdatesSubscription = this.reportService.getReportsUpdates().subscribe(changes => {
+        changes.forEach(change => {
+          if (change.type === 'added') {
+            this.setReportIcons(change.payload.doc.data() as Report);
+          }
+          //===================================esto que esta comentado, esta en veremos================================
+  /*
+          else if (change.type === 'modified') {
+            this.updateReportIcons(change.payload.doc.data() as Report);
+          } else if (change.type === 'removed') {
+            this.removeReportIcons(change.payload.doc.id);
+          }*/
+        });
+      });
+
+
     } catch (error) {
       console.log(error);
     } finally {
@@ -133,4 +154,41 @@ export class HomePage {
     // Enviar a la lista la data del reporte junto su icono
     this.reportIcons.push(reportIcon);
   }
+
+
+
+  //===================================esto que esta comentado, esta en veremos================================
+  /*private updateReportIcons(report: Report): void {
+    const index = this.reportIcons.findIndex(icon => icon.data.id === report.id);
+    if (index !== -1) {
+      const src: string = this.reportService.getIcon(report.module);
+
+      let reportFeature = this.reportIcons[index].iconFeature;
+      reportFeature.setGeometry(new Point(report.coordinate));
+
+      reportFeature.setStyle(
+        new Style({
+          image: new Icon({
+            anchor: [0.5, 50],
+            anchorXUnits: "fraction",
+            anchorYUnits: "pixels",
+            src: src,
+            scale: 0.08,
+          }),
+        })
+      );
+
+      this.reportIcons[index].data = report;
+    }
+  }
+
+  private removeReportIcons(reportId: string): void {
+    const index = this.reportIcons.findIndex(icon => icon.data.id === reportId);
+    if (index !== -1) {
+      this.mapService.removeFeature(this.map, this.reportIcons[index].iconFeature);
+      this.reportIcons.splice(index, 1);
+    }
+  }*/
+
+  
 }

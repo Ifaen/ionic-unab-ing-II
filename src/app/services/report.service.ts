@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 import {
   ReportAlumbrado,
   ReportBasura,
@@ -26,6 +27,11 @@ export class ReportService {
     private loadingController: LoadingController,
     private cameraService: CameraService
   ) {}
+
+  //obtener los cambios en la coleccion en la base de datos
+  public getReportsUpdates(): Observable<any> {
+    return this.firestore.collection('reports').snapshotChanges();
+  }
 
   public async validateForm(isValid: boolean): Promise<void> {
     const loading = await this.loadingController.create({
