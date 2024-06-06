@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Solicitud Enviada Correctamente</ion-title>
+    <ion-buttons class="boton_1" slot="start">
+      <ion-back-button defaultHref="/inicio/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fondo">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">RedireccionEnvio</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <div class="container mt-4">
+    <div class="card shadow-sm">
+      <div class="card-body text-center">
+        <h2 class="card-title">Su solicitud ha sido enviada correctamente</h2>
+        <p class="card-text">
+          Le pedimos permanecer tranquilo y alejado del incidente para mantener su bienestar. 
+          Por favor espere a la brigada de emergencia. SOLO si cree necesario o necesita 
+          mencionar algún detalle, comuníquese con bomberos al teléfono:
+        </p>
+        <a href="tel:132" class="btn btn-warning d-flex align-items-center justify-content-center">
+          <i class="bi bi-telephone-fill me-2"></i>
+          <strong>132</strong>
+        </a>
+      </div>
+    </div>
+  </div>
+</ion-content>

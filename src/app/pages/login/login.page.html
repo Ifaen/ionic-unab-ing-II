@@ -1,6 +1,10 @@
-<app-header title="login"></app-header>
-
 <ion-content fullscreen="true">
+  
+  <app-header title="Vconnect" ></app-header>
+  <div class="header-image-container">
+    <img src="assets/icon/logoVconnect.jpeg" class="header-image">
+  </div>
+  
   <div class="header">
     <ion-title class="title">Bienvenido</ion-title>
     <p>Inicia sesión para acceder a tu cuenta</p>
@@ -29,9 +33,14 @@
         <ion-input
           formControlName="password"
           placeholder="Contraseña"
+          type="{{ showPassword ? 'text' : 'password' }}"
           class="input"
         ></ion-input>
-        <ion-icon name="lock-closed-outline"></ion-icon>
+        <ion-icon name="{{ showPassword ? 'eye-outline' : 'eye-off-outline' }}"></ion-icon>
+        <!-- Botón para mostrar/ocultar contraseña -->
+        <ion-button fill="clear" slot="end" (click)="togglePasswordVisibility()">
+          <ion-icon name="{{ showPassword ? 'eye-outline' : 'eye-off-outline' }}"></ion-icon>
+        </ion-button>
       </ion-item>
       <div
         *ngIf="form.controls['password'].touched && form.controls['password'].errors['required']"

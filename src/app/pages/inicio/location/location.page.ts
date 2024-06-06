@@ -1,12 +1,15 @@
 import { Component, Input, OnInit, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { LoadingController, NavController } from "@ionic/angular";
 import { Feature, Geolocation, Map, View } from "ol";
+import { load } from "ol/Image";
 import { Coordinate } from "ol/coordinate";
 import { Point } from "ol/geom";
 import { fromLonLat } from "ol/proj";
 import VectorSource from "ol/source/Vector";
 import { Circle, Fill, Stroke, Style } from "ol/style";
 import { MapService } from "src/app/services/map.service";
+import { UtilsService } from "src/app/services/utils.service";
 
 @Component({
   selector: "app-location",
@@ -22,7 +25,8 @@ export class LocationPage implements OnInit {
 
   constructor(
     private mapService: MapService,
-    private activatedRoute: ActivatedRoute
+    private loadingController: LoadingController,
+    private navController: NavController
   ) {
     this.pointer = new Feature();
     this.pointer.setStyle(
@@ -41,36 +45,35 @@ export class LocationPage implements OnInit {
     );
   }
 
-  ngOnInit() {
-    this.view = this.mapService.setView(
-      [-7973514.562897045, -3901570.651086505],
-      16
-    ); // Inicialmente coordenadas 0,0 hasta que cargue la posicion actual del usuario
+  async ngOnInit(): Promise<void> {
+    const loading = await this.loadingController.create({
+      spinner: "crescent",
+    });
 
+    await loading.present();
+
+    this.view = this.mapService.setView([0, 0], 16); // Inicialmente coordenadas 0,0 hasta que cargue la posicion actual del usuario
     this.map = this.mapService.setMap(this.view);
 
-    setTimeout(() => {
+    while (!this.coordinates) {
       this.coordinates = this.mapService.getGeolocation().getPosition(); // Obtener coordenadas
-      this.map.getView().setCenter(this.coordinates); // Centrar vista con coordenadas
+      if (this.coordinates) {
+        this.map.getView().setCenter(this.coordinates); // Centrar vista con coordenadas
+        break; // Romper loop
+      }
+      await new Promise((resolve) => setTimeout(resolve, 100)); // Esperar x milisegundos
+    }
 
-      this.mapService.createVector(
-        this.map,
-        new VectorSource({
-          features: [this.pointer],
-        })
-      );
-
-      // Asignar al puntero el valor de las coordenadas obtenidas
-      this.point = new Point(this.coordinates);
-      this.pointer.setGeometry(this.point);
-
-      this.map.on("pointermove", (e) => {
-        this.point.setCoordinates(this.map.getView().getCenter());
-      });
-    }, 5000); // Esperar x milisegundos hasta que geolocalizacion este actualizada
+    await loading.dismiss();
   }
 
-  sendPosition(): void {
-    console.log(this.map.getView().getCenter()); // TODO Enviar ubicacion devuelta al formulario
+  public sendPosition(): void {
+    let coordinates = this.map.getView().getCenter(); // Obtener las coordenadas del centro del mapa
+    try {
+      this.mapService.goToFormPage(coordinates); // Volverse a la pagina anterior
+    } catch (error) {
+      console.log(error);
+      this.navController.navigateRoot("/inicio/home");
+    }
   }
 }

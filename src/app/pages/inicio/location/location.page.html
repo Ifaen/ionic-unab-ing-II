@@ -1,15 +1,20 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title> Ubicación </ion-title>
+    <ion-title>Seleccionar Ubicación</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
   <div id="map" class="map"></div>
-  <button
+  <ion-button
     class="btn btn-danger position-absolute start-50 translate-middle-x"
     style="bottom: 7em"
     (click)="sendPosition()"
+    color="btn-danger"
   >
     Seleccionar posicion
-  </button>
+  </ion-button>
+  <div id="pointer">
+    <ion-icon id="dot" src="assets/location-dot.svg"></ion-icon>
+  </div>
 </ion-content>

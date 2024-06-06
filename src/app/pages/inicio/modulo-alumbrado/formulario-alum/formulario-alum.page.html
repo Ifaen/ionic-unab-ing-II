@@ -18,11 +18,16 @@
       <!--Lista seleccionable del titulo-->
       <ion-list class="lista">
         <ion-item>
-          <ion-select label="Selecciona el Titulo" [(ngModel)]="selectedTittle">
+          <ion-select
+            label="Selecciona el Titulo"
+            name="typeIncident"
+            [(ngModel)]="formAlumbrado.typeIncident"
+            labelPlacement="floating"
+          >
             <ion-select-option value="corteLuz">Corte de Luz</ion-select-option>
-            <ion-select-option value="danoInfra"
-              >Daño de Infraestructura</ion-select-option
-            >
+            <ion-select-option value="danoInfra">
+              Daño de Infraestructura
+            </ion-select-option>
           </ion-select>
         </ion-item>
         <!--Descripcion del Reporte-->
@@ -32,9 +37,10 @@
             labelPlacement="floating"
             placeholder="Escribenos tus comentarios sobre el reporte"
             rows="4"
+            name="description"
             [counter]="true"
             maxlength="200"
-            [(ngModel)]="description"
+            [(ngModel)]="formAlumbrado.description"
           ></ion-textarea>
         </ion-item>
 
@@ -44,22 +50,31 @@
           Tomar Foto</ion-button
         >
         <!--Apartado para vizualizar la foto seleccionada-->
-        <ion-item *ngIf="photo">
-          <ion-img [src]="photo" style="width: 200px; height: 200px"></ion-img>
+        <ion-item *ngIf="formAlumbrado.photo">
+          <ion-img
+            [src]="formAlumbrado.photo"
+            style="width: 300px; height: 300px"
+          ></ion-img>
         </ion-item>
-
         <!--Boton para tomar la ubicacion-->
-        <!--De momento redirige al map-->
-        <ion-button expand="full" href="/inicio/location"
+        <ion-button expand="full" (click)="goToLocationPage()"
           >Ingresar Ubicación
           <ion-icon slot="icon-only" name="location"></ion-icon>
         </ion-button>
         <!--Boton Enviar los datos del formulario (de momento de forma local)-->
-        <ion-button expand="full" (click)="saveItem()"
+        <ion-button expand="full" (click)="validateForm()"
           >Enviar
           <ion-icon slot="icon-only" name="send"></ion-icon>
         </ion-button>
       </ion-list>
+
+      <!--TODO PROBANDO MESSAGES DE ERRORES (FUNCIONA) -->
+      <!--Lista con los campos obligatorios antes de darle a enviar-->
+      <div *ngIf="errorsMessages" class="error-message">
+        <ul>
+          <li *ngFor="let error of errorsMessages">{{ error }}</li>
+        </ul>
+      </div>
     </div>
   </ion-content>
 </div>

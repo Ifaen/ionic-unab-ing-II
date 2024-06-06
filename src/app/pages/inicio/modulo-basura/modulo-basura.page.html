@@ -1,13 +1,91 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>modulo_basura</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="goToHomePage()">
+        <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Reporte de Basura</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">modulo_basura</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding fondo">
+  <div class="container">
+    <div class="box">
+      <ion-select
+        name="typeIncident"
+        [(ngModel)]="formBasura.typeIncident"
+        placeholder="Seleccione el tipo de basura"
+      >
+        <ion-select-option value="Residuos orgánico o biodegradable">
+          Residuos orgánico o biodegradable
+        </ion-select-option>
+        <ion-select-option value="Residuos inorgánicos o no biodegradables">
+          Residuos inorgánicos o no biodegradables
+        </ion-select-option>
+        <ion-select-option value="Residuos tóxicos o inflamables">
+          Residuos tóxicos o inflamables
+        </ion-select-option>
+        <ion-select-option value="Residuos de construcción o demolición">
+          Residuos de construcción o demolición
+        </ion-select-option>
+        <ion-select-option value="Residuos reciclables">
+          Residuos reciclables </ion-select-option>
+      </ion-select>
+    </div>
+
+    <div class="box">
+      <ion-item>
+        <ion-label position="floating">{{ LocationSelected ? 'A selecionado una ubicación' : 'Ingresar ubicación' }}</ion-label>
+        <ion-input
+          id="ubicacion"
+          placeholder="inserte ubicacion"
+        ></ion-input>
+        <ion-button
+          fill="clear"
+          slot="end"
+          id="obtenerUbicacion"
+          (click)="goToLocationPage()"
+        >
+          <ion-icon name="location-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Imagen del basural</ion-label>
+        <ion-button
+          fill="clear"
+          slot="end"
+          id="obtenerImagen"
+          (click)="executeImageCapture()"
+        >
+          <ion-icon name="camera-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item *ngIf="formBasura.photo">
+        <ion-img
+        [src]="formBasura.photo"
+        style="width: 200px; height: 200px"
+      ></ion-img>
+      </ion-item>
+    </div>
+
+    <div class="box">
+      <ion-item>
+        <ion-label position="floating">Detalles adicionales</ion-label>
+        <ion-textarea
+          id="detalles"
+          name="description"
+          required
+          [(ngModel)]="formBasura.description"
+          placeholder="Describa detalles que ayuden en el reporte"
+          (ionChange)="refreshCharacterLimit()"
+          maxlength="300"
+        ></ion-textarea>
+      </ion-item>
+      <p id="limitDisplay"></p>
+    </div>
+
+    <ion-button expand="full" (click)="validateForm()">Enviar</ion-button>
+  </div>
 </ion-content>
