@@ -4,6 +4,7 @@ import { NavController } from "@ionic/angular";
 import { ReportBasura } from "src/app/models/report.model";
 import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
+import { PermissionsService } from "src/app/services/permissions.service";
 
 @Component({
   selector: "app-modulo-basura",
@@ -11,11 +12,13 @@ import { ReportService } from "src/app/services/report.service";
   styleUrls: ["./modulo-basura.page.scss"],
 })
 export class ModuloBasuraPage {
+  
+  LocationSelected = false; // Añade esta línea
   formBasura: ReportBasura = {
     module: "basura",
     coordinate: [0, 0],
     photo: "", // Link de la foto
-    date: new Date(),
+    date: null,
     typeIncident: "",
     description: "",
   };
@@ -23,15 +26,31 @@ export class ModuloBasuraPage {
   constructor(
     private cameraService: CameraService,
     private reportService: ReportService,
-    private navController: NavController
+    private navController: NavController,
+    private permissionsService: PermissionsService
   ) {
     this.reportService.formData = this.formBasura;
   }
 
   ngOnInit() {}
 
+  public goToHomePage() {
+    this.navController.navigateBack("/inicio/home");
+  }
+
   async executeImageCapture() {
     try {
+      // Verificar permisos de la cámara antes de tomar la foto
+      const hasPermission = await this.permissionsService.checkCameraPermissions();
+    if (!hasPermission) {
+      const granted = await this.permissionsService.requestCameraPermissions();
+      if (!granted) {
+        alert("Permiso de cámara no concedido. Por favor, habilítalo en la configuración.");
+        return;
+      }
+    }
+  
+      // Intentar tomar la foto
       const photo = await this.cameraService.takePhoto();
       if (photo) {
         this.formBasura.photo = photo;
@@ -55,15 +74,23 @@ export class ModuloBasuraPage {
     limitDisplay.textContent = `${currentLength} of ${maxLength} characters used`;
   }
 
-  public goToLocationPage() {
-    this.navController.navigateForward("/inicio/location");
+  public async goToLocationPage() {
+    // Verificar los permisos antes de navegar a la página de ubicación
+    const hasPermission = await this.permissionsService.checkLocationPermissions();
+    if (hasPermission) {
+      // Si los permisos están concedidos, navega a la página de ubicación
+      this.navController.navigateForward("/inicio/location");
+      this.LocationSelected = true;
+    }else{
+      console.error("active los permisos desde la configuracion de su dispositivo")
+     }
   }
 
   // Enviar formulario
-  public sendForm(): void {
+  public validateForm(): void {
     let isValid = true;
     // TODO Validaciones exclusivas de este modulo
 
-    this.reportService.sendForm(isValid); // Enviar formulario a servicio
+    this.reportService.validateForm(isValid); // Enviar formulario a servicio
   }
 }

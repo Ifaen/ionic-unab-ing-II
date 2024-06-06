@@ -3,6 +3,7 @@ import { NavController } from "@ionic/angular";
 import { ReportIncendio } from "src/app/models/report.model";
 import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
+import { PermissionsService } from "src/app/services/permissions.service";
 import { MapService } from "src/app/services/map.service";
 import { Coordinate } from "ol/coordinate";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -17,7 +18,7 @@ export class ModuloIncendiosPage implements OnInit {
     module: "incendios",
     coordinate: [0, 0],
     photo: "",
-    date: new Date(),
+    date: null,
     typeIncident: "",
     knowsGrifo: false,
     descriptionGrifo: "",
@@ -28,18 +29,36 @@ export class ModuloIncendiosPage implements OnInit {
     private cameraService: CameraService,
     private reportService: ReportService,
     private navController: NavController,
-    private router: Router
+    private router: Router,
+    private permissionsService: PermissionsService
   ) {
     this.reportService.formData = this.formIncendio;
   }
 
   ngOnInit() {}
 
-  public goToLocationPage() {
-    this.navController.navigateForward("/inicio/location");
+  public async goToLocationPage() {
+     // Verificar los permisos antes de navegar a la página de ubicación
+     const hasPermission = await this.permissionsService.checkLocationPermissions();
+     if (hasPermission) {
+       // Si los permisos están concedidos, navega a la página de ubicación
+       this.navController.navigateForward("/inicio/location");
+     }else{
+      console.error("active los permisos desde la configuracion de su dispositivo")
+     }
   }
 
   async takePhoto() {
+
+    const hasPermission = await this.permissionsService.checkCameraPermissions();
+    if (!hasPermission) {
+      const granted = await this.permissionsService.requestCameraPermissions();
+      if (!granted) {
+        alert("Permiso de cámara no concedido. Por favor, habilítalo en la configuración.");
+        return;
+      }
+    }
+
     //Llamamos al metodo takePhoto() del servicio de la camara para tomar una foto
     const photo = await this.cameraService.takePhoto();
     //Verificamos si la foto obtenida es valida (no es nula)
@@ -51,8 +70,9 @@ export class ModuloIncendiosPage implements OnInit {
       console.error("La foto es nula o no valida.");
     }
   }
+  
   // Enviar formulario
-  public sendForm(): void {
+  public validateForm(): void {
     const { typeIncident, coordinate, photo } = this.formIncendio;
     
     if (!typeIncident || !coordinate || coordinate.length === 0 || !photo) {
@@ -61,8 +81,7 @@ export class ModuloIncendiosPage implements OnInit {
     }
 
     let isValid = true;
-    this.reportService.sendForm(isValid);
-    // this.router.navigate(['/inicio/modulo-incendios/redireccion']); para despues
+
+    this.reportService.validateForm(isValid); // Enviar formulario a servicio
   }
-  
 }

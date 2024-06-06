@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { NavController } from "@ionic/angular";
+import { ModalController, NavController, ToastController } from "@ionic/angular";
+import { Router, NavigationEnd } from "@angular/router";
 import { ReportAlumbrado } from "src/app/models/report.model";
-import { MapService } from "src/app/services/map.service";
 import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
-import { ToastController } from "@ionic/angular";
+import { PermissionsService } from "src/app/services/permissions.service";
 
 @Component({
   selector: "app-formulario-alum",
@@ -16,58 +16,113 @@ export class FormularioAlumPage implements OnInit {
     module: "alumbrado",
     coordinate: [0, 0],
     photo: "", // Link de la foto
-    date: new Date(),
+    date: null,
     typeIncident: "",
     description: "",
   };
+
+  //TODO se agrego una variable para los errores
+  errorsMessages: string[] = []; // Array de cadenas
 
   constructor(
     private cameraService: CameraService,
     private toastController: ToastController,
     private reportService: ReportService,
-    private navController: NavController
+    private navController: NavController,
+    private modalController: ModalController,
+    private permissionsService: PermissionsService,
+    private router: Router
   ) {
     this.reportService.formData = this.formAlumbrado;
+    this.subscribeToNavigationEvents();
   }
 
   async ngOnInit() {}
 
   async takePhoto() {
-    // Verificamos si se ha seleccionado una opción antes de permitir tomar la foto, para esto debe estar el titulo seleccionado
     if (!this.formAlumbrado.typeIncident) {
       const toast = await this.toastController.create({
-        message:
-          "Por favor, selecciona un título antes de seleccionar la foto.",
-        duration: 2000, //Duracion de la notificacion en milisegundos
-        position: "bottom", //Posicion de la notificacion
+        message: "Por favor, selecciona un título antes de seleccionar la foto.",
+        duration: 2000, // Duración de la notificación en milisegundos
+        position: "bottom", // Posición de la notificación
       });
       toast.present();
-      console.error(
-        "Por favor, seleccione una opción antes de tomar una foto."
-      );
+      console.error("Por favor, seleccione una opción antes de tomar una foto.");
       return; // Salimos de la función si no hay una opción seleccionada
     }
-    //Llamamos al metodo takePhoto() del servicio de la camara para tomar una foto
+
+    // Verificar permisos de la cámara antes de tomar la foto
+    const hasPermission = await this.permissionsService.checkCameraPermissions();
+    if (!hasPermission) {
+      const granted = await this.permissionsService.requestCameraPermissions();
+      if (!granted) {
+        alert("Permiso de cámara no concedido. Por favor, habilítalo en la configuración.");
+        return;
+      }
+    }
+
     const photo = await this.cameraService.takePhoto();
-    //Verificamos si la foto obtenida es valida (no es nula)
     if (photo) {
-      //Si la foto es valida, la asignamos a la variable 'photo' del componente
-      this.formAlumbrado.photo = photo;
+        this.formAlumbrado.photo = photo;
     } else {
-      //Si la foto es nula, mostramos un mensaje de error en la consola
-      console.error("La foto es nula o no valida.");
+      console.error("La foto es nula o no válida.");
+    }  
+  }
+
+  public async goToLocationPage() {
+    const hasPermission = await this.permissionsService.checkLocationPermissions();
+    if (hasPermission) {
+      this.navController.navigateForward("/inicio/location");
+    }else{
+      console.error("active los permisos desde la configuracion de su dispositivo")
+     }
+  }
+
+  public validateForm(): void {
+    let isValid = true;
+    this.errorsMessages = []; // Resetear errores
+
+    if (!this.formAlumbrado.typeIncident) {
+      isValid = false;
+      this.errorsMessages.push("El título es obligatorio.");
+    }
+
+    if (!this.formAlumbrado.photo) {
+      isValid = false;
+      this.errorsMessages.push("La foto es obligatoria.");
+    }
+
+    if (
+      !this.formAlumbrado.coordinate ||
+      (this.formAlumbrado.coordinate[0] === 0 &&
+        this.formAlumbrado.coordinate[1] === 0)
+    ) {
+      isValid = false;
+      this.errorsMessages.push("La ubicación es obligatoria.");
+    }
+
+    if (isValid) {
+      this.errorsMessages = [];
+      this.reportService.validateForm(isValid); // Enviar formulario a servicio
     }
   }
 
-  public goToLocationPage() {
-    this.navController.navigateForward("/inicio/location");
-  }
-
-  // Enviar formulario
-  public sendForm(): void {
-    let isValid = true;
-    // TODO Validaciones exclusivas de este modulo
-
-    this.reportService.sendForm(isValid); // Enviar formulario a servicio
+  private subscribeToNavigationEvents() {
+    this.router.events.subscribe(async (event) => {
+      if (event instanceof NavigationEnd) {
+        if (this.router.url === "/inicio/modulo-alumbrado/formulario-alum") {
+          const showToast = localStorage.getItem("showLocationSelectedToast");
+          if (showToast === "true") {
+            localStorage.removeItem("showLocationSelectedToast");
+            const toast = await this.toastController.create({
+              message: "La ubicación ya fue seleccionada.",
+              duration: 2000,
+              position: "bottom",
+            });
+            toast.present();
+          }
+        }
+      }
+    });
   }
 }

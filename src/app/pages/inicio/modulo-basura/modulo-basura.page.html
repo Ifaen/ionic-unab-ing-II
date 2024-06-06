@@ -1,5 +1,10 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goToHomePage()">
+        <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Reporte de Basura</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,28 +17,29 @@
         [(ngModel)]="formBasura.typeIncident"
         placeholder="Seleccione el tipo de basura"
       >
-        <ion-select-option value="1">
+        <ion-select-option value="Residuos orgánico o biodegradable">
           Residuos orgánico o biodegradable
         </ion-select-option>
-        <ion-select-option value="2">
+        <ion-select-option value="Residuos inorgánicos o no biodegradables">
           Residuos inorgánicos o no biodegradables
         </ion-select-option>
-        <ion-select-option value="3">
+        <ion-select-option value="Residuos tóxicos o inflamables">
           Residuos tóxicos o inflamables
         </ion-select-option>
-        <ion-select-option value="4">
+        <ion-select-option value="Residuos de construcción o demolición">
           Residuos de construcción o demolición
         </ion-select-option>
-        <ion-select-option value="5">Residuos reciclables </ion-select-option>
+        <ion-select-option value="Residuos reciclables">
+          Residuos reciclables </ion-select-option>
       </ion-select>
     </div>
 
     <div class="box">
       <ion-item>
-        <ion-label position="floating">Ingresar ubicación</ion-label>
+        <ion-label position="floating">{{ LocationSelected ? 'A selecionado una ubicación' : 'Ingresar ubicación' }}</ion-label>
         <ion-input
           id="ubicacion"
-          placeholder="Escriba inserte ubicacion"
+          placeholder="inserte ubicacion"
         ></ion-input>
         <ion-button
           fill="clear"
@@ -57,7 +63,10 @@
         </ion-button>
       </ion-item>
       <ion-item *ngIf="formBasura.photo">
-        <ion-img [src]="formBasura.photo"></ion-img>
+        <ion-img
+        [src]="formBasura.photo"
+        style="width: 200px; height: 200px"
+      ></ion-img>
       </ion-item>
     </div>
 
@@ -67,12 +76,16 @@
         <ion-textarea
           id="detalles"
           name="description"
+          required
           [(ngModel)]="formBasura.description"
           placeholder="Describa detalles que ayuden en el reporte"
+          (ionChange)="refreshCharacterLimit()"
+          maxlength="300"
         ></ion-textarea>
       </ion-item>
+      <p id="limitDisplay"></p>
     </div>
 
-    <ion-button expand="full" (click)="sendForm()">Enviar</ion-button>
+    <ion-button expand="full" (click)="validateForm()">Enviar</ion-button>
   </div>
 </ion-content>

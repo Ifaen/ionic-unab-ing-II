@@ -9,9 +9,10 @@ import { OSM, Vector as VectorSource } from "ol/source";
 import { fromLonLat } from "ol/proj";
 import { Point, Geometry } from "ol/geom";
 import { Circle, Fill, Icon, Stroke, Style } from "ol/style";
-import { Report } from "src/app/models/report.model";
+import { Report, ReportIcon } from "src/app/models/report.model";
 import { MapService } from "src/app/services/map.service";
 import { ReportService } from "src/app/services/report.service";
+import { LoadingController } from "@ionic/angular";
 
 @Component({
   selector: "app-home",
@@ -19,27 +20,44 @@ import { ReportService } from "src/app/services/report.service";
   styleUrls: ["./home.page.scss"],
 })
 export class HomePage {
-  public geolocation: Geolocation;
+  //public geolocation: Geolocation;
   private view: View;
   private map: Map; // Declarar la variable map como propiedad de la clase
-  private iconFeatures = [];
+  public reportIcons: ReportIcon[] = [];
 
   constructor(
     private mapService: MapService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private loadingController: LoadingController
   ) {}
 
-  private ngOnInit(): void {
-    this.view = this.mapService.setView(
-      [-7973514.562897045, -3901570.651086505],
-      12
-    );
+  private async ngOnInit(): Promise<void> {
+    const loading = await this.loadingController.create({
+      spinner: "crescent",
+    });
 
-    this.map = this.mapService.setMap(this.view);
+    await loading.present();
 
-    this.setGeolocation();
+    try {
+      this.view = this.mapService.setView(
+        [-7973514.562897045, -3901570.651086505],
+        12
+      );
 
-    this.getReports();
+      this.map = this.mapService.setMap(this.view);
+
+      this.setGeolocation();
+
+      const reports = await this.reportService.getReports(); // Obtener lista de reportes de report collection
+
+      reports.forEach((report) => {
+        this.setReportIcons(report);
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      await loading.dismiss();
+    }
   }
 
   private setGeolocation(): void {
@@ -61,13 +79,7 @@ export class HomePage {
       })
     );
 
-    this.geolocation = new Geolocation({
-      tracking: true, // TODO Cambiar a una funcion cuando se solicite el permiso de trackear ubicacion usando this.geolocation.setTracking(BOOL CON PERMISO);
-      trackingOptions: {
-        enableHighAccuracy: true, // Habilitar alta precision
-      },
-      projection: this.view.getProjection(), // Obtener la vista para la geolocalizacion
-    });
+    let geolocation = this.mapService.getGeolocation(); // Obtener geolocalizacion del servicio
 
     // Crear vector para usuario
     let vectorUser = this.mapService.createVector(
@@ -78,66 +90,47 @@ export class HomePage {
     );
 
     // Observador que, con cada cambio en la geolocalizacion, actualiza la ubicacion
-    this.geolocation.on("change", () =>
-      this.getCurrentLocation(accuracyFeature, positionFeature)
-    );
-  }
-
-  private getCurrentLocation(
-    accuracyFeature: Feature,
-    positionFeature: Feature
-  ): void {
-    let accuracy = this.geolocation.getAccuracyGeometry(); // Obtener precision geometrica, siendo el radio alrededor del punto
-    accuracyFeature.setGeometry(accuracy); // Setear geometria en feature
-
-    let position = this.geolocation.getPosition(); // Obtener posicion, siendo el punto de ubicacion
-    positionFeature.setGeometry(new Point(position)); // Setear geometria de posicion en feature
-  }
-
-  private async getReports(): Promise<void> {
-    let reports = await this.reportService.getReports();
-
-    reports.forEach((report) => {
-      let src = this.getIcon(report.module);
-
-      var reporteFeature = new Feature({
-        geometry: new Point(report.coordinate),
-      });
-      reporteFeature.setStyle(
-        new Style({
-          // Le asignamos que sera una imagen y sera de tipo "Icon"
-          image: new Icon({
-            anchor: [0.5, 46],
-            anchorXUnits: "fraction",
-            anchorYUnits: "pixels",
-            src: src,
-            scale: 0.08, // Ajusta el tamaño del icono
-          }),
-        })
-      );
-      this.iconFeatures.push(reporteFeature);
+    geolocation.on("change", () => {
+      // Obtener precision geometrica y posicion
+      accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+      positionFeature.setGeometry(new Point(geolocation.getPosition()));
     });
+  }
+
+  private setReportIcons(report: Report): void {
+    const src: string = this.reportService.getIcon(report.module); // Obtener el icon del reporte segun su modulo
+
+    // Asignar las coordendas al icono del reporte
+    let reportFeature = new Feature({
+      geometry: new Point(report.coordinate),
+    });
+
+    // Asignarle un diseño al icono del reporte
+    reportFeature.setStyle(
+      new Style({
+        image: new Icon({
+          anchor: [0.5, 50], // TODO Arreglar centrado del icono
+          anchorXUnits: "fraction",
+          anchorYUnits: "pixels",
+          src: src,
+          scale: 0.08, // Ajusta el tamaño del icono
+        }),
+      })
+    );
+
+    const reportIcon: ReportIcon = {
+      data: report,
+      iconFeature: reportFeature,
+    };
 
     this.mapService.createVector(
       this.map,
       new VectorSource({
-        features: this.iconFeatures,
+        features: [reportIcon.iconFeature],
       })
     );
-  }
 
-  private getIcon(type: string): string {
-    switch (type) {
-      case "alumbrado":
-        return "assets/icon/icon-modulo-1.png";
-      case "accidente-vehicular":
-        return "assets/icon/icon-modulo-2.png";
-      case "incendio":
-        return "assets/icon/icon-modulo-3.png";
-      case "basura":
-        return "assets/icon/icon-modulo-4.png";
-      default:
-        return "";
-    }
+    // Enviar a la lista la data del reporte junto su icono
+    this.reportIcons.push(reportIcon);
   }
 }

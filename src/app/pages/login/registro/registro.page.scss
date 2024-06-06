@@ -1,3 +1,37 @@
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto; /* Centra el formulario horizontalmente */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column; /* Asegura que los elementos dentro se apilen verticalmente */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  max-height: 100%; /* Ajusta la altura máxima para que se adapte al contenido */
+  overflow-y: auto; /* Agrega desplazamiento vertical si el contenido es demasiado largo */
+  background: #060c24;
+}
+
+.header-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 300px;
+}
+
+.header-image {
+  max-width: 100%; /* Ajusta el ancho máximo para que la imagen sea responsive */
+  max-height: 100%; /* Ajusta la altura máxima para que la imagen sea responsive */
+}
+
+
 ion-content {
   --background: none;
   background: #28429f;
@@ -9,10 +43,8 @@ ion-content {
 
 .app-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
-  background: #28429f;
+  background: #060c24;
 }
 
 .notificaciones{

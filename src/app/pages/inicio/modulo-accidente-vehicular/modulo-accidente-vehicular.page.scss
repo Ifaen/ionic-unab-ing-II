@@ -3,7 +3,7 @@ ion-content {
   background: rgb(231, 138, 32);
 }
 
-.boton_1 {
+.boton_retroceder {
   color: white;
 }
 
@@ -39,15 +39,22 @@ ion-content {
   align-items: center;
   height: 100vh;
   background: rgb(231, 138, 32);
+  overflow-y: auto;
 }
 
-.Titulo_1 {
+.Titulo_Reporte {
   text-align: center;
   font-size: 40px;
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
   margin-bottom: 20px;
   color: white;
+}
+
+.adj_foto{
+  width: 200px;
+  height: 200px;
+  background-color: transparent;
 }
 
 .my-label {
@@ -82,6 +89,10 @@ ion-select::part(icon) {
   padding: 0px;
 }
 
+.confirmacion_campo{
+  color: white;
+}
+
 .input_boton ion-icon {
   margin-right: 0;
 }
@@ -94,14 +105,15 @@ form {
   ion-item {
     --padding-start: 0;
     --padding-end: 0;
+    --background: transparent;
   }
 
   ion-button {
     margin-top: 20px;
     --background: #5271ff;
-    --border-radius: 20px !important;
+    --border-radius: 20px;
     box-shadow: white;
-    --padding-start: 20px; /* Opcional: cambia el relleno izquierdo del botón */
+    --padding-start: 20px;
     --padding-end: 20px;
   }
 }

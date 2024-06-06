@@ -22,6 +22,7 @@
             label="Selecciona el Titulo"
             name="typeIncident"
             [(ngModel)]="formAlumbrado.typeIncident"
+            labelPlacement="floating"
           >
             <ion-select-option value="corteLuz">Corte de Luz</ion-select-option>
             <ion-select-option value="danoInfra">
@@ -52,7 +53,7 @@
         <ion-item *ngIf="formAlumbrado.photo">
           <ion-img
             [src]="formAlumbrado.photo"
-            style="width: 200px; height: 200px"
+            style="width: 300px; height: 300px"
           ></ion-img>
         </ion-item>
         <!--Boton para tomar la ubicacion-->
@@ -61,11 +62,19 @@
           <ion-icon slot="icon-only" name="location"></ion-icon>
         </ion-button>
         <!--Boton Enviar los datos del formulario (de momento de forma local)-->
-        <ion-button expand="full" (click)="sendForm()"
+        <ion-button expand="full" (click)="validateForm()"
           >Enviar
           <ion-icon slot="icon-only" name="send"></ion-icon>
         </ion-button>
       </ion-list>
+
+      <!--TODO PROBANDO MESSAGES DE ERRORES (FUNCIONA) -->
+      <!--Lista con los campos obligatorios antes de darle a enviar-->
+      <div *ngIf="errorsMessages" class="error-message">
+        <ul>
+          <li *ngFor="let error of errorsMessages">{{ error }}</li>
+        </ul>
+      </div>
     </div>
   </ion-content>
 </div>
