@@ -7,6 +7,7 @@ import { PermissionsService } from "src/app/services/permissions.service";
 import { MapService } from "src/app/services/map.service";
 import { Coordinate } from "ol/coordinate";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ReportSinRetornoService } from "src/app/services/reportSinRetorno.service";
 @Component({
   selector: "app-modulo-incendios",
   templateUrl: "./modulo-incendios.page.html",
@@ -28,6 +29,7 @@ export class ModuloIncendiosPage implements OnInit {
     private cameraService: CameraService,
     private reportService: ReportService,
     private navController: NavController,
+    private router: Router,
     private permissionsService: PermissionsService
   ) {
     this.reportService.formData = this.formIncendio;
@@ -45,6 +47,7 @@ export class ModuloIncendiosPage implements OnInit {
       console.error("active los permisos desde la configuracion de su dispositivo")
      }
   }
+
   async takePhoto() {
 
     const hasPermission = await this.permissionsService.checkCameraPermissions();
@@ -67,10 +70,17 @@ export class ModuloIncendiosPage implements OnInit {
       console.error("La foto es nula o no valida.");
     }
   }
+  
   // Enviar formulario
   public validateForm(): void {
+    const { typeIncident, coordinate, photo } = this.formIncendio;
+    
+    if (!typeIncident || !coordinate || coordinate.length === 0 || !photo) {
+      alert("Por favor, complete todos los campos obligatorios antes de enviar el reporte.");
+      return;
+    }
+
     let isValid = true;
-    // TODO Validaciones exclusivas de este modulo
 
     this.reportService.validateForm(isValid); // Enviar formulario a servicio
   }
