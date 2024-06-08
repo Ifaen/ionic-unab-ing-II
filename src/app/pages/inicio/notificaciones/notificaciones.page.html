@@ -1,20 +1,21 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons class="boton_retroceder" slot="start">
+      <ion-back-button defaultHref="/inicio/home"></ion-back-button>
+    </ion-buttons>
     <ion-title>Notificaciones</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <!-- Notificación individual -->
-    <ion-item>
-      <ion-icon name="flame-outline" slot="start"></ion-icon>
+    <ion-item *ngFor="let report of reports">
+      <ion-icon [src]="getIcon(report.module)" slot="start"></ion-icon>
       <ion-label>
-        <h2>Titulo de Prueba</h2>
-        <p>Tipo de Reporte</p>
+        <h2>Modulo de Reporte: {{ report.module }}</h2>
+        <p *ngIf="hasTypeIncident(report)">Tipo de Reporte: {{ report.typeIncident }}</p>
       </ion-label>
-      <p slot="end">13:12</p>
+      <p slot="end">Fecha: {{ report.date }}</p>
     </ion-item>
-    <!-- Puedes duplicar el bloque de notificación para agregar más notificaciones -->
   </ion-list>
 </ion-content>
