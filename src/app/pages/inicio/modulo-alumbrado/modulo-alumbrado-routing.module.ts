@@ -7,14 +7,9 @@ const routes: Routes = [
   {
     path: '',
     component: ModuloAlumbradoPage
-  },
-  {
+  },  {
     path: 'formulario-alum',
     loadChildren: () => import('./formulario-alum/formulario-alum.module').then( m => m.FormularioAlumPageModule)
-  },
-  {
-    path: 'contactos',
-    loadChildren: () => import('./contactos/contactos.module').then( m => m.ContactosPageModule)
   }
 
 ];
