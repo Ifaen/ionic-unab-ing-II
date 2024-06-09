@@ -10,15 +10,23 @@ import { Report, ReportIncendio, ReportAlumbrado, ReportBasura, ReportVehicular 
 export class NotificacionesPage implements OnInit {
   public reports: (Report | ReportIncendio | ReportAlumbrado | ReportVehicular | ReportBasura)[] = [];
 
+  private iconMap: { [key: string]: string } = {
+    "alumbrado": "bulb",
+    "accidente-vehicular": "car-sport",
+    "incendios": "flame",
+    "basura": "trash",
+    // Añade otros módulos si es necesario
+  };
+
   constructor(public reportService: ReportService) { }
 
   ngOnInit() {
     this.loadReports();
   }
 
-  // Ordena las Fechas
   async loadReports() {
     this.reports = await this.reportService.getReports();
+    console.log("Reports loaded:", this.reports); // Añadir registro de consola
     this.reports.sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
@@ -27,7 +35,9 @@ export class NotificacionesPage implements OnInit {
   }
 
   public getIcon(module: string): string {
-    return this.reportService.getIcon(module);
+    const iconName = this.iconMap[module] || "alert"; // Icono predeterminado si no se encuentra
+    console.log(`Icon name for module ${module}: ${iconName}`);
+    return iconName;
   }
 
   public hasTypeIncident(report: Report | ReportIncendio | ReportAlumbrado | ReportVehicular | ReportBasura): report is ReportIncendio | ReportAlumbrado | ReportVehicular | ReportBasura {
