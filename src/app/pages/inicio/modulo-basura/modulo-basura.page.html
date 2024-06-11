@@ -2,9 +2,7 @@
   <div class="form-container flex: 1">
     <div style="display: flex; align-items: center; justify-content: space-between">
       <ion-buttons class="boton_retroceder" slot="start">
-        <ion-button (click)="goToHomePage()">
-          <ion-icon slot="icon-only" name="home-outline"></ion-icon>
-        </ion-button>
+        <ion-back-button defaultHref="/inicio/home"></ion-back-button>
       </ion-buttons>
       <h1 class="Titulo_Reporte" style="text-align: center">Reporte de Basura</h1>
     </div>
@@ -29,7 +27,7 @@
         </ion-select-option>
       </ion-select>
 
-      <label class="my-label">Inserte su Ubicación</label>
+      <label class="my-label">Ubicación</label>
       <ion-button (click)="goToLocationPage()" class="input_boton" expand="full" required>
         <ion-icon size="large" name="location"></ion-icon>
       </ion-button>

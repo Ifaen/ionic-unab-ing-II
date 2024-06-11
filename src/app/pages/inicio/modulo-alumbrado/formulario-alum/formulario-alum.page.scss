@@ -1,50 +1,82 @@
-.content-center {
+.app-container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100vh;
+  background: rgb(231, 138, 32);
+  overflow-y: auto;
 }
 
-.title_2 {
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  color: black;
+  background: rgb(231, 138, 32);
+}
+
+.Titulo_Reporte {
   text-align: center;
   font-size: 40px;
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
   margin-bottom: 20px;
-  color: black;
+  color: white;
 }
 
-ion-content {
-  --ion-background-color: #ffc107; /*Con esto cambiamos el color del fondo de la pantalla completa*/
+.my-label {
+  font-size: 20px;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  text-align: left;
 }
 
-.lista {
-  --ion-background-color: white; /*Con esto cambiamos el color del fondo de la lista completa*/
-}
-
-.formulario {
-  background: white; /*Con esto cambiamos el color del borde del formulario*/
-  margin: auto; /*Con esto centramos el formulario al centro*/
-  width: 90%; /* Ancho del formulario */
-  max-width: 400px; /* Ancho máximo del formulario */
-  padding: 20px; /*Margen del formulario con respecto a su caja */
-  border: 1px solid #ccc;
+.input {
+  display: block;
+  width: 100%;
+  height: 40px;
+  padding-left: 2%;
+  margin-top: 5px;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #008dda;
+  background-color: white;
 }
 
-.error-message {
-  color: red;
+.input_boton {
+  width: 100%;
+  height: 40px;
+  margin-top: 0px;
   margin-bottom: 10px;
+  padding: 0px;
+  background: #5271ff;
+  color: white;
+  border-radius: 20px;
+  box-shadow: white;
 }
 
-.error-message ul {
-  padding-left: 20px;
+.textarea-container {
+  position: relative;
 }
 
-.error-message li {
-  list-style-type: disc;
+.area_descripcion {
+  width: 100%;
+  height: 150px;
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #008dda;
+  background-color: white;
+  text-align: left;
+  vertical-align: top;
+  white-space: pre-wrap;
+  position: relative;
+  overflow-wrap: break-word;
+  resize: none;
 }
 
-/*TODO PROBANDO*/
+.char-counter {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}

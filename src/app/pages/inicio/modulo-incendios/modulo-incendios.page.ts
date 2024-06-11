@@ -13,6 +13,8 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrls: ["./modulo-incendios.page.scss"],
 })
 export class ModuloIncendiosPage implements OnInit {
+  photoTaken: boolean = false;
+  locationSaved: boolean = false;
   public formIncendio: ReportIncendio = {
     module: "incendios",
     coordinate: [0, 0],
@@ -73,5 +75,12 @@ export class ModuloIncendiosPage implements OnInit {
     // TODO Validaciones exclusivas de este modulo
 
     this.reportService.validateForm(isValid); // Enviar formulario a servicio
+  }
+  public updateCount() {
+    var textarea = document.getElementById(
+      "area_descripcion"
+    ) as HTMLTextAreaElement;
+    var count = document.getElementById("charCount");
+    count.innerText = textarea.value.length + " / 200";
   }
 }

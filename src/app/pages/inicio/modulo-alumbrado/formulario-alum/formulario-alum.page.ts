@@ -12,6 +12,8 @@ import { PermissionsService } from "src/app/services/permissions.service";
   styleUrls: ["./formulario-alum.page.scss"],
 })
 export class FormularioAlumPage implements OnInit {
+  photoTaken: boolean = false;
+  locationSaved: boolean = false;
   formAlumbrado: ReportAlumbrado = {
     module: "alumbrado",
     coordinate: [0, 0],
@@ -124,5 +126,13 @@ export class FormularioAlumPage implements OnInit {
         }
       }
     });
+  }
+
+  public updateCount() {
+    var textarea = document.getElementById(
+      "area_descripcion"
+    ) as HTMLTextAreaElement;
+    var count = document.getElementById("charCount");
+    count.innerText = textarea.value.length + " / 200";
   }
 }

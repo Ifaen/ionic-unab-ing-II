@@ -1,80 +1,39 @@
-<div class="content-center">
-  <ion-content [fullscreen]="true">
-    <!--Titulo de la Layout-->
-    <ion-header collapse="condense"></ion-header>
-    <div
-      style="display: flex; align-items: center; justify-content: space-between"
-    >
-      <ion-buttons class="boton_1" slot="start">
-        <ion-back-button
-          defaultHref="/inicio/modulo-alumbrado"
-        ></ion-back-button>
+<div class="app-container">
+  <div class="form-container flex: 1">
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <ion-buttons class="boton_retroceder" slot="start">
+        <ion-back-button defaultHref="/inicio/modulo-alumbrado"></ion-back-button>
       </ion-buttons>
-      <h1 class="title_2" style="text-align: center">Formulario</h1>
-      <div></div>
+      <h1 class="Titulo_Reporte" style="text-align: center">Formulario de Alumbrado</h1>
     </div>
-
-    <div class="formulario">
-      <!--Lista seleccionable del titulo-->
-      <ion-list class="lista">
-        <ion-item>
-          <ion-select
-            label="Selecciona el Titulo"
-            name="typeIncident"
-            [(ngModel)]="formAlumbrado.typeIncident"
-            labelPlacement="floating"
-          >
-            <ion-select-option value="corteLuz">Corte de Luz</ion-select-option>
-            <ion-select-option value="danoInfra">
-              Daño de Infraestructura
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
-        <!--Descripcion del Reporte-->
-        <ion-item>
-          <ion-textarea
-            label="Descripción"
-            labelPlacement="floating"
-            placeholder="Escribenos tus comentarios sobre el reporte"
-            rows="4"
-            name="description"
-            [counter]="true"
-            maxlength="200"
-            [(ngModel)]="formAlumbrado.description"
-          ></ion-textarea>
-        </ion-item>
-
-        <!--Botón para tomar la foto-->
-        <ion-button expand="full" (click)="takePhoto()">
-          <ion-icon slot="icon-only" name="camera"></ion-icon>
-          Tomar Foto</ion-button
-        >
-        <!--Apartado para vizualizar la foto seleccionada-->
-        <ion-item *ngIf="formAlumbrado.photo">
-          <ion-img
-            [src]="formAlumbrado.photo"
-            style="width: 300px; height: 300px"
-          ></ion-img>
-        </ion-item>
-        <!--Boton para tomar la ubicacion-->
-        <ion-button expand="full" (click)="goToLocationPage()"
-          >Ingresar Ubicación
-          <ion-icon slot="icon-only" name="location"></ion-icon>
-        </ion-button>
-        <!--Boton Enviar los datos del formulario (de momento de forma local)-->
-        <ion-button expand="full" (click)="validateForm()"
-          >Enviar
-          <ion-icon slot="icon-only" name="send"></ion-icon>
-        </ion-button>
-      </ion-list>
-
-      <!--TODO PROBANDO MESSAGES DE ERRORES (FUNCIONA) -->
-      <!--Lista con los campos obligatorios antes de darle a enviar-->
-      <div *ngIf="errorsMessages" class="error-message">
-        <ul>
-          <li *ngFor="let error of errorsMessages">{{ error }}</li>
-        </ul>
+    <form>
+      <label class="my-label">Tipo de Incidente</label>
+      <ion-select class="input" placeholder="Seleccione el tipo de incidente" name="typeIncident"
+        [(ngModel)]="formAlumbrado.typeIncident">
+        <ion-select-option value="corteLuz">Corte de Luz</ion-select-option>
+        <ion-select-option value="danoInfra">Daño de Infraestructura</ion-select-option>
+      </ion-select>
+      <label class="my-label">Ubicación</label>
+      <ion-button class="input_boton" expand="full" (click)="goToLocationPage()">
+        <ion-icon size="large" name="location"></ion-icon>
+      </ion-button>
+      <p *ngIf="locationSaved" class="confirmacion_campo">Su ubicación fue guardada con éxito</p>
+      <div class="textarea-container">
+        <label class="my-label">Descripción</label>
+        <textarea id="area_descripcion" class="area_descripcion" required (input)="updateCount()" maxlength="200"
+          name="description" [(ngModel)]="formAlumbrado.description"></textarea>
+        <div id="charCount" class="char-counter">0 / 200</div>
       </div>
-    </div>
-  </ion-content>
+      <label class="my-label">Imagen</label>
+      <ion-button class="input_boton" expand="full" (click)="takePhoto()">
+        <ion-icon size="large" name="camera-outline"></ion-icon>
+      </ion-button>
+      <p *ngIf="photoTaken" class="confirmacion_campo">La foto fue guardada con éxito</p>
+      <!--Apartado para vizualizar la foto seleccionada-->
+      <div *ngIf="formAlumbrado.photo">
+        <ion-img [src]="formAlumbrado.photo" class="adj_foto"></ion-img>
+      </div>
+      <ion-button expand="full" (click)="validateForm()">Enviar</ion-button>
+    </form>
+  </div>
 </div>
