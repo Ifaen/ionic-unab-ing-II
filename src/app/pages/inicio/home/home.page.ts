@@ -12,7 +12,9 @@ import { Circle, Fill, Icon, Stroke, Style } from "ol/style";
 import { Report, ReportIcon } from "src/app/models/report.model";
 import { MapService } from "src/app/services/map.service";
 import { ReportService } from "src/app/services/report.service";
-import { LoadingController } from "@ionic/angular";
+import { LoadingController, ModalController } from "@ionic/angular";
+import { MapBrowserEvent } from "ol";
+import { InformationModalComponent } from "src/app/shared/component/information-modal/information-modal.component";
 
 @Component({
   selector: "app-home",
@@ -20,7 +22,6 @@ import { LoadingController } from "@ionic/angular";
   styleUrls: ["./home.page.scss"],
 })
 export class HomePage {
-  //public geolocation: Geolocation;
   private view: View;
   private map: Map; // Declarar la variable map como propiedad de la clase
   public reportIcons: ReportIcon[] = [];
@@ -28,7 +29,8 @@ export class HomePage {
   constructor(
     private mapService: MapService,
     private reportService: ReportService,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private modalController: ModalController
   ) {}
 
   private async ngOnInit(): Promise<void> {
@@ -39,25 +41,54 @@ export class HomePage {
     await loading.present();
 
     try {
+      // Centrar vista
       this.view = this.mapService.setView(
         [-7973514.562897045, -3901570.651086505],
         12
       );
+      this.map = this.mapService.setMap(this.view); // Crear mapa y asignar vista
 
-      this.map = this.mapService.setMap(this.view);
-
-      this.setGeolocation();
+      this.setGeolocation(); // Obtener y configurar la geologalizacion
 
       const reports = await this.reportService.getReports(); // Obtener lista de reportes de report collection
 
-      reports.forEach((report) => {
-        this.setReportIcons(report);
-      });
+      reports.forEach((report) => this.setReportIcons(report)); // Crear iconos de reportes
+
+      this.map.on("singleclick", (event) => this.tapMapEvent(event)); // Asignar singleclick event a mapa
     } catch (error) {
       console.log(error);
     } finally {
       await loading.dismiss();
     }
+  }
+
+  /**
+   * Evento tap/singleclick del mapa, que al ser activado, selecciona cada objeto del tipo Feature,
+   * el cual es comparado con la lista de reportes. Si hay una coincidencia, se abre un modal.
+   * @param event Evento del mapa
+   */
+  private tapMapEvent(event: MapBrowserEvent<any>) {
+    this.map.forEachFeatureAtPixel(event.pixel, (feature) =>
+      this.reportIcons.forEach((report) => {
+        if (report.iconFeature == feature) this.openModal(report.data);
+      })
+    );
+  }
+
+  /**
+   * Abre un modal llamando al InformationModalComponent, el cual muestra información del reporte clickeado / tappeado
+   * @param data Informacion del reporte clickeado
+   */
+  private async openModal(data: Report) {
+    const modal = await this.modalController.create({
+      component: InformationModalComponent,
+      cssClass: "custom-modal",
+      componentProps: {
+        data: data,
+      },
+    });
+
+    await modal.present();
   }
 
   private setGeolocation(): void {
@@ -123,6 +154,7 @@ export class HomePage {
       iconFeature: reportFeature,
     };
 
+    // Crear vector y agregarlo en el mapa
     this.mapService.createVector(
       this.map,
       new VectorSource({
