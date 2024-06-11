@@ -40,7 +40,7 @@ export class MisReportesPage implements OnInit {
       this.loading = false;
     }
   }
-
+  //
   //TODO: Cambiar los nombres de los iconos de acuerdo a los nombres de los del grupo 2
   getIcon(reportModule: string): string {
     switch (reportModule) {
