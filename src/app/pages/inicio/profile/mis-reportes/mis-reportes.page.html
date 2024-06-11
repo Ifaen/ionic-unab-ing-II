@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Mis Reportes</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/inicio/profile"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="!loading && !error">
+    <ion-item *ngFor="let report of userReports">
+      <!--<ion-icon name="flame-outline" slot="start"></ion-icon>-->
+      <ion-icon [name]="getIcon(report.module)" slot="start"></ion-icon>
+      <ion-label>
+        <h2>{{ report.module}}</h2>
+        <p>{{ report.coordinate}}</p>
+        <p>{{ report.date}}</p>
+      </ion-label>
+      <!--<p slot="end">12:12</p>-->
+    </ion-item>
+  </ion-list>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <div *ngIf="error">{{ error }}</div>
+</ion-content>

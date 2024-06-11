@@ -5,6 +5,7 @@ import { ReportBasura } from "src/app/models/report.model";
 import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
 import { PermissionsService } from "src/app/services/permissions.service";
+import { AngularFireAuth } from "@angular/fire/compat/auth";
 
 @Component({
   selector: "app-modulo-basura",
@@ -12,27 +13,41 @@ import { PermissionsService } from "src/app/services/permissions.service";
   styleUrls: ["./modulo-basura.page.scss"],
 })
 export class ModuloBasuraPage {
-  
   LocationSelected = false; // Añade esta línea
   formBasura: ReportBasura = {
-    module: "basura",
+    module: "Basura",
     coordinate: [0, 0],
     photo: "", // Link de la foto
     date: null,
     typeIncident: "",
     description: "",
+    userEmail: "",
   };
 
   constructor(
     private cameraService: CameraService,
     private reportService: ReportService,
     private navController: NavController,
-    private permissionsService: PermissionsService
+    private permissionsService: PermissionsService,
+    private afAuth: AngularFireAuth
   ) {
     this.reportService.formData = this.formBasura;
   }
 
-  ngOnInit() {}
+  //ngOnInit() {}
+
+  //TODO: ESTO FUNCIONA
+  async ngOnInit() {
+    this.afAuth.authState.subscribe((user) => {
+      if (user) {
+        this.formBasura.userEmail = user.email;
+      } else {
+        console.error("Usuario no autenticado.");
+        // Redirigir a la página de inicio de sesión si es necesario
+        this.navController.navigateForward("/login");
+      }
+    });
+  }
 
   public goToHomePage() {
     this.navController.navigateBack("/inicio/home");
@@ -41,15 +56,19 @@ export class ModuloBasuraPage {
   async executeImageCapture() {
     try {
       // Verificar permisos de la cámara antes de tomar la foto
-      const hasPermission = await this.permissionsService.checkCameraPermissions();
-    if (!hasPermission) {
-      const granted = await this.permissionsService.requestCameraPermissions();
-      if (!granted) {
-        alert("Permiso de cámara no concedido. Por favor, habilítalo en la configuración.");
-        return;
+      const hasPermission =
+        await this.permissionsService.checkCameraPermissions();
+      if (!hasPermission) {
+        const granted =
+          await this.permissionsService.requestCameraPermissions();
+        if (!granted) {
+          alert(
+            "Permiso de cámara no concedido. Por favor, habilítalo en la configuración."
+          );
+          return;
+        }
       }
-    }
-  
+
       // Intentar tomar la foto
       const photo = await this.cameraService.takePhoto();
       if (photo) {
@@ -76,14 +95,17 @@ export class ModuloBasuraPage {
 
   public async goToLocationPage() {
     // Verificar los permisos antes de navegar a la página de ubicación
-    const hasPermission = await this.permissionsService.checkLocationPermissions();
+    const hasPermission =
+      await this.permissionsService.checkLocationPermissions();
     if (hasPermission) {
       // Si los permisos están concedidos, navega a la página de ubicación
       this.navController.navigateForward("/inicio/location");
       this.LocationSelected = true;
-    }else{
-      console.error("active los permisos desde la configuracion de su dispositivo")
-     }
+    } else {
+      console.error(
+        "active los permisos desde la configuracion de su dispositivo"
+      );
+    }
   }
 
   // Enviar formulario

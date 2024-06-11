@@ -7,6 +7,8 @@ import { MapService } from "src/app/services/map.service";
 import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
 import { PermissionsService } from "src/app/services/permissions.service";
+import { FirestoreService } from "src/app/services/firestore.service";
+import { AngularFireAuth } from "@angular/fire/compat/auth";
 
 @Component({
   selector: "app-modulo-accidente-vehicular",
@@ -19,32 +21,67 @@ export class ModuloAccidenteVehicularPage implements OnInit {
   photoTaken = false;
 
   public formVehicular: ReportVehicular = {
-    module: "accidente-vehicular",
+    module: "Accidente Vehicular",
     coordinate: [0, 0],
     photo: "",
     date: null,
     typeIncident: "",
     description: "",
+    userEmail: "",
   };
 
   constructor(
     private cameraService: CameraService,
     private reportService: ReportService,
     private navController: NavController,
-    private permissionsService: PermissionsService
+    private permissionsService: PermissionsService,
+    private firestoreService: FirestoreService,
+    private afAuth: AngularFireAuth // TODO: Conjunto de lo que estamos probando
   ) {
     this.reportService.formData = this.formVehicular;
   }
 
-  ngOnInit() {}
+  //TODO: ESTO FUNCIONA
+  async ngOnInit() {
+    this.afAuth.authState.subscribe((user) => {
+      if (user) {
+        this.formVehicular.userEmail = user.email;
+      } else {
+        console.error("Usuario no autenticado.");
+        // Redirigir a la página de inicio de sesión si es necesario
+        this.navController.navigateForward("/login");
+      }
+    });
+  }
+
+  /*
+  async ngOnInit() {
+    try {
+      const email = await this.firestoreService.getUserEmail();
+      console.log("Correo obtenido: ", email);
+      if (email) {
+        this.formVehicular.userEmail = email;
+        console.log(
+          "Correo asignado a formVehicular: ",
+          this.formVehicular.userEmail
+        );
+      } else {
+        console.error("No se pudo obtener el correo del usuario.");
+      }
+    } catch (error) {
+      console.error("Error al obtener el correo del usuario:", error);
+    }
+  }*/
 
   public async takePhoto() {
-
-    const hasPermission = await this.permissionsService.checkCameraPermissions();
+    const hasPermission =
+      await this.permissionsService.checkCameraPermissions();
     if (!hasPermission) {
       const granted = await this.permissionsService.requestCameraPermissions();
       if (!granted) {
-        alert("Permiso de cámara no concedido. Por favor, habilítalo en la configuración.");
+        alert(
+          "Permiso de cámara no concedido. Por favor, habilítalo en la configuración."
+        );
         return;
       }
     }
@@ -79,20 +116,22 @@ export class ModuloAccidenteVehicularPage implements OnInit {
     );
   }
 
-///////////////
+  ///////////////
   public async goToLocationPage() {
-     // Verificar los permisos antes de navegar a la página de ubicación
-     const hasPermission = await this.permissionsService.checkLocationPermissions();
-     if (hasPermission) {
-       // Si los permisos están concedidos, navega a la página de ubicación
-       this.navController.navigateForward("/inicio/location");
-       this.locationSaved = true;
-
-     }else{
-      console.error("active los permisos desde la configuracion de su dispositivo")
-     }
+    // Verificar los permisos antes de navegar a la página de ubicación
+    const hasPermission =
+      await this.permissionsService.checkLocationPermissions();
+    if (hasPermission) {
+      // Si los permisos están concedidos, navega a la página de ubicación
+      this.navController.navigateForward("/inicio/location");
+      this.locationSaved = true;
+    } else {
+      console.error(
+        "active los permisos desde la configuracion de su dispositivo"
+      );
+    }
   }
-///////////////////
+  ///////////////////
   // Enviar formulario
   public validateForm(): void {
     if (this.isFormValid()) {
