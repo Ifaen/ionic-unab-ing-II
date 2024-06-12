@@ -52,7 +52,11 @@ const routes: Routes = [
           ).then((m) => m.ModuloAccidenteVehicularPageModule),
       },
     ],
+  },  {
+    path: 'notificaciones',
+    loadChildren: () => import('./notificaciones/notificaciones.module').then( m => m.NotificacionesPageModule)
   },
+
 ];
 
 @NgModule({

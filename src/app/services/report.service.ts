@@ -111,6 +111,28 @@ export class ReportService {
     }
   }
 
+  public async getReportsByUser(user: string): Promise<Report[]> {
+    const reports: Report[] = [];
+
+    try {
+      const snapshot = await this.firestore
+        .collection("reports", (ref) => ref.where("user", "==", user))
+        .get()
+        .toPromise();
+
+      snapshot.forEach((doc) => {
+        const report = doc.data() as Report; // Obtener la data del documento
+        report.id = doc.id; // Obtener la id creada por firebase
+        reports.push(report); // Agregarlo a la lista
+      });
+
+      return reports;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
   public getIcon(module: string): string {
     switch (module) {
       case "alumbrado":
