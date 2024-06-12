@@ -3,7 +3,8 @@ import { Coordinate } from "ol/coordinate";
 
 export interface Report {
   id?: string; // Id creada por firebase
-  user?: string;
+  //user?: string;
+  userEmail: string; //Esto nos va a permitir almacenar el correo
   module: string;
   coordinate: Coordinate;
   photo: string; // Link de la foto

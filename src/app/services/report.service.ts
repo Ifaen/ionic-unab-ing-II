@@ -54,9 +54,7 @@ export class ReportService {
         );
       }
 
-      if (isValid) {
-        this.sendForm();
-      }
+      if (isValid) this.sendForm();
     } catch (error) {
       console.log(error);
     } finally {
@@ -111,12 +109,12 @@ export class ReportService {
     }
   }
 
-  public async getReportsByUser(user: string): Promise<Report[]> {
+  public async getReportsByUser(userEmail: string): Promise<Report[]> {
     const reports: Report[] = [];
 
     try {
       const snapshot = await this.firestore
-        .collection("reports", (ref) => ref.where("user", "==", user))
+        .collection("reports", (ref) => ref.where("userEmail", "==", userEmail))
         .get()
         .toPromise();
 
@@ -135,13 +133,13 @@ export class ReportService {
 
   public getIcon(module: string): string {
     switch (module) {
-      case "alumbrado":
+      case "Alumbrado":
         return "assets/icon/icon-modulo-1.png";
-      case "accidente-vehicular":
+      case "Accidente Vehicular":
         return "assets/icon/icon-modulo-2.png";
-      case "incendios":
+      case "Incendios":
         return "assets/icon/icon-modulo-3.png";
-      case "basura":
+      case "Basura":
         return "assets/icon/icon-modulo-4.png";
       default:
         console.log(module);

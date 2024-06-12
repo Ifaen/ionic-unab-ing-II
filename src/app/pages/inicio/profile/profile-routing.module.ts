@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: "",
     component: ProfilePage,
+  },  {
+    path: 'mis-reportes',
+    loadChildren: () => import('./mis-reportes/mis-reportes.module').then( m => m.MisReportesPageModule)
   },
+
 ];
 
 @NgModule({
