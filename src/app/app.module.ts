@@ -1,13 +1,9 @@
-import { LOCALE_ID, NgModule } from "@angular/core";
+import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouteReuseStrategy } from "@angular/router";
-import localeEs from '@angular/common/locales/es';
-import { registerLocaleData } from '@angular/common';
-
-registerLocaleData(localeEs);
 
 import { IonicModule, IonicRouteStrategy } from "@ionic/angular";
-import { CommonModule } from "@angular/common";
+
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { AngularFireModule } from "@angular/fire/compat";
@@ -26,12 +22,8 @@ import { SharedModule } from "./shared/shared.module";
     AngularFireAuthModule,
     AngularFireStorageModule,
     SharedModule,
-    CommonModule,
   ],
-  providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: LOCALE_ID, useValue: 'es' }
-  ],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

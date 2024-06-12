@@ -4,7 +4,10 @@ import { ReportIncendio } from "src/app/models/report.model";
 import { CameraService } from "src/app/services/camera.service";
 import { ReportService } from "src/app/services/report.service";
 import { PermissionsService } from "src/app/services/permissions.service";
-
+import { MapService } from "src/app/services/map.service";
+import { Coordinate } from "ol/coordinate";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ReportSinRetornoService } from "src/app/services/reportSinRetorno.service";
 @Component({
   selector: "app-modulo-incendios",
   templateUrl: "./modulo-incendios.page.html",
@@ -26,6 +29,7 @@ export class ModuloIncendiosPage implements OnInit {
     private cameraService: CameraService,
     private reportService: ReportService,
     private navController: NavController,
+    private router: Router,
     private permissionsService: PermissionsService
   ) {
     this.reportService.formData = this.formIncendio;
@@ -34,28 +38,23 @@ export class ModuloIncendiosPage implements OnInit {
   ngOnInit() {}
 
   public async goToLocationPage() {
-    // Verificar los permisos antes de navegar a la página de ubicación
-    const hasPermission =
-      await this.permissionsService.checkLocationPermissions();
-    if (hasPermission) {
-      // Si los permisos están concedidos, navega a la página de ubicación
-      this.navController.navigateForward("/inicio/location");
-    } else {
-      console.error(
-        "active los permisos desde la configuracion de su dispositivo"
-      );
-    }
+     // Verificar los permisos antes de navegar a la página de ubicación
+     const hasPermission = await this.permissionsService.checkLocationPermissions();
+     if (hasPermission) {
+       // Si los permisos están concedidos, navega a la página de ubicación
+       this.navController.navigateForward("/inicio/location");
+     }else{
+      console.error("active los permisos desde la configuracion de su dispositivo")
+     }
   }
 
   async takePhoto() {
-    const hasPermission =
-      await this.permissionsService.checkCameraPermissions();
+
+    const hasPermission = await this.permissionsService.checkCameraPermissions();
     if (!hasPermission) {
       const granted = await this.permissionsService.requestCameraPermissions();
       if (!granted) {
-        alert(
-          "Permiso de cámara no concedido. Por favor, habilítalo en la configuración."
-        );
+        alert("Permiso de cámara no concedido. Por favor, habilítalo en la configuración.");
         return;
       }
     }
@@ -71,15 +70,13 @@ export class ModuloIncendiosPage implements OnInit {
       console.error("La foto es nula o no valida.");
     }
   }
-
+  
   // Enviar formulario
   public validateForm(): void {
     const { typeIncident, coordinate, photo } = this.formIncendio;
-
+    
     if (!typeIncident || !coordinate || coordinate.length === 0 || !photo) {
-      alert(
-        "Por favor, complete todos los campos obligatorios antes de enviar el reporte."
-      );
+      alert("Por favor, complete todos los campos obligatorios antes de enviar el reporte.");
       return;
     }
 
