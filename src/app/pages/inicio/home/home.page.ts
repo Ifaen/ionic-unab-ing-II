@@ -23,7 +23,7 @@ import { InformationModalComponent } from "src/app/shared/component/information-
 })
 export class HomePage {
   private view: View;
-  private map: Map; // Declarar la variable map como propiedad de la clase
+  private map: Map;
   public reportIcons: ReportIcon[] = [];
 
   constructor(
@@ -41,16 +41,41 @@ export class HomePage {
     await loading.present();
 
     try {
-      // Centrar vista
-      this.view = this.mapService.setView(
-        [-7973514.562897045, -3901570.651086505],
-        12
-      );
-      this.map = this.mapService.setMap(this.view); // Crear mapa y asignar vista
+      //este "Extent" limita el mapa, por lo que se pueden modificar las coordenadas
+      //yo puse el sur de viña y norte de valpo y queda como se ve
+      //importante recalcar que las coordenadas del mapa son especiales, por lo que se tiene que ver bien
+      //que coordenadas colocar si se cambiará
+      const extent = [
+        fromLonLat([-71.7372, -33.1019]), // Sur: Viña del Mar
+        fromLonLat([-71.4964, -32.9486]), // Norte : Valparaíso
+      ];
 
-      this.setGeolocation(); // Obtener y configurar la geologalizacion
+      this.view = new View({
+        center: fromLonLat([-71.6226, -33.0469]), // Center point
+        zoom: 12,
+        extent: [
+          extent[0][0], extent[0][1], // Southwest corner
+          extent[1][0], extent[1][1],  // Northeast corner
+        ],
+        //aca como su nombre dice, se coloca el zoom minimo y maximo, si desean que las calles se vean
+        //con mas zoop se mueve el maxzoom
+        minZoom: 10, // zoom minimo
+        maxZoom: 15  // zoom maximo
+      });
 
-      const reports = await this.reportService.getReports(); // Obtener lista de reportes de report collection
+      this.map = new Map({
+        target: 'map',
+        layers: [
+          new TileLayer({
+            source: new OSM()
+          })
+        ],
+        view: this.view
+      });
+
+      this.setGeolocation();
+
+      const reports = await this.reportService.getReports();
 
       reports.forEach((report) => this.setReportIcons(report)); // Crear iconos de reportes
 
@@ -92,27 +117,25 @@ export class HomePage {
   }
 
   private setGeolocation(): void {
-    // Radio y punto de la ubicacion
     let accuracyFeature = new Feature();
     let positionFeature = new Feature();
     positionFeature.setStyle(
       new Style({
         image: new Circle({
-          radius: 6, // Radio del punto de la ubicacion
+          radius: 6,
           fill: new Fill({
-            color: "#3399CC", // Color del punto
+            color: "#3399CC",
           }),
           stroke: new Stroke({
-            color: "#fff", // Color del radio
-            width: 1, // Ancho del borde del radio
+            color: "#fff",
+            width: 1,
           }),
         }),
       })
     );
 
-    let geolocation = this.mapService.getGeolocation(); // Obtener geolocalizacion del servicio
+    let geolocation = this.mapService.getGeolocation();
 
-    // Crear vector para usuario
     let vectorUser = this.mapService.createVector(
       this.map,
       new VectorSource({
@@ -120,31 +143,27 @@ export class HomePage {
       })
     );
 
-    // Observador que, con cada cambio en la geolocalizacion, actualiza la ubicacion
     geolocation.on("change", () => {
-      // Obtener precision geometrica y posicion
       accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
       positionFeature.setGeometry(new Point(geolocation.getPosition()));
     });
   }
 
   private setReportIcons(report: Report): void {
-    const src: string = this.reportService.getIcon(report.module); // Obtener el icon del reporte segun su modulo
+    const src: string = this.reportService.getIcon(report.module);
 
-    // Asignar las coordendas al icono del reporte
     let reportFeature = new Feature({
       geometry: new Point(report.coordinate),
     });
 
-    // Asignarle un diseño al icono del reporte
     reportFeature.setStyle(
       new Style({
         image: new Icon({
-          anchor: [0.5, 50], // TODO Arreglar centrado del icono
+          anchor: [0.5, 50],
           anchorXUnits: "fraction",
           anchorYUnits: "pixels",
           src: src,
-          scale: 0.08, // Ajusta el tamaño del icono
+          scale: 0.08,
         }),
       })
     );
@@ -162,7 +181,6 @@ export class HomePage {
       })
     );
 
-    // Enviar a la lista la data del reporte junto su icono
     this.reportIcons.push(reportIcon);
   }
 }
