@@ -10,7 +10,6 @@ import { TabsComponent } from "./component/tabs/tabs.component";
 import { BotonesComponent } from "./component/botones/botones.component";
 import { FiltrosComponent } from "./component/filtros/filtros.component";
 import { RouterModule } from "@angular/router";
-import { InformationModalComponent } from "./component/information-modal/information-modal.component";
 
 @NgModule({
   declarations: [
@@ -21,7 +20,6 @@ import { InformationModalComponent } from "./component/information-modal/informa
     TabsComponent,
     BotonesComponent,
     FiltrosComponent,
-    InformationModalComponent,
   ],
   exports: [
     HeaderComponent,
@@ -32,7 +30,6 @@ import { InformationModalComponent } from "./component/information-modal/informa
     TabsComponent,
     BotonesComponent,
     FiltrosComponent,
-    InformationModalComponent,
   ],
   imports: [
     CommonModule,
