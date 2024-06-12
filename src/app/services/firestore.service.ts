@@ -14,8 +14,6 @@ import { firstValueFrom, lastValueFrom } from "rxjs";
 
 import { map } from "rxjs/operators";
 
-//TODO: En este archivo solo se creo la funcion getUserEmail()
-
 @Injectable({
   providedIn: "root",
 })
@@ -83,7 +81,7 @@ export class FirestoreService {
     return (await getDoc(doc(getFirestore(), path))).data();
   }
 
-  //TODO: Esto esta funcionando funcion que toma el email del usuario
+  //Funcion que toma el email del usuario
   async getUserEmail(): Promise<string | null> {
     const user = getAuth().currentUser;
     //console.log("Current user:", user);

@@ -5,8 +5,6 @@ import { Camera } from "@capacitor/camera";
 
 const { Permissions } = Plugins;
 
-//TODO: En este archivo no se cambio nada
-
 @Injectable({
   providedIn: "root",
 })

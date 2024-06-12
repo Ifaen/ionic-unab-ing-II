@@ -1,5 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { Report } from "src/app/models/report.model";
+import {
+  Report,
+  ReportAlumbrado,
+  ReportBasura,
+  ReportIncendio,
+  ReportVehicular,
+} from "src/app/models/report.model";
 import { FirestoreService } from "src/app/services/firestore.service";
 import { ReportService } from "src/app/services/report.service";
 
@@ -12,6 +18,14 @@ export class MisReportesPage implements OnInit {
   userReports: Report[] = [];
   loading: boolean = true;
   error: string | null = null;
+
+  private iconMap: { [key: string]: string } = {
+    alumbrado: "bulb",
+    "accidente-vehicular": "car-sport",
+    incendios: "flame",
+    basura: "trash",
+    // Añade otros módulos si es necesario
+  };
 
   constructor(
     private reportService: ReportService,
@@ -40,20 +54,26 @@ export class MisReportesPage implements OnInit {
       this.loading = false;
     }
   }
-  //
-  //TODO: Cambiar los nombres de los iconos de acuerdo a los nombres de los del grupo 2
-  getIcon(reportModule: string): string {
-    switch (reportModule) {
-      case "Incendio":
-        return "flame-outline";
-      case "Alumbrado":
-        return "water-outline";
-      case "Accidente Vehicular":
-        return "earth-outline";
-      case "Basura":
-        return "airplane-outline";
-      default:
-        return "help-outline";
-    }
+
+  //Probando Funcion
+  public hasTypeIncident(
+    report:
+      | Report
+      | ReportIncendio
+      | ReportAlumbrado
+      | ReportVehicular
+      | ReportBasura
+  ): report is
+    | ReportIncendio
+    | ReportAlumbrado
+    | ReportVehicular
+    | ReportBasura {
+    return "typeIncident" in report;
+  }
+
+  public getIcon(module: string): string {
+    const iconName = this.iconMap[module] || "alert"; // Icono predeterminado si no se encuentra
+    console.log(`Icon name for module ${module}: ${iconName}`);
+    return iconName;
   }
 }

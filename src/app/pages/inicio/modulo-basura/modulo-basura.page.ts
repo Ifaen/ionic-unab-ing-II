@@ -36,7 +36,7 @@ export class ModuloBasuraPage {
 
   //ngOnInit() {}
 
-  //TODO: ESTO FUNCIONA
+  //Nos permite saber si el usuario esta Autentificado
   async ngOnInit() {
     this.afAuth.authState.subscribe((user) => {
       if (user) {

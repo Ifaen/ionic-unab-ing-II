@@ -25,7 +25,7 @@ export class FormularioAlumPage implements OnInit {
     date: null,
     typeIncident: "",
     description: "",
-    userEmail: "", //TODO: PROBANDO EMAIL
+    userEmail: "", //almacenamos el email
   };
 
   errorsMessages: string[] = []; // Array de cadenas
@@ -38,13 +38,13 @@ export class FormularioAlumPage implements OnInit {
     private permissionsService: PermissionsService,
     private router: Router,
     private firestoreService: FirestoreService,
-    private afAuth: AngularFireAuth // TODO: Conjunto de lo que estamos probando
+    private afAuth: AngularFireAuth
   ) {
     this.reportService.formData = this.formAlumbrado;
     this.subscribeToNavigationEvents();
   }
 
-  //TODO: ESTO FUNCIONA
+  //Nos permite saber si el usuario esta Autentificado
   async ngOnInit() {
     this.afAuth.authState.subscribe((user) => {
       if (user) {
@@ -76,7 +76,7 @@ export class FormularioAlumPage implements OnInit {
     const hasPermission =
       await this.permissionsService.checkCameraPermissions();
     if (!hasPermission) {
-      const granted = true; //await this.permissionsService.requestCameraPermissions(); //TODO cambiar a lo comentado
+      const granted = true; //await this.permissionsService.requestCameraPermissions(); //TODO cambiar a lo comentado para que funcione en celular
       if (!granted) {
         alert(
           "Permiso de cámara no concedido. Por favor, habilítalo en la configuración."
@@ -94,7 +94,7 @@ export class FormularioAlumPage implements OnInit {
   }
 
   public async goToLocationPage() {
-    const hasPermission = true; //await this.permissionsService.checkLocationPermissions(); //TODO cambiar a lo comentado
+    const hasPermission = true; //await this.permissionsService.checkLocationPermissions(); //TODO cambiar a lo comentado para que funcione en celular
     if (hasPermission) {
       this.navController.navigateForward("/inicio/location");
     } else {

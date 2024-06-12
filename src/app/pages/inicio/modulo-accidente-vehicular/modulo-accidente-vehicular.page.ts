@@ -36,12 +36,12 @@ export class ModuloAccidenteVehicularPage implements OnInit {
     private navController: NavController,
     private permissionsService: PermissionsService,
     private firestoreService: FirestoreService,
-    private afAuth: AngularFireAuth // TODO: Conjunto de lo que estamos probando
+    private afAuth: AngularFireAuth
   ) {
     this.reportService.formData = this.formVehicular;
   }
 
-  //TODO: ESTO FUNCIONA
+  //Nos permite saber si el usuario esta Autentificado
   async ngOnInit() {
     this.afAuth.authState.subscribe((user) => {
       if (user) {
@@ -53,25 +53,6 @@ export class ModuloAccidenteVehicularPage implements OnInit {
       }
     });
   }
-
-  /*
-  async ngOnInit() {
-    try {
-      const email = await this.firestoreService.getUserEmail();
-      console.log("Correo obtenido: ", email);
-      if (email) {
-        this.formVehicular.userEmail = email;
-        console.log(
-          "Correo asignado a formVehicular: ",
-          this.formVehicular.userEmail
-        );
-      } else {
-        console.error("No se pudo obtener el correo del usuario.");
-      }
-    } catch (error) {
-      console.error("Error al obtener el correo del usuario:", error);
-    }
-  }*/
 
   public async takePhoto() {
     const hasPermission =
