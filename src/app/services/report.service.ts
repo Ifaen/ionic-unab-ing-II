@@ -111,12 +111,13 @@ export class ReportService {
     }
   }
 
-  public async getReportsByUser(user: string): Promise<Report[]> {
+  //TODO: Se cambio el nombre de user a userEmail
+  public async getReportsByUser(userEmail: string): Promise<Report[]> {
     const reports: Report[] = [];
 
     try {
       const snapshot = await this.firestore
-        .collection("reports", (ref) => ref.where("user", "==", user))
+        .collection("reports", (ref) => ref.where("userEmail", "==", userEmail))
         .get()
         .toPromise();
 

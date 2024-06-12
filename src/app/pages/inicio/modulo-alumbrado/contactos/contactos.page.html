@@ -1,0 +1,28 @@
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense"> </ion-header>
+  <div
+    style="display: flex; align-items: center; justify-content: space-between"
+  >
+    <ion-buttons class="boton_1" slot="start">
+      <ion-back-button
+        defaultHref="/inicio/modulo-alumbrado/"
+      ></ion-back-button>
+    </ion-buttons>
+    <h1 class="title_2" style="text-align: center">Alumbrado</h1>
+    <div></div>
+  </div>
+  <div class="botones-container">
+    <ion-button size="default" (click)="mostrarOpciones1()"
+      >Ver Alumbrado Público</ion-button
+    >
+    <ion-button size="default" (click)="mostrarOpciones2()"
+      >Ver Corte de Internet</ion-button
+    >
+    <ion-button size="default" (click)="mostrarOpciones3()"
+      >Ver Corte de Telefonía</ion-button
+    >
+    <ion-button size="default" (click)="mostrarOpciones4()"
+      >Ver Corte de Luz en Casa</ion-button
+    >
+  </div>
+</ion-content>

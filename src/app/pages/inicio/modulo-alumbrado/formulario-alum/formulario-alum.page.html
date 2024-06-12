@@ -24,8 +24,10 @@
             [(ngModel)]="formAlumbrado.typeIncident"
             labelPlacement="floating"
           >
-            <ion-select-option value="corteLuz">Corte de Luz</ion-select-option>
-            <ion-select-option value="danoInfra">
+            <ion-select-option value="Corte de Luz"
+              >Corte de Luz</ion-select-option
+            >
+            <ion-select-option value="Daño de Infraestructura">
               Daño de Infraestructura
             </ion-select-option>
           </ion-select>
@@ -68,7 +70,6 @@
         </ion-button>
       </ion-list>
 
-      <!--TODO PROBANDO MESSAGES DE ERRORES (FUNCIONA) -->
       <!--Lista con los campos obligatorios antes de darle a enviar-->
       <div *ngIf="errorsMessages" class="error-message">
         <ul>

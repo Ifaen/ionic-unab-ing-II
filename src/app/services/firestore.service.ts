@@ -11,6 +11,9 @@ import { User } from "../models/user.model";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { UtilsService } from "./utils.service";
 import { firstValueFrom, lastValueFrom } from "rxjs";
+
+import { map } from "rxjs/operators";
+
 @Injectable({
   providedIn: "root",
 })
@@ -76,5 +79,13 @@ export class FirestoreService {
   // obtener documentos
   async getDocument(path: string) {
     return (await getDoc(doc(getFirestore(), path))).data();
+  }
+
+  //Funcion que toma el email del usuario
+  async getUserEmail(): Promise<string | null> {
+    const user = getAuth().currentUser;
+    //console.log("Current user:", user);
+    return user ? user.email : null;
+    //return this.auth.authState.pipe(map((user) => (user ? user.email : null)));
   }
 }
