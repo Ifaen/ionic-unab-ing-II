@@ -67,26 +67,34 @@ export class MapService {
   }
 
   /**
-   * Funcion encargada de volver a la pagina anterior.
-   * En el caso de module-alumbrado, se devuelve a una subpagina.
+   * Funcion encargada de volver a la pagina anterior, dependiendo el modulo .
    * @param coordinate coordenadas entregadas en LocationPage
    */
-  goToFormPage(coordinate: Coordinate) {
-    //TODO PROBANDO NOTIFICACION --> FUNCIONA
+  public goToFormPage(coordinate: Coordinate): void {
     //Guardar un indicador en localStorage antes de navegar de regresso al formulario
     localStorage.setItem("showLocationSelectedToast", "true");
-    //TODO
-    //Navegar de regreso al formulario segun el modulo
-    if (this.reportService.formData.module == "alumbrado") {
-      this.navController.navigateBack(
-        "/inicio/modulo-alumbrado/formulario-alum"
-      );
-    } else {
-      this.navController.navigateBack(
-        "/inicio/modulo-" + this.reportService.formData.module
-      );
-    }
     //Actualizar las coordenadas en formData
     this.reportService.formData.coordinate = coordinate;
+
+    //Navegar de regreso al formulario segun el modulo
+    switch (this.reportService.formData.module) {
+      case "Alumbrado":
+        this.navController.navigateBack(
+          "/inicio/modulo-alumbrado/formulario-alum"
+        );
+        break;
+      case "Accidente Vehicular":
+        this.navController.navigateBack("/inicio/modulo-accidente-vehicular");
+        break;
+      case "Incendios":
+        this.navController.navigateBack("/inicio/modulo-incendios");
+        break;
+      case "Basura":
+        this.navController.navigateBack("/inicio/modulo-basura");
+        break;
+      default:
+        console.log(module);
+        break;
+    }
   }
 }
