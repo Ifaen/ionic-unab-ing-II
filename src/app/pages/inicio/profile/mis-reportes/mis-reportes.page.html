@@ -9,7 +9,11 @@
 
 <ion-content>
   <ion-list *ngIf="!loading && !error">
-    <ion-item *ngFor="let report of userReports" class="report-item">
+    <ion-item
+      *ngFor="let report of userReports"
+      class="report-item"
+      (click)="isSpecificReportType(report) && openReportModal(report)"
+    >
       <!--<ion-icon name="flame-outline" slot="start"></ion-icon>-->
       <ion-icon
         [name]="getIcon(report.module)"
@@ -23,11 +27,18 @@
         </p>
         <p class="coordinate">{{ report.coordinate}}</p>
       </ion-label>
-      <p slot="end" class="report-date">
-        {{ report.date | date: 'EEE, HH:mm'}}
-      </p>
+      <p slot="end" class="report-date">{{ report.date | date:'EEE, HH:mm'}}</p>
     </ion-item>
   </ion-list>
   <ion-spinner *ngIf="loading" class="spinner-modern"></ion-spinner>
   <div *ngIf="error" class="error-message">{{ error }}</div>
 </ion-content>
+
+<ion-modal #modal>
+  <ng-template>
+    <app-information-modal
+      [modal]="modal"
+      [data]="selectedReport"
+    ></app-information-modal>
+  </ng-template>
+</ion-modal>
