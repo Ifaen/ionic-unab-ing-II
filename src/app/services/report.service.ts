@@ -26,7 +26,7 @@ export class ReportService {
     private loadingController: LoadingController,
     private cameraService: CameraService
   ) {}
-
+  
   public async validateForm(isValid: boolean): Promise<void> {
     const loading = await this.loadingController.create({
       spinner: "crescent",
@@ -87,6 +87,19 @@ export class ReportService {
     if (result) this.navController.navigateRoot("/inicio/home"); // Volver al inicio
   }
 
+  private convertToDate(dateString: string): Date {
+    console.log('Original date string: ${dateSting}');
+    const [datePart, timePart] = dateString.split(", ");
+    const [day, month, year] = datePart
+      .split("/")
+      .map((part) => parseInt(part, 10));
+    const [hours, minutes, seconds] = timePart
+      .split(":")
+      .map((part) => parseInt(part, 10));
+    const date = new Date(year, month - 1, day, hours, minutes, seconds);
+    return date;
+  }
+
   public async getReports(): Promise<Report[]> {
     const reports: Report[] = [];
 
@@ -99,6 +112,7 @@ export class ReportService {
       snapshot.forEach((doc) => {
         const report = doc.data() as Report; // Obtener la data del documento
         report.id = doc.id; // Obtener la id creada por firebase
+        report.date = this.convertToDate(report.date as unknown as string);
         reports.push(report); // Agregarlo a la lista
       });
 
@@ -146,4 +160,4 @@ export class ReportService {
         return "";
     }
   }
-}
+}  
