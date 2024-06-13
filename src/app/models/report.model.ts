@@ -8,7 +8,7 @@ export interface Report {
   module: string;
   coordinate: Coordinate;
   photo: string; // Link de la foto
-  date: string;
+  date: string | Date; //TODO: Se esta probando en el servicio de report el obtener la fecha
 }
 
 /**
