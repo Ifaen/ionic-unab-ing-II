@@ -26,7 +26,7 @@ export class ReportService {
     private loadingController: LoadingController,
     private cameraService: CameraService
   ) {}
-
+  
   public async validateForm(isValid: boolean): Promise<void> {
     const loading = await this.loadingController.create({
       spinner: "crescent",
@@ -90,7 +90,6 @@ export class ReportService {
   //TODO:Funcion que cambia la fecha de string a formato date para poder ser utilizada luego en el HTML
   //FUNCION DE OBTENER Y CAMBIAR LA FECHA A FORMATO DATE
   private convertToDate(dateString: string): Date {
-    //console.log(`Original date string: ${dateString}`); // Verificar que esta tomando la fecha
     const [datePart, timePart] = dateString.split(", ");
     const [day, month, year] = datePart
       .split("/")
@@ -99,7 +98,6 @@ export class ReportService {
       .split(":")
       .map((part) => parseInt(part, 10));
     const date = new Date(year, month - 1, day, hours, minutes, seconds);
-    //console.log(`Converted date: ${date}`); // Verificar que la fecha fue convertida
     return date;
   }
 
@@ -115,8 +113,7 @@ export class ReportService {
       snapshot.forEach((doc) => {
         const report = doc.data() as Report; // Obtener la data del documento
         report.id = doc.id; // Obtener la id creada por firebase
-        //TODO: Se agrega al reporte la fecha convertida para poder usarla despues
-        report.date = this.convertToDate(report.date as unknown as string); //Convertir la fecha
+        report.date = this.convertToDate(report.date as unknown as string); //Convertir la fecha para agregar al reporte
         reports.push(report); // Agregarlo a la lista
       });
 
@@ -139,8 +136,7 @@ export class ReportService {
       snapshot.forEach((doc) => {
         const report = doc.data() as Report; // Obtener la data del documento
         report.id = doc.id; // Obtener la id creada por firebase
-        //TODO: Se agrega al reporte la fecha convertida para poder usarla despues
-        report.date = this.convertToDate(report.date as unknown as string); //Convertir la fecha
+        report.date = this.convertToDate(report.date as unknown as string); ////Convertir la fecha para agregar al reporte
         reports.push(report); // Agregarlo a la lista
       });
 
@@ -166,4 +162,4 @@ export class ReportService {
         return "";
     }
   }
-}
+}  
