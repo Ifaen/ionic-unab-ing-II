@@ -1,0 +1,26 @@
+// Este es tu archivo notificaciones.component.scss
+
+// Estilo para el título
+.center-title {
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    color: black;
+    width: 100%;
+  }
+
+ion-toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  ion-buttons {
+    position: absolute;
+    left: 0;
+  }
+}
+
+
+
+ 

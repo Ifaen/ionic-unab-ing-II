@@ -52,15 +52,31 @@
       ></ion-input>
     </ion-item>
 
+    <ion-menu-toggle auto-hide="false">
+      <ion-item
+        class="rounded-item"
+        (click)="misReportes()"
+        lines="none"
+        color="warning"
+      >
+        <ion-icon slot="start" name="list-outline"></ion-icon>
+        <ion-label>Mis Reportes</ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+
     <ion-footer class="ion-no-border safe-p-bottom">
       <ion-menu-toggle auto-hide="false">
-        <ion-item (click)="signOut()" lines="none">
+        <ion-item
+          class="rounded-item"
+          (click)="signOut()"
+          lines="none"
+          color="danger"
+        >
           <ion-icon slot="start" name="log-out-outline"></ion-icon>
-          <ion-label>cerrar sesión</ion-label>
+          <ion-label>Cerrar Sesión</ion-label>
         </ion-item>
       </ion-menu-toggle>
     </ion-footer>
   </div>
 </div>
 <app-tabs style="z-index: 1"></app-tabs>
-

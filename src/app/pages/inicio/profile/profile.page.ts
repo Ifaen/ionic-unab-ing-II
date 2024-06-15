@@ -4,6 +4,7 @@ import { User } from "firebase/auth";
 import { FirestoreService } from "src/app/services/firestore.service";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { Router } from "@angular/router";
+import { NavController } from "@ionic/angular";
 
 @Component({
   selector: "app-profile",
@@ -17,7 +18,6 @@ export class ProfilePage implements OnInit {
   @ViewChild("contrasenaInput") contrasenaInput: IonInput | undefined;
   @ViewChild("correoInput") correoInput: IonInput | undefined;
 
-
   router = inject(Router);
   firebaseSvc = inject(FirestoreService);
 
@@ -28,7 +28,8 @@ export class ProfilePage implements OnInit {
 
   constructor(
     private firestoreSvc: FirestoreService,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
@@ -50,6 +51,11 @@ export class ProfilePage implements OnInit {
 
   toggleEdit() {
     this.isEditable = !this.isEditable;
+  }
+
+  //========= MIS REPORTES ============
+  misReportes() {
+    this.navCtrl.navigateForward("/inicio/profile/mis-reportes");
   }
 
   //==========cerrar sesion============

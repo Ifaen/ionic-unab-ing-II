@@ -1,0 +1,45 @@
+<div class="ion-page">
+  <ion-header>
+    <ion-toolbar>
+      <!-- Linea de Codigo para Mostrar la ID del Reporte-->
+      <!-- <ion-title>Reporte {{ data.id }}</ion-title> -->
+      <h1 class="Titulo_Reporte">{{ data.module }}</h1>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="modal.dismiss()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle
+          >Reportado a las {{ data.date | date : "HH:mm" }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-label>
+            <h2>Tipo de Incidente</h2>
+            <p>{{ data.typeIncident }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label>
+            <h2>Descripción</h2>
+            <p>{{ data.description }}</p>
+          </ion-label>
+        </ion-item>
+
+        <div *ngIf="data.photo" class="Seccion_Foto">
+          <h2>Foto</h2>
+          <img [src]="data.photo" alt="Foto del reporte" class="reporte-foto">
+        </div>
+        
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+</div>
