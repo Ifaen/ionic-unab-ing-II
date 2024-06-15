@@ -1,20 +1,22 @@
+/* Fondo y contenedor */
 .app-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: rgb(231, 138, 32);
+  background: #ffc107;
   overflow-y: auto;
 }
 
+/* Formulario */
 .form-container {
   width: 100%;
   max-width: 600px;
   text-align: center;
-  color: black;
-  background: rgb(231, 138, 32);
+  background: #ffc107;
 }
 
+/* Título */
 .Titulo_Reporte {
   text-align: center;
   font-size: 40px;
@@ -24,14 +26,16 @@
   color: white;
 }
 
+/* Etiquetas */
 .my-label {
   font-size: 20px;
   display: block;
   margin-bottom: 5px;
-  color: #333;
+  color: white;
   text-align: left;
 }
 
+/* Input general */
 .input {
   display: block;
   width: 100%;
@@ -43,23 +47,33 @@
   background-color: white;
 }
 
-.input_boton {
+/* Botones */
+.input_boton, ion-button {
   width: 100%;
   height: 40px;
-  margin-top: 0px;
+  margin-top: 10px;
   margin-bottom: 10px;
-  padding: 0px;
+  padding: 0;
   background: #5271ff;
   color: white;
   border-radius: 20px;
   box-shadow: white;
 }
 
+.input_boton ion-icon, ion-button ion-icon {
+  margin-right: 0;
+}
+
+.confirmacion_campo {
+  color: white;
+}
+
 .textarea-container {
   position: relative;
 }
 
-.area_descripcion {
+/* Descripción */
+.area_descripcion, ion-textarea {
   width: 100%;
   height: 150px;
   padding: 5px;
@@ -73,4 +87,19 @@
   position: relative;
   overflow-wrap: break-word;
   resize: none;
+}
+
+/* Contador de caracteres */
+.char-counter {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: #333;
+}
+
+/* Estilo de imagen */
+.adj_foto, ion-img {
+  width: 200px;
+  height: 200px;
+  background-color: transparent;
 }
