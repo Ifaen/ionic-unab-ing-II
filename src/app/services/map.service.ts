@@ -22,6 +22,7 @@ import {
 })
 export class MapService {
   private geolocation: Geolocation;
+  private vectorLayers: VectorLayer<VectorSource>[] = [];
 
   constructor(
     private router: Router,
@@ -64,21 +65,16 @@ export class MapService {
   }
 
 
-//===================================esto esta en veremos================================
-  /*public handleReportRemoval(source: VectorSource, reportRemovedCallback: () => void): void {
-    source.on('removefeature', reportRemovedCallback);
-  }
+
+public removeVectorFeature(feature: Feature): void {
+  this.vectorLayers.forEach(layer => {
+    const source = layer.getSource();
+    if (source) {
+      source.removeFeature(feature);
+    }
+  });
+}
   
-  /*public removeFeature(map: Map, feature: Feature): void {
-    const layers = map.getLayers().getArray();
-    layers.forEach(layer => {
-      if (layer instanceof VectorLayer) {
-        const source = layer.getSource();
-        source.removeFeature(feature);
-      }
-    });
-  }*/
-  //=======================================================================================
 
   public getGeolocation(): Geolocation {
     return this.geolocation;
