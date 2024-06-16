@@ -84,7 +84,7 @@ export class ReportService {
         });
     });
 
-    if (result) this.navController.navigateRoot("/inicio/home"); // Volver al inicio
+    if (result) this.navController.navigateRoot("/inicio/map"); // Volver al inicio
   }
 
   public async getReports(): Promise<Report[]> {

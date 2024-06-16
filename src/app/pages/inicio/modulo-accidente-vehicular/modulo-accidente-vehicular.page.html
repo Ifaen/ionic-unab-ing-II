@@ -4,9 +4,11 @@
       style="display: flex; align-items: center; justify-content: space-between"
     >
       <ion-buttons class="boton_retroceder" slot="start">
-        <ion-back-button defaultHref="/inicio/home"></ion-back-button>
+        <ion-back-button defaultHref="/inicio/map"></ion-back-button>
       </ion-buttons>
-      <h1 class="Titulo_Reporte" style="text-align: center">Realiza Tu Reporte!</h1>
+      <h1 class="Titulo_Reporte" style="text-align: center">
+        Realiza Tu Reporte!
+      </h1>
     </div>
     <form>
       <!--===========Tipo de Reporte===========-->
@@ -36,7 +38,9 @@
       >
         <ion-icon size="large" name="location"></ion-icon>
       </ion-button>
-      <p *ngIf="locationSaved" class="confirmacion_campo">Su ubicación fue guardada con éxito</p>
+      <p *ngIf="locationSaved" class="confirmacion_campo">
+        Su ubicación fue guardada con éxito
+      </p>
 
       <!--===========Descripcion===========-->
       <div class="textarea-container">
@@ -58,18 +62,25 @@
       <ion-button class="input_boton" expand="full" (click)="takePhoto()">
         <ion-icon size="large" name="camera-outline"></ion-icon>
       </ion-button>
-      <p *ngIf="photoTaken" class="confirmacion_campo">La foto fue guardada con exito</p>
+      <p *ngIf="photoTaken" class="confirmacion_campo">
+        La foto fue guardada con exito
+      </p>
       <!--Apartado para vizualizar la foto seleccionada-->
       <ion-item *ngIf="formVehicular.photo">
         <ion-img
           size="large"
           name="camera-outline"
           [src]="formVehicular.photo"
-          class="adj_foto" 
+          class="adj_foto"
         ></ion-img>
       </ion-item>
 
-      <ion-button expand="full" type="submit" (click)="validateForm()" [disabled]="!isFormValid()">
+      <ion-button
+        expand="full"
+        type="submit"
+        (click)="validateForm()"
+        [disabled]="!isFormValid()"
+      >
         REPORTAR
       </ion-button>
     </form>

@@ -49,8 +49,8 @@ export class ModuloBasuraPage {
     });
   }
 
-  public goToHomePage() {
-    this.navController.navigateBack("/inicio/home");
+  public goToMapPage() {
+    this.navController.navigateBack("/inicio/map");
   }
 
   async executeImageCapture() {

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="goToHomePage()">
+      <ion-button (click)="goToMapPage()">
         <ion-icon slot="icon-only" name="home-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding fondo">
+<ion-content class="fondo ion-padding">
   <div class="container">
     <div class="box">
       <ion-select
@@ -30,17 +30,18 @@
           Residuos de construcción o demolición
         </ion-select-option>
         <ion-select-option value="Residuos reciclables">
-          Residuos reciclables </ion-select-option>
+          Residuos reciclables
+        </ion-select-option>
       </ion-select>
     </div>
 
     <div class="box">
       <ion-item>
-        <ion-label position="floating">{{ LocationSelected ? 'A selecionado una ubicación' : 'Ingresar ubicación' }}</ion-label>
-        <ion-input
-          id="ubicacion"
-          placeholder="inserte ubicacion"
-        ></ion-input>
+        <ion-label position="floating"
+          >{{ LocationSelected ? 'A selecionado una ubicación' : 'Ingresar
+          ubicación' }}</ion-label
+        >
+        <ion-input id="ubicacion" placeholder="inserte ubicacion"></ion-input>
         <ion-button
           fill="clear"
           slot="end"
@@ -64,9 +65,9 @@
       </ion-item>
       <ion-item *ngIf="formBasura.photo">
         <ion-img
-        [src]="formBasura.photo"
-        style="width: 200px; height: 200px"
-      ></ion-img>
+          [src]="formBasura.photo"
+          style="width: 200px; height: 200px"
+        ></ion-img>
       </ion-item>
     </div>
 

@@ -17,11 +17,11 @@ import { MapBrowserEvent } from "ol";
 import { InformationModalComponent } from "src/app/shared/component/information-modal/information-modal.component";
 
 @Component({
-  selector: "app-home",
-  templateUrl: "./home.page.html",
-  styleUrls: ["./home.page.scss"],
+  selector: "app-map",
+  templateUrl: "./map.page.html",
+  styleUrls: ["./map.page.scss"],
 })
-export class HomePage {
+export class MapPage {
   private view: View;
   private map: Map;
   public reportIcons: ReportIcon[] = [];
@@ -54,23 +54,25 @@ export class HomePage {
         center: fromLonLat([-71.6226, -33.0469]), // Center point
         zoom: 12,
         extent: [
-          extent[0][0], extent[0][1], // Southwest corner
-          extent[1][0], extent[1][1],  // Northeast corner
+          extent[0][0],
+          extent[0][1], // Southwest corner
+          extent[1][0],
+          extent[1][1], // Northeast corner
         ],
         //aca como su nombre dice, se coloca el zoom minimo y maximo, si desean que las calles se vean
         //con mas zoop se mueve el maxzoom
         minZoom: 10, // zoom minimo
-        maxZoom: 15  // zoom maximo
+        maxZoom: 15, // zoom maximo
       });
 
       this.map = new Map({
-        target: 'map',
+        target: "map",
         layers: [
           new TileLayer({
-            source: new OSM()
-          })
+            source: new OSM(),
+          }),
         ],
-        view: this.view
+        view: this.view,
       });
 
       this.setGeolocation();
