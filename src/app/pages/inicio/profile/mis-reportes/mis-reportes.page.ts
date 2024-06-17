@@ -16,14 +16,12 @@ import { ReportService } from "src/app/services/report.service";
   styleUrls: ["./mis-reportes.page.scss"],
 })
 export class MisReportesPage implements OnInit {
-  //TODO: PROBANDO MODAL
   @ViewChild(IonModal) modal!: IonModal;
 
   userReports: Report[] = [];
   loading: boolean = true;
   error: string | null = null;
 
-  //TODO: PROBANDO MODAL
   selectedReport!:
     | ReportIncendio
     | ReportAlumbrado
@@ -35,7 +33,6 @@ export class MisReportesPage implements OnInit {
     "Accidente Vehicular": "car-sport",
     Incendios: "flame",
     Basura: "trash",
-    // Añade otros módulos si es necesario
   };
 
   constructor(

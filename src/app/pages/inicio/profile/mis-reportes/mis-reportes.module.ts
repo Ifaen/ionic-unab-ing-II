@@ -16,7 +16,7 @@ import { SharedModule } from "src/app/shared/shared.module";
     FormsModule,
     IonicModule,
     MisReportesPageRoutingModule,
-    SharedModule, //TODO: Probando el Modal se debe de importar aqui
+    SharedModule,
   ],
   declarations: [MisReportesPage],
 })
