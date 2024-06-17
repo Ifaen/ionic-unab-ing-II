@@ -99,6 +99,7 @@ export class FormularioAlumPage implements OnInit {
     const hasPermission = true; //await this.permissionsService.checkLocationPermissions(); //TODO cambiar a lo comentado para que funcione en celular
     if (hasPermission) {
       this.navController.navigateForward("/inicio/location");
+      this.locationSaved = true;
     } else {
       console.error(
         "active los permisos desde la configuracion de su dispositivo"
