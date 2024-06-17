@@ -12,6 +12,8 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
   styleUrls: ["./modulo-incendios.page.scss"],
 })
 export class ModuloIncendiosPage implements OnInit {
+  photoTaken: boolean = false;
+  locationSaved: boolean = false;
   public formIncendio: ReportIncendio = {
     module: "Incendios",
     coordinate: [0, 0],
@@ -56,6 +58,7 @@ export class ModuloIncendiosPage implements OnInit {
     if (hasPermission) {
       // Si los permisos están concedidos, navega a la página de ubicación
       this.navController.navigateForward("/inicio/location");
+      this.locationSaved = true;
     } else {
       console.error(
         "active los permisos desde la configuracion de su dispositivo"
@@ -88,7 +91,6 @@ export class ModuloIncendiosPage implements OnInit {
     }
   }
 
-  // Enviar formulario
   public validateForm(): void {
     const { typeIncident, coordinate, photo } = this.formIncendio;
 
@@ -102,5 +104,13 @@ export class ModuloIncendiosPage implements OnInit {
     let isValid = true;
 
     this.reportService.validateForm(isValid); // Enviar formulario a servicio
+  }
+
+  public updateCount() {
+    var textarea = document.getElementById(
+      "area_descripcion"
+    ) as HTMLTextAreaElement;
+    var count = document.getElementById("charCount");
+    count.innerText = textarea.value.length + " / 200";
   }
 }

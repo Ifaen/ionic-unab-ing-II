@@ -14,6 +14,7 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
 })
 export class ModuloBasuraPage {
   LocationSelected = false; // Añade esta línea
+  photoTaken = false;
   formBasura: ReportBasura = {
     module: "Basura",
     coordinate: [0, 0],
@@ -106,6 +107,14 @@ export class ModuloBasuraPage {
         "active los permisos desde la configuracion de su dispositivo"
       );
     }
+  }
+
+  public updateCount() {
+    var textarea = document.getElementById(
+      "area_descripcion"
+    ) as HTMLTextAreaElement;
+    var count = document.getElementById("charCount");
+    count.innerText = textarea.value.length + " / 200";
   }
 
   // Enviar formulario
