@@ -14,7 +14,7 @@ import {
 })
 export class InformationModalComponent implements OnInit {
   @Input() modal!: IonModal;
-  @Input() data:
+  @Input() report:
     | ReportAlumbrado
     | ReportBasura
     | ReportIncendio

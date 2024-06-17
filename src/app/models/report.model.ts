@@ -1,5 +1,6 @@
 import { Feature } from "ol";
 import { Coordinate } from "ol/coordinate";
+import VectorSource from "ol/source/Vector";
 
 export interface Report {
   id?: string; // Id creada por firebase
@@ -38,7 +39,7 @@ export interface ReportBasura extends Report {
   description: string;
 }
 
-export interface ReportIcon {
-  data: Report;
-  iconFeature: Feature;
+export interface ReportVector {
+  report: Report;
+  vector: VectorSource;
 }

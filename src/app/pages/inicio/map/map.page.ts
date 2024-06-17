@@ -9,7 +9,7 @@ import { OSM, Vector as VectorSource } from "ol/source";
 import { fromLonLat } from "ol/proj";
 import { Point, Geometry } from "ol/geom";
 import { Circle, Fill, Icon, Stroke, Style } from "ol/style";
-import { Report, ReportIcon } from "src/app/models/report.model";
+import { Report, ReportVector } from "src/app/models/report.model";
 import { MapService } from "src/app/services/map.service";
 import { ReportService } from "src/app/services/report.service";
 import { LoadingController, ModalController } from "@ionic/angular";
@@ -24,7 +24,7 @@ import { InformationModalComponent } from "src/app/shared/component/information-
 export class MapPage {
   private view: View;
   private map: Map;
-  public reportIcons: ReportIcon[] = [];
+  public reportVectors: ReportVector[] = [];
 
   constructor(
     private mapService: MapService,
@@ -33,7 +33,7 @@ export class MapPage {
     private modalController: ModalController
   ) {}
 
-  private async ngOnInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {
     const loading = await this.loadingController.create({
       spinner: "crescent",
     });
@@ -41,39 +41,7 @@ export class MapPage {
     await loading.present();
 
     try {
-      //este "Extent" limita el mapa, por lo que se pueden modificar las coordenadas
-      //yo puse el sur de viña y norte de valpo y queda como se ve
-      //importante recalcar que las coordenadas del mapa son especiales, por lo que se tiene que ver bien
-      //que coordenadas colocar si se cambiará
-      const extent = [
-        fromLonLat([-71.7372, -33.1019]), // Sur: Viña del Mar
-        fromLonLat([-71.4964, -32.9486]), // Norte : Valparaíso
-      ];
-
-      this.view = new View({
-        center: fromLonLat([-71.6226, -33.0469]), // Center point
-        zoom: 12,
-        extent: [
-          extent[0][0],
-          extent[0][1], // Southwest corner
-          extent[1][0],
-          extent[1][1], // Northeast corner
-        ],
-        //aca como su nombre dice, se coloca el zoom minimo y maximo, si desean que las calles se vean
-        //con mas zoop se mueve el maxzoom
-        minZoom: 10, // zoom minimo
-        maxZoom: 15, // zoom maximo
-      });
-
-      this.map = new Map({
-        target: "map",
-        layers: [
-          new TileLayer({
-            source: new OSM(),
-          }),
-        ],
-        view: this.view,
-      });
+      await this.setMap();
 
       this.setGeolocation();
 
@@ -87,6 +55,39 @@ export class MapPage {
     } finally {
       await loading.dismiss();
     }
+
+    setInterval(() => {
+      this.checkReports();
+    }, 1 * 60 * 1000); // Revisar cada minuto
+  }
+
+  /**
+   * Crear mapa y vista, estableciendo el centro inicial y los limites del mapa
+   */
+  private async setMap(): Promise<void> {
+    // Coordenadas que definen los limites del mapa desde Viña hasta Valparaíso
+    const extent = [
+      fromLonLat([-71.7372, -33.1019]), // Sur: Viña del Mar
+      fromLonLat([-71.4964, -32.9486]), // Norte : Valparaíso
+    ];
+
+    this.view = new View({
+      center: fromLonLat([-71.6226, -33.0469]), // centro inicial
+      extent: [extent[0][0], extent[0][1], extent[1][0], extent[1][1]],
+      zoom: 12, // default zoom
+      minZoom: 10, // zoom minimo
+      maxZoom: 15, // zoom maximo
+    });
+
+    this.map = new Map({
+      target: "map",
+      layers: [
+        new TileLayer({
+          source: new OSM(),
+        }),
+      ],
+      view: this.view,
+    });
   }
 
   /**
@@ -96,28 +97,33 @@ export class MapPage {
    */
   private tapMapEvent(event: MapBrowserEvent<any>) {
     this.map.forEachFeatureAtPixel(event.pixel, (feature) =>
-      this.reportIcons.forEach((report) => {
-        if (report.iconFeature == feature) this.openModal(report.data);
+      this.reportVectors.forEach((item) => {
+        if (item.vector.getFeatures()[0] == feature)
+          this.openModal(item.report);
       })
     );
   }
 
   /**
    * Abre un modal llamando al InformationModalComponent, el cual muestra información del reporte clickeado / tappeado
-   * @param data Informacion del reporte clickeado
+   * @param report Informacion del reporte clickeado
    */
-  private async openModal(data: Report) {
+  private async openModal(report: Report) {
     const modal = await this.modalController.create({
       component: InformationModalComponent,
       cssClass: "custom-modal",
       componentProps: {
-        data: data,
+        report: report,
       },
     });
 
     await modal.present();
   }
 
+  /**
+   * Establecer la geolocalización en el mapa, creando un vector que se centre alrededor del usuario
+   * y se actualice cada cierto tiempo estimado pre-establecido por la API (cerca de cada 3 segundos)
+   */
   private setGeolocation(): void {
     let accuracyFeature = new Feature();
     let positionFeature = new Feature();
@@ -138,7 +144,7 @@ export class MapPage {
 
     let geolocation = this.mapService.getGeolocation();
 
-    let vectorUser = this.mapService.createVector(
+    this.mapService.createVector(
       this.map,
       new VectorSource({
         features: [accuracyFeature, positionFeature],
@@ -170,19 +176,61 @@ export class MapPage {
       })
     );
 
-    const reportIcon: ReportIcon = {
-      data: report,
-      iconFeature: reportFeature,
+    const item: ReportVector = {
+      report: report,
+      vector: new VectorSource({
+        features: [reportFeature],
+      }),
     };
 
     // Crear vector y agregarlo en el mapa
-    this.mapService.createVector(
-      this.map,
-      new VectorSource({
-        features: [reportIcon.iconFeature],
-      })
-    );
+    this.mapService.createVector(this.map, item.vector);
 
-    this.reportIcons.push(reportIcon);
+    this.reportVectors.push(item);
+  }
+
+  /**
+   * Encargado de revisar si hay reportes nuevos, a traves de comparar los reportes actuales en el mapa.
+   * Si el id no coincide con ninguno de los reportes en mapa, es que es un reporte nuevo.
+   * Luego, verifica el vencimiento de todos los reportes, si su fecha de vencimiento supera a la fecha actual
+   * lo elimina del mapa y llama a la funcion para remover reportes del servicio reportes.
+   */
+  private async checkReports() {
+    const timeLimit = 12; // horas de tiempo limite antes de expirar reporte
+    const timeNow = new Date();
+
+    const reports = await this.reportService.getReports(); // Llamar nuevamente endpoint
+
+    // Verificar si es nuevo
+    reports.forEach((report) => {
+      let isNew = true;
+
+      this.reportVectors.forEach((item) => {
+        if (report.id === item.report.id) isNew = false;
+      });
+
+      if (isNew) this.setReportIcons(report); // Si es nuevo, agregar al reporte
+    });
+
+    // Verificar si ha expirado
+    for (let i = 0; i < this.reportVectors.length; i++) {
+      let timeReport = new Date(this.reportVectors[i].report.date); // Debido a que report.date es string o Date, necesita crearse un nuevo Date object
+      timeReport.setHours(timeReport.getHours() + timeLimit);
+
+      // Si el tiempo del reporte incrementado por 'timeLimit' horas sigue siendo menor al tiempo actual
+      if (timeReport < timeNow) {
+        // Eliminar de la base de datos
+        const removed = await this.reportService.removeReport(
+          this.reportVectors[i].report
+        );
+
+        // Si es que se pudo remover el reporte de la base de lados
+        if (removed) {
+          this.reportVectors[i].vector.clear(); // Eliminar del mapa
+          this.reportVectors.splice(i, 1); // Eliminar de la lista
+          i--; // Reducir el contador en 1, debido a que la lista se ha acortado
+        }
+      }
+    }
   }
 }
