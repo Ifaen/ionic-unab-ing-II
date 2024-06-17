@@ -54,6 +54,21 @@ export class LocationPage implements OnInit {
 
     await loading.present();
 
+    this.setMap();
+
+    while (!this.coordinates) {
+      this.coordinates = this.mapService.getGeolocation().getPosition(); // Obtener coordenadas
+      if (this.coordinates) {
+        this.map.getView().setCenter(this.coordinates); // Centrar vista con coordenadas
+        break; // Romper loop
+      }
+      await new Promise((resolve) => setTimeout(resolve, 100)); // Esperar x milisegundos
+    }
+
+    await loading.dismiss();
+  }
+
+  private async setMap(): Promise<void> {
     const extent = [
       //las coordenadas del sur y norte de viña que limitan la vista
       fromLonLat([-71.7372, -33.1019]), // Sur: Viña del Mar
@@ -62,8 +77,8 @@ export class LocationPage implements OnInit {
 
     this.view = new View({
       center: fromLonLat([-71.6226, -33.0469]), // punto inicial
-      zoom: 12,
       extent: [extent[0][0], extent[0][1], extent[1][0], extent[1][1]],
+      zoom: 12, // default zoom
       minZoom: 10, // zoom maximo
       maxZoom: 15, // zoom minimo
     });
@@ -77,17 +92,6 @@ export class LocationPage implements OnInit {
       ],
       view: this.view,
     });
-
-    while (!this.coordinates) {
-      this.coordinates = this.mapService.getGeolocation().getPosition(); // Obtener coordenadas
-      if (this.coordinates) {
-        this.map.getView().setCenter(this.coordinates); // Centrar vista con coordenadas
-        break; // Romper loop
-      }
-      await new Promise((resolve) => setTimeout(resolve, 100)); // Esperar x milisegundos
-    }
-
-    await loading.dismiss();
   }
 
   public sendPosition(): void {
