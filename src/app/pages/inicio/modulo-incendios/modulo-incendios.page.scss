@@ -1,6 +1,6 @@
 ion-content {
   --background: none;
-  background: rgb(246, 63, 63); /* Color de fondo naranja similar al módulo de accidentes */
+  background: rgb(246, 63, 63);
 }
 
 .boton_retroceder {
@@ -12,16 +12,15 @@ ion-content {
 }
 
 .char-counter {
-  text-align: right;
-  color: white;
-  font-size: 12px;
-  margin-top: 5px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
 
 .area_descripcion {
   width: 100%;
   height: 150px;
-  padding: 10px;
+  padding: 5px;
   margin-top: 5px;
   border-radius: 5px;
   border: 1px solid #008dda;
@@ -43,24 +42,23 @@ ion-content {
   overflow-y: auto;
 }
 
-.form-container {
-  width: 100%;
-  max-width: 600px;
-  text-align: center;
-  color: white;
-}
-
 .Titulo_Reporte {
   text-align: center;
-  font-size: 24px;
+  font-size: 40px;
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
   margin-bottom: 20px;
   color: white;
 }
 
+.adj_foto {
+  width: 200px;
+  height: 200px;
+  background-color: transparent;
+}
+
 .my-label {
-  font-size: 16px;
+  font-size: 20px;
   display: block;
   margin-bottom: 5px;
   color: white;
@@ -78,13 +76,20 @@ ion-content {
   background-color: white;
 }
 
+ion-select::part(icon) {
+  display: none;
+}
+
 .input_boton {
   width: 100%;
   height: 40px;
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 10px;
   padding: 0px;
-  --background: #5271ff; /* Ajuste del color del botón */
+}
+
+.confirmacion_campo {
+  color: white;
 }
 
 .input_boton ion-icon {
@@ -104,7 +109,7 @@ form {
 
   ion-button {
     margin-top: 20px;
-    --background: #5271ff; /* Ajuste del color del botón */
+    --background: #5271ff;
     --border-radius: 20px;
     box-shadow: white;
     --padding-start: 20px;
@@ -112,8 +117,28 @@ form {
   }
 }
 
-.adj_foto {
-  width: 200px;
-  height: 200px;
-  background-color: transparent;
+.container {
+  margin-top: 20px;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border: none;
+  color: black;
+}
+
+.btn-primary {
+  background-color: #5271ff;
+  border: none;
+}
+
+.text-center {
+  text-align: center;
 }

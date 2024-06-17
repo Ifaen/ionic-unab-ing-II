@@ -58,6 +58,7 @@ export class ModuloIncendiosPage implements OnInit {
     if (hasPermission) {
       // Si los permisos están concedidos, navega a la página de ubicación
       this.navController.navigateForward("/inicio/location");
+      this.locationSaved = true;
     } else {
       console.error(
         "active los permisos desde la configuracion de su dispositivo"
@@ -90,20 +91,14 @@ export class ModuloIncendiosPage implements OnInit {
     }
   }
 
-  // Enviar formulario
-  public validateForm(): void {
-    const { typeIncident, coordinate, photo } = this.formIncendio;
-
-    if (!typeIncident || !coordinate || coordinate.length === 0 || !photo) {
-      alert(
-        "Por favor, complete todos los campos obligatorios antes de enviar el reporte."
-      );
-      return;
-    }
-
-    let isValid = true;
-
-    this.reportService.validateForm(isValid); // Enviar formulario a servicio
+  public isFormValid(): boolean {
+    // Verifica si todos los campos necesarios están llenos
+    return (
+      this.formIncendio.typeIncident &&
+      this.formIncendio.description &&
+      this.locationSaved
+      /* otros campos necesarios */
+    );
   }
   public updateCount() {
     var textarea = document.getElementById(
