@@ -91,15 +91,21 @@ export class ModuloIncendiosPage implements OnInit {
     }
   }
 
-  public isFormValid(): boolean {
-    // Verifica si todos los campos necesarios están llenos
-    return (
-      this.formIncendio.typeIncident &&
-      this.formIncendio.description &&
-      this.locationSaved
-      /* otros campos necesarios */
-    );
+  public validateForm(): void {
+    const { typeIncident, coordinate, photo } = this.formIncendio;
+
+    if (!typeIncident || !coordinate || coordinate.length === 0 || !photo) {
+      alert(
+        "Por favor, complete todos los campos obligatorios antes de enviar el reporte."
+      );
+      return;
+    }
+
+    let isValid = true;
+
+    this.reportService.validateForm(isValid); // Enviar formulario a servicio
   }
+
   public updateCount() {
     var textarea = document.getElementById(
       "area_descripcion"
