@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { IonModal } from "@ionic/angular";
 import {
   Report,
   ReportAlumbrado,
@@ -15,15 +16,25 @@ import { ReportService } from "src/app/services/report.service";
   styleUrls: ["./mis-reportes.page.scss"],
 })
 export class MisReportesPage implements OnInit {
+  //TODO: PROBANDO MODAL
+  @ViewChild(IonModal) modal!: IonModal;
+
   userReports: Report[] = [];
   loading: boolean = true;
   error: string | null = null;
 
+  //TODO: PROBANDO MODAL
+  selectedReport!:
+    | ReportIncendio
+    | ReportAlumbrado
+    | ReportVehicular
+    | ReportBasura;
+
   private iconMap: { [key: string]: string } = {
-    alumbrado: "bulb",
-    "accidente-vehicular": "car-sport",
-    incendios: "flame",
-    basura: "trash",
+    Alumbrado: "bulb",
+    "Accidente Vehicular": "car-sport",
+    Incendios: "flame",
+    Basura: "trash",
     // Añade otros módulos si es necesario
   };
 
@@ -75,5 +86,29 @@ export class MisReportesPage implements OnInit {
     const iconName = this.iconMap[module] || "alert"; // Icono predeterminado si no se encuentra
     console.log(`Icon name for module ${module}: ${iconName}`);
     return iconName;
+  }
+
+  //TODO: Probando el Modal
+
+  public isSpecificReportType(
+    report: Report
+  ): report is
+    | ReportIncendio
+    | ReportAlumbrado
+    | ReportVehicular
+    | ReportBasura {
+    return (
+      report.module === "Incendio" ||
+      report.module === "Alumbrado" ||
+      report.module === "Accidente Vehicular" ||
+      report.module === "Basura"
+    );
+  }
+
+  openReportModal(
+    report: ReportIncendio | ReportAlumbrado | ReportVehicular | ReportBasura
+  ) {
+    this.selectedReport = report;
+    this.modal.present();
   }
 }

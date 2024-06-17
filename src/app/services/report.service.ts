@@ -26,7 +26,7 @@ export class ReportService {
     private loadingController: LoadingController,
     private cameraService: CameraService
   ) {}
-
+  
   public async validateForm(isValid: boolean): Promise<void> {
     const loading = await this.loadingController.create({
       spinner: "crescent",
@@ -87,6 +87,20 @@ export class ReportService {
     if (result) this.navController.navigateRoot("/inicio/map"); // Volver al inicio
   }
 
+  //TODO:Funcion que cambia la fecha de string a formato date para poder ser utilizada luego en el HTML
+  //FUNCION DE OBTENER Y CAMBIAR LA FECHA A FORMATO DATE
+  private convertToDate(dateString: string): Date {
+    const [datePart, timePart] = dateString.split(", ");
+    const [day, month, year] = datePart
+      .split("/")
+      .map((part) => parseInt(part, 10));
+    const [hours, minutes, seconds] = timePart
+      .split(":")
+      .map((part) => parseInt(part, 10));
+    const date = new Date(year, month - 1, day, hours, minutes, seconds);
+    return date;
+  }
+
   public async getReports(): Promise<Report[]> {
     const reports: Report[] = [];
 
@@ -99,6 +113,7 @@ export class ReportService {
       snapshot.forEach((doc) => {
         const report = doc.data() as Report; // Obtener la data del documento
         report.id = doc.id; // Obtener la id creada por firebase
+        report.date = this.convertToDate(report.date as unknown as string); //Convertir la fecha para agregar al reporte
         reports.push(report); // Agregarlo a la lista
       });
 
@@ -121,6 +136,7 @@ export class ReportService {
       snapshot.forEach((doc) => {
         const report = doc.data() as Report; // Obtener la data del documento
         report.id = doc.id; // Obtener la id creada por firebase
+        report.date = this.convertToDate(report.date as unknown as string); ////Convertir la fecha para agregar al reporte
         reports.push(report); // Agregarlo a la lista
       });
 
@@ -146,4 +162,4 @@ export class ReportService {
         return "";
     }
   }
-}
+}  

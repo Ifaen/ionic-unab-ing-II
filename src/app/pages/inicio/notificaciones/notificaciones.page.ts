@@ -11,10 +11,10 @@ export class NotificacionesPage implements OnInit {
   public reports: (Report | ReportIncendio | ReportAlumbrado | ReportVehicular | ReportBasura)[] = [];
 
   private iconMap: { [key: string]: string } = {
-    "alumbrado": "bulb",
-    "accidente-vehicular": "car-sport",
-    "incendios": "flame",
-    "basura": "trash",
+    "Alumbrado": "bulb",
+    "Accidente Vehicular": "car-sport",
+    "Incendios": "flame",
+    "Basura": "trash",
     // Añade otros módulos si es necesario
   };
 
