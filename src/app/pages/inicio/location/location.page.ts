@@ -56,15 +56,6 @@ export class LocationPage implements OnInit {
 
     this.setMap();
 
-    while (!this.coordinates) {
-      this.coordinates = this.mapService.getGeolocation().getPosition(); // Obtener coordenadas
-      if (this.coordinates) {
-        this.map.getView().setCenter(this.coordinates); // Centrar vista con coordenadas
-        break; // Romper loop
-      }
-      await new Promise((resolve) => setTimeout(resolve, 100)); // Esperar x milisegundos
-    }
-
     await loading.dismiss();
   }
 

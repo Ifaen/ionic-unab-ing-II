@@ -81,11 +81,8 @@ export class MisReportesPage implements OnInit {
 
   public getIcon(module: string): string {
     const iconName = this.iconMap[module] || "alert"; // Icono predeterminado si no se encuentra
-    console.log(`Icon name for module ${module}: ${iconName}`);
     return iconName;
   }
-
-  //TODO: Probando el Modal
 
   public isSpecificReportType(
     report: Report

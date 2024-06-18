@@ -115,11 +115,11 @@ export class ModuloAccidenteVehicularPage implements OnInit {
   ///////////////////
   // Enviar formulario
   public validateForm(): void {
-    if (this.isFormValid()) {
-      // Realiza las validaciones exclusivas de este módulo si es necesario
-      this.reportService.validateForm(true); // Enviar formulario al servicio
-    } else {
-      console.error("Por favor, complete todos los campos requeridos.");
-    }
+    if (!this.isFormValid())
+      alert(
+        "Por favor, complete todos los campos obligatorios antes de enviar el reporte."
+      );
+
+    this.reportService.validateForm(true); // Enviar formulario al servicio
   }
 }
