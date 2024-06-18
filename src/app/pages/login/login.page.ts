@@ -62,7 +62,7 @@ export class LoginPage implements OnInit {
         .getDocument(path)
         .then((user: User) => {
           this.utilsSvc.saveInLocalStorage("user", user);
-          this.utilsSvc.routerLink("/inicio/home");
+          this.utilsSvc.routerLink("/inicio/map");
           this.form.reset();
 
           this.utilsSvc.presentToast({
@@ -95,6 +95,6 @@ export class LoginPage implements OnInit {
   }
 
   getPasswordFieldType() {
-    return this.showPassword ? 'text' : 'password';
+    return this.showPassword ? "text" : "password";
   }
 }

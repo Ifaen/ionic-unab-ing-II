@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Style, Icon } from "ol/style";
-import { ReportIcon } from "src/app/models/report.model";
+import { ReportVector } from "src/app/models/report.model";
 import { ReportService } from "src/app/services/report.service";
 
 @Component({
@@ -10,15 +10,15 @@ import { ReportService } from "src/app/services/report.service";
 })
 export class FiltrosComponent implements OnInit {
   public filters: { [key: string]: boolean } = {
-    "accidente-vehicular": true,
-    alumbrado: true,
-    basura: true,
-    incendios: true,
+    "Accidente Vehicular": true,
+    Alumbrado: true,
+    Basura: true,
+    Incendios: true,
   };
 
-  @Input() reportIcons: ReportIcon[] = [];
+  @Input() reportVectors: ReportVector[] = [];
 
-  private allFiltersActive = true; // Variable para rastrear el estado de todos los filtros
+  private allFiltersActive: boolean = true; // Variable para rastrear el estado de todos los filtros
 
   constructor(private reportService: ReportService) {}
 
@@ -28,16 +28,15 @@ export class FiltrosComponent implements OnInit {
     this.filters[module] = !this.filters[module]; // Invertir valor actual
     this.applyFilter(module);
   }
-  
+
   private applyFilter(module: string): void {
-    this.reportIcons.forEach((report) => {
-      if (report.data.module === module) {
+    this.reportVectors.forEach((item) => {
+      if (item.report.module === module) {
         const src: string = this.reportService.getIcon(module); // Obtener el icon del reporte segun su modulo
 
-        // Definir el tamaño del icono
         const scale = this.filters[module] ? 0.08 : 0; // Mostrar u ocultar icono
 
-        report.iconFeature.setStyle(
+        item.vector.getFeatures()[0].setStyle(
           new Style({
             image: new Icon({
               anchor: [0.5, 50], // TODO Arreglar centrado del icono

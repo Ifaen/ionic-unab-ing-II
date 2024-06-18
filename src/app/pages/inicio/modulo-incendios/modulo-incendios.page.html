@@ -2,7 +2,7 @@
   <div class="form-container">
     <div style="display: flex; align-items: center; justify-content: space-between">
       <ion-buttons class="boton_retroceder" slot="start">
-        <ion-back-button defaultHref="/inicio/home"></ion-back-button>
+        <ion-back-button defaultHref="/inicio/map"></ion-back-button>
       </ion-buttons>
       <h1 class="Titulo_Reporte" style="text-align: center">Reporte de Incendio</h1>
     </div>
@@ -15,7 +15,6 @@
         <ion-select-option value="2">Departamento</ion-select-option>
         <ion-select-option value="3">Forestal</ion-select-option>
       </ion-select>
-
       <!--=========== Ubicación ===========-->
       <label class="my-label">Ubicación</label>
       <ion-button (click)="goToLocationPage()" class="input_boton" expand="full" required>

@@ -26,7 +26,7 @@ export class ReportService {
     private loadingController: LoadingController,
     private cameraService: CameraService
   ) {}
-  
+
   public async validateForm(isValid: boolean): Promise<void> {
     const loading = await this.loadingController.create({
       spinner: "crescent",
@@ -74,29 +74,34 @@ export class ReportService {
       this.firestore
         .collection("reports")
         .add(this.formData)
-        .then((response) => {
-          console.log(response.id);
-          resolve(true);
-        })
+        .then((response) => resolve(true))
         .catch((error) => {
           console.error(error);
-          resolve(false);
+          reject(false);
         });
     });
 
-    if (result) this.navController.navigateRoot("/inicio/home"); // Volver al inicio
+    if (result) this.navController.navigateRoot("/inicio/map"); // Volver al inicio
   }
 
-  //TODO:Funcion que cambia la fecha de string a formato date para poder ser utilizada luego en el HTML
-  //FUNCION DE OBTENER Y CAMBIAR LA FECHA A FORMATO DATE
+  /**
+   * Funcion encargada de transformar la fecha en formato string a formato date, para utilizarla en funciones
+   * de vencimiento y tambien para visualizacion. Separa en sus correspondientes partes la fecha,
+   * luego se lo pasa a la funcion new Date()
+   * @param dateString fecha en formato string
+   * @returns fecha en formato date
+   */
   private convertToDate(dateString: string): Date {
     const [datePart, timePart] = dateString.split(", ");
+
     const [day, month, year] = datePart
       .split("/")
       .map((part) => parseInt(part, 10));
+
     const [hours, minutes, seconds] = timePart
       .split(":")
       .map((part) => parseInt(part, 10));
+
     const date = new Date(year, month - 1, day, hours, minutes, seconds);
     return date;
   }
@@ -147,6 +152,42 @@ export class ReportService {
     }
   }
 
+  /**
+   * Servicio encargado de mover los reportes expirados a una nueva colección, primero copiando el reporte a una colección
+   * llamada 'expired-reports' y luego, la elimina de la colección 'reports'.
+   * @param report Informacion del reporte expirado
+   * @returns un booleano que indica si fue posible eliminar el reporte de la base de datos y moverlo a la colección 'expired-reports'
+   */
+  public async removeReport(report: Report): Promise<boolean> {
+    // Mover a expirados
+    let result = new Promise<boolean>((resolve, reject) => {
+      this.firestore
+        .collection("expired-reports")
+        .add(report)
+        .then(() => resolve(true))
+        .catch((error) => {
+          console.error(error);
+          reject(false);
+        });
+    });
+
+    if (result) {
+      return new Promise<boolean>((resolve, reject) => {
+        this.firestore
+          .collection("reports")
+          .doc(report.id)
+          .delete()
+          .then(() => resolve(true))
+          .catch((error) => {
+            console.error(error);
+            reject(false);
+          });
+      });
+    }
+
+    return result; // Si resultado falla, entonces retornar falso
+  }
+
   public getIcon(module: string): string {
     switch (module) {
       case "Alumbrado":
@@ -162,4 +203,4 @@ export class ReportService {
         return "";
     }
   }
-}  
+}

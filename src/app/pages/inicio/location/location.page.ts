@@ -54,32 +54,7 @@ export class LocationPage implements OnInit {
 
     await loading.present();
 
-    const extent = [
-      //las coordenadas del sur y norte de viña que limitan la vista
-      fromLonLat([-71.7372, -33.1019]), // Sur: Viña del Mar
-      fromLonLat([-71.4964, -32.9486]), // Norte: Valparaíso
-    ];
-
-    this.view = new View({
-      center: fromLonLat([-71.6226, -33.0469]), // punto inicial
-      zoom: 12,
-      extent: [
-        extent[0][0], extent[0][1], 
-        extent[1][0], extent[1][1],
-      ],
-      minZoom: 10, // zoom maximo
-      maxZoom: 15  // zoom minimo
-    });
-
-    this.map = new Map({
-      target: 'map',
-      layers: [
-        new TileLayer({
-          source: new OSM()
-        })
-      ],
-      view: this.view
-    });
+    this.setMap();
 
     while (!this.coordinates) {
       this.coordinates = this.mapService.getGeolocation().getPosition(); // Obtener coordenadas
@@ -93,13 +68,39 @@ export class LocationPage implements OnInit {
     await loading.dismiss();
   }
 
+  private async setMap(): Promise<void> {
+    const extent = [
+      //las coordenadas del sur y norte de viña que limitan la vista
+      fromLonLat([-71.7372, -33.1019]), // Sur: Viña del Mar
+      fromLonLat([-71.4964, -32.9486]), // Norte: Valparaíso
+    ];
+
+    this.view = new View({
+      center: fromLonLat([-71.6226, -33.0469]), // punto inicial
+      extent: [extent[0][0], extent[0][1], extent[1][0], extent[1][1]],
+      zoom: 12, // default zoom
+      minZoom: 10, // zoom maximo
+      maxZoom: 15, // zoom minimo
+    });
+
+    this.map = new Map({
+      target: "map",
+      layers: [
+        new TileLayer({
+          source: new OSM(),
+        }),
+      ],
+      view: this.view,
+    });
+  }
+
   public sendPosition(): void {
     let coordinates = this.map.getView().getCenter(); // Obtain the coordinates of the current center of the map
     try {
-      this.mapService.goToFormPage(coordinates); 
+      this.mapService.goToFormPage(coordinates);
     } catch (error) {
       console.log(error);
-      this.navController.navigateRoot("/inicio/home");
+      this.navController.navigateRoot("/inicio/map");
     }
   }
 }

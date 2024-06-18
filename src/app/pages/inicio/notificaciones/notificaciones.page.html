@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons class="boton_retroceder" slot="start">
-      <ion-back-button defaultHref="/inicio/home"></ion-back-button>
+      <ion-back-button defaultHref="/inicio/map"></ion-back-button>
     </ion-buttons>
     <ion-title class="center-title">Notificaciones</ion-title>
   </ion-toolbar>
@@ -17,7 +17,9 @@
       </ion-icon>
       <ion-label>
         <h2>Modulo de Reporte: {{ report.module }}</h2>
-        <p *ngIf="hasTypeIncident(report)">Tipo de Reporte: {{ report.typeIncident }}</p>
+        <p *ngIf="hasTypeIncident(report)">
+          Tipo de Reporte: {{ report.typeIncident }}
+        </p>
       </ion-label>
       <p slot="end">{{ report.date | date:'EEE, HH:mm' }}</p>
     </ion-item>
