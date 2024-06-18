@@ -21,6 +21,39 @@ ion-toolbar {
   }
 }
 
+// notificaciones.page.scss
+
+.icon-incendio {
+  background-color: #D10000; // Rojo para incendios
+  color: black;
+  border-radius: 50%; // Para que el fondo sea redondo
+  padding: 10px; // Ajusta el padding según sea necesario
+}
+
+.icon-accidente-vehicular {
+  background-color: #D16C00; // Naranja para accidentes vehiculares
+  color: black;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.icon-alumbrado {
+  background-color: #EACF1B; // Amarillo para alumbrado
+  color: black;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.icon-basura {
+  background-color: #20A002; // Verde para basura
+  color: black;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+
+
+
 
 
  

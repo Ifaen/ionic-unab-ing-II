@@ -43,4 +43,20 @@ export class NotificacionesPage implements OnInit {
   public hasTypeIncident(report: Report | ReportIncendio | ReportAlumbrado | ReportVehicular | ReportBasura): report is ReportIncendio | ReportAlumbrado | ReportVehicular | ReportBasura {
     return 'typeIncident' in report;
   }
+
+  public getIconClass(module: string): string {
+    switch (module) {
+      case 'Incendios':
+        return 'icon-incendio';
+      case 'Accidente Vehicular':
+        return 'icon-accidente-vehicular';
+      case 'Alumbrado':
+        return 'icon-alumbrado';
+      case 'Basura':
+        return 'icon-basura';
+      default:
+        return '';
+    }
+  } 
 }
+

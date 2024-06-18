@@ -18,6 +18,8 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
   styleUrls: ["./formulario-alum.page.scss"],
 })
 export class FormularioAlumPage implements OnInit {
+  photoTaken: boolean = false;
+  locationSaved: boolean = false;
   formAlumbrado: ReportAlumbrado = {
     module: "Alumbrado",
     coordinate: [0, 0],
@@ -97,6 +99,7 @@ export class FormularioAlumPage implements OnInit {
     const hasPermission = true; //await this.permissionsService.checkLocationPermissions(); //TODO cambiar a lo comentado para que funcione en celular
     if (hasPermission) {
       this.navController.navigateForward("/inicio/location");
+      this.locationSaved = true;
     } else {
       console.error(
         "active los permisos desde la configuracion de su dispositivo"
@@ -151,5 +154,13 @@ export class FormularioAlumPage implements OnInit {
         }
       }
     });
+  }
+
+  public updateCount() {
+    var textarea = document.getElementById(
+      "area_descripcion"
+    ) as HTMLTextAreaElement;
+    var count = document.getElementById("charCount");
+    count.innerText = textarea.value.length + " / 200";
   }
 }
