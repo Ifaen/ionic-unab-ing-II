@@ -136,25 +136,25 @@ export class HomeService {
       [-71.50008333333334, -33.01727777777778],
       "assets/icon/inorganic-point.png",
       "Recycling V Región",
-      "Reciclaje de desechos inorgánicos, botellas de plástico, etc"
+      "Desechos inorgánicos"
     );
     this.addMarker(
       [-71.52702777777777, -33.01727777777778],
       "assets/icon/industrial-point.png",
-      "TRICICLOS",
-      "Centro de reciclaje TRICICLOS"
+      "Triciclos",
+      "Desechos industriles "
     );
     this.addMarker(
       [-71.44822222222223, -33.04108333333333],
       "assets/icon/organic-point.png",
       "Estero Vivo",
-      "Punto de reciclaje de residuos orgánicos Estero Vivo"
+      "Desechos organicos"
     );
     this.addMarker(
       [-71.6098889, -33.0451667],
       "assets/icon/inorganic-point.png",
-      "CAMBIASO",
-      "Punto de reciclaje inorgánico CAMBIASO"
+      "Cambiaso",
+      "Desechos inorganicos"
     );
   }
 
