@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Style, Icon } from "ol/style";
 import { ReportIcon } from "src/app/models/report.model";
 import { ReportService } from "src/app/services/report.service";
+import { HomeService } from "src/app/services/home.service";
 
 @Component({
   selector: "app-filtros",
@@ -15,12 +16,15 @@ export class FiltrosComponent implements OnInit {
     basura: true,
     incendios: true,
   };
-
+  private markersVisible: boolean = true;
   @Input() reportIcons: ReportIcon[] = [];
 
   private allFiltersActive = true; // Variable para rastrear el estado de todos los filtros
 
-  constructor(private reportService: ReportService) {}
+  constructor(
+    private reportService: ReportService,
+    private homeService: HomeService
+  ) {}
 
   ngOnInit() {}
 
@@ -28,7 +32,7 @@ export class FiltrosComponent implements OnInit {
     this.filters[module] = !this.filters[module]; // Invertir valor actual
     this.applyFilter(module);
   }
-  
+
   private applyFilter(module: string): void {
     this.reportIcons.forEach((report) => {
       if (report.data.module === module) {
@@ -58,5 +62,10 @@ export class FiltrosComponent implements OnInit {
       this.filters[key] = this.allFiltersActive;
       this.applyFilter(key);
     });
+  }
+
+  public toggleMarkersVisibility(): void {
+    this.markersVisible = !this.markersVisible;
+    this.homeService.toggleMarkersVisibility(this.markersVisible);
   }
 }

@@ -11,6 +11,8 @@ import { User } from "../models/user.model";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { UtilsService } from "./utils.service";
 import { firstValueFrom, lastValueFrom } from "rxjs";
+import { async } from "@angular/core/testing";
+
 @Injectable({
   providedIn: "root",
 })
@@ -74,7 +76,14 @@ export class FirestoreService {
   }
 
   // obtener documentos
-  async getDocument(path: string) {
-    return (await getDoc(doc(getFirestore(), path))).data();
+  async getDocument(path: string): Promise<User | undefined> {
+    const docRef = doc(getFirestore(), path);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data() as User;
+    } else {
+      console.error(`No document found at path: ${path}`);
+      return undefined;
+    }
   }
 }

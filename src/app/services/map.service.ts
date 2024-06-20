@@ -1,20 +1,16 @@
 import { Injectable } from "@angular/core";
-// importaciones de la biblioteca ol
 import View from "ol/View";
 import Map from "ol/Map";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM, Vector as VectorSource } from "ol/source";
 import { Coordinate } from "ol/coordinate";
-import { ActivatedRoute, Router } from "@angular/router";
 import { Geolocation } from "ol";
+import Feature from "ol/Feature";
+import Point from "ol/geom/Point";
+import Style from "ol/style/Style";
+import Icon from "ol/style/Icon";
 import { ReportService } from "./report.service";
 import { NavController } from "@ionic/angular";
-import {
-  ReportAlumbrado,
-  ReportBasura,
-  ReportIncendio,
-  ReportVehicular,
-} from "../models/report.model";
 
 @Injectable({
   providedIn: "root",
@@ -23,60 +19,54 @@ export class MapService {
   private geolocation: Geolocation;
 
   constructor(
-    private router: Router,
-    private navController: NavController,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private navController: NavController
   ) {
     this.geolocation = new Geolocation({
-      tracking: true, // TODO Cambiar a una funcion cuando se solicite el permiso de trackear ubicacion usando this.geolocation.setTracking(BOOL CON PERMISO);
+      tracking: true,
       trackingOptions: {
-        enableHighAccuracy: true, // Habilitar alta precision
+        enableHighAccuracy: true,
       },
-      projection: new View().getProjection(), // Obtener la vista para la geolocalizacion
+      projection: "EPSG:3857",
     });
   }
 
   public setView(coordinates: Coordinate, zoom: number): View {
     return new View({
-      center: coordinates, // Coordenadas de Valparaiso para ingresar y ver directamente a la region
+      center: coordinates,
       zoom: zoom,
     });
   }
 
   public setMap(view: View): Map {
-    return new Map({
+    const map = new Map({
       layers: [
         new TileLayer({
-          source: new OSM(), //invocacion de la biblioteca para hacer visual el mapa
+          source: new OSM(),
         }),
       ],
       target: "map",
       view: view,
     });
+    console.log("Map initialized with view:", view);
+    return map;
   }
 
   public createVector(map: Map, source: VectorSource): VectorLayer<any> {
-    return new VectorLayer({
-      map: map,
+    const vectorLayer = new VectorLayer({
       source: source,
     });
+    map.addLayer(vectorLayer);
+    console.log("Vector layer added to map:", vectorLayer);
+    return vectorLayer;
   }
 
   public getGeolocation(): Geolocation {
     return this.geolocation;
   }
 
-  /**
-   * Funcion encargada de volver a la pagina anterior.
-   * En el caso de module-alumbrado, se devuelve a una subpagina.
-   * @param coordinate coordenadas entregadas en LocationPage
-   */
   goToFormPage(coordinate: Coordinate) {
-    //TODO PROBANDO NOTIFICACION --> FUNCIONA
-    //Guardar un indicador en localStorage antes de navegar de regresso al formulario
     localStorage.setItem("showLocationSelectedToast", "true");
-    //TODO
-    //Navegar de regreso al formulario segun el modulo
     if (this.reportService.formData.module == "alumbrado") {
       this.navController.navigateBack(
         "/inicio/modulo-alumbrado/formulario-alum"
@@ -86,7 +76,6 @@ export class MapService {
         "/inicio/modulo-" + this.reportService.formData.module
       );
     }
-    //Actualizar las coordenadas en formData
     this.reportService.formData.coordinate = coordinate;
   }
 }

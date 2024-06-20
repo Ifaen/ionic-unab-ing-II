@@ -104,15 +104,31 @@ export class ReportService {
         reports.push(report); // Agregarlo a la lista
       });
 
+      console.log("Reports fetched:", reports); // Añadir este log
+
+      // Verificar cada reporte y sus coordenadas
+      reports.forEach((report, index) => {
+        console.log(`Report ${index}:`, report);
+        if (!report.coordinate || report.coordinate.length !== 2) {
+          console.error(
+            `Report ${index} has invalid coordinates:`,
+            report.coordinate
+          );
+        }
+      });
+
       return reports;
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching reports:", error);
       throw error;
     }
   }
 
   public getIcon(module: string): string {
-    switch (module) {
+    console.log(`Getting icon for module: ${module}`); // Añadir este log
+    switch (
+      module.toLowerCase() // Convertir a minúsculas para evitar problemas de coincidencia
+    ) {
       case "alumbrado":
         return "assets/icon/icon-modulo-1.png";
       case "accidente-vehicular":
@@ -121,9 +137,32 @@ export class ReportService {
         return "assets/icon/icon-modulo-3.png";
       case "basura":
         return "assets/icon/icon-modulo-4.png";
+      case "punto-reciclaje":
+        return "assets/icon/recycling-point.png";
       default:
-        console.log(module);
-        return "";
+        console.log(`No icon found for module: ${module}, using default icon.`);
+        return "assets/icon/poste.png"; // Icono por defecto
     }
   }
 }
+
+// public async deleteOldReports(): Promise<void> {
+//   const today = new Date();
+//   today.setHours(0, 0, 0, 0); // Set time to the start of the day to ensure correct comparison
+
+//   // Query to get all reports with a date less than today
+//   const snapshot = await this.firestore.firestore.collection("reports").get();
+
+//   //console.log("Number of reports to delete:", snapshot.size);
+
+//   // Initialize a batch operation
+//   const batch = this.firestore.firestore.batch();
+
+//   snapshot.forEach((doc) => {
+//     batch.delete(doc.ref);
+//   });
+
+//   // Commit the batch operation to delete all documents
+//   await batch.commit();
+//   console.log("Old reports deleted successfully.");
+// }

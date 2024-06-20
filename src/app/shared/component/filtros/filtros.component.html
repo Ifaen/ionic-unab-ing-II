@@ -9,14 +9,13 @@
     <ion-icon name="chevron-down-circle"></ion-icon>
   </ion-fab-button>
   <ion-fab-list side="bottom">
-
-    <ion-fab-button
-    Class="selected-button5"
-      (click)="toggleAllFilters()"
-    >
+    <ion-fab-button Class="selected-button5" (click)="toggleAllFilters()">
       <ion-icon name="filter"></ion-icon>
     </ion-fab-button>
 
+    <ion-fab-button (click)="toggleMarkersVisibility()">
+      <img src="assets/icon/recycling-point.png" class="icon" />
+    </ion-fab-button>
 
     <ion-fab-button
       [ngClass]="{ 'selected-button1': filters['incendios'] }"

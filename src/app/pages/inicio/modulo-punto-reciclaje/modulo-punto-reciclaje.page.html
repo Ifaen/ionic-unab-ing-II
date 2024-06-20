@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goToHomePage()">
+        <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Punto Reciclaje</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding fondo">
+  <div class="container">
+    <div class="box">
+      <ion-select
+        name="typeIncident"
+        [(ngModel)]="formReciclaje.typeIncident"
+        placeholder="Seleccione el tipo de punto Reciclaje"
+      >
+        <ion-select-option value="Residuos orgánico o biodegradable">
+          Residuos orgánico o biodegradable
+        </ion-select-option>
+        <ion-select-option value="Residuos inorgánicos o no biodegradables">
+          Residuos inorgánicos o no biodegradables
+        </ion-select-option>
+        <ion-select-option value="Residuos reciclables">
+          Residuos reciclables
+        </ion-select-option>
+      </ion-select>
+    </div>
+
+    <div class="box">
+      <ion-item>
+        <ion-label position="floating"
+          >{{ LocationSelected ? 'A selecionado una ubicación' : 'Ingresar
+          ubicación' }}</ion-label
+        >
+        <ion-input id="ubicacion" placeholder="inserte ubicacion"></ion-input>
+        <ion-button
+          fill="clear"
+          slot="end"
+          id="obtenerUbicacion"
+          (click)="goToLocationPage()"
+        >
+          <ion-icon name="location-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Imagen del Punto Reciclaje</ion-label>
+        <ion-button
+          fill="clear"
+          slot="end"
+          id="obtenerImagen"
+          (click)="executeImageCapture()"
+        >
+          <ion-icon name="camera-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item *ngIf="formReciclaje.photo">
+        <ion-img
+          [src]="formReciclaje.photo"
+          style="width: 200px; height: 200px"
+        ></ion-img>
+      </ion-item>
+    </div>
+
+    <div class="box">
+      <ion-item>
+        <ion-label position="floating">Detalles adicionales</ion-label>
+        <ion-textarea
+          id="detalles"
+          name="description"
+          required
+          [(ngModel)]="formReciclaje.description"
+          placeholder="Describa detalles que ayuden en el reporte"
+          (ionChange)="refreshCharacterLimit()"
+          maxlength="300"
+        ></ion-textarea>
+      </ion-item>
+      <p id="limitDisplay"></p>
+    </div>
+
+    <ion-button expand="full" (click)="validateForm()">Enviar</ion-button>
+  </div>
+</ion-content>

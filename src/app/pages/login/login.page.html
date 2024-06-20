@@ -1,10 +1,9 @@
 <ion-content fullscreen="true">
-  
-  <app-header title="Vconnect" ></app-header>
+  <app-header title="Vconnect"></app-header>
   <div class="header-image-container">
-    <img src="assets/icon/logoVconnect.jpeg" class="header-image">
+    <img src="assets/icon/logoVconnect.jpeg" class="header-image" />
   </div>
-  
+
   <div class="header">
     <ion-title class="title">Bienvenido</ion-title>
     <p>Inicia sesión para acceder a tu cuenta</p>
@@ -25,7 +24,7 @@
         <ion-text>El correo electrónico es obligatorio</ion-text>
       </div>
       <div
-        *ngIf="form.controls['email'].touched && form.controls['email'].errors['pattern']"
+        *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['pattern']"
       >
         <ion-text>El correo electrónico debe ser válido</ion-text>
       </div>
@@ -36,19 +35,27 @@
           type="{{ showPassword ? 'text' : 'password' }}"
           class="input"
         ></ion-input>
-        <ion-icon name="{{ showPassword ? 'eye-outline' : 'eye-off-outline' }}"></ion-icon>
+        <ion-icon
+          name="{{ showPassword ? 'eye-outline' : 'eye-off-outline' }}"
+        ></ion-icon>
         <!-- Botón para mostrar/ocultar contraseña -->
-        <ion-button fill="clear" slot="end" (click)="togglePasswordVisibility()">
-          <ion-icon name="{{ showPassword ? 'eye-outline' : 'eye-off-outline' }}"></ion-icon>
+        <ion-button
+          fill="clear"
+          slot="end"
+          (click)="togglePasswordVisibility()"
+        >
+          <ion-icon
+            name="{{ showPassword ? 'eye-outline' : 'eye-off-outline' }}"
+          ></ion-icon>
         </ion-button>
       </ion-item>
       <div
-        *ngIf="form.controls['password'].touched && form.controls['password'].errors['required']"
+        *ngIf="form.controls['password'].touched && form.controls['password'].errors?.['required']"
       >
         <ion-text>La contraseña es obligatoria</ion-text>
       </div>
       <div
-        *ngIf="form.controls['password'].touched && form.controls['password'].errors['pattern']"
+        *ngIf="form.controls['password'].touched && form.controls['password'].errors?.['pattern']"
       >
         <ion-text>
           La contraseña debe contener: - Al menos un carácter - Una letra

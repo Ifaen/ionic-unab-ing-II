@@ -1,17 +1,29 @@
 <ion-content [fullscreen]="true">
+  <!-- Configuración del encabezado -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mapa</title>
   </head>
   <body>
-    <!-- llamado al mapa desde el .ts -->
+    <!-- Contenedor del mapa -->
     <div id="map" class="map"></div>
 
-    <!-- llamado al componente de filtros -->
+    <!-- Componente de filtros -->
     <app-filtros [reportIcons]="reportIcons"></app-filtros>
-    <!-- llamado al componente de los modulos -->
+
+    <!-- Tooltip para los marcadores -->
+    <div id="tooltip" class="ol-tooltip"></div>
+
+    <!-- Botón para alternar visibilidad de marcadores -->
+    <ion-button (click)="toggleMarkersVisibility()">
+      Toggle Markers
+    </ion-button>
+
+    <!-- Componente de botones -->
     <app-botones></app-botones>
   </body>
 </ion-content>
+
+<!-- Pestañas de navegación -->
 <app-tabs style="z-index: 1"></app-tabs>

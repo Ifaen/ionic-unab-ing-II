@@ -95,6 +95,6 @@ export class LoginPage implements OnInit {
   }
 
   getPasswordFieldType() {
-    return this.showPassword ? 'text' : 'password';
+    return this.showPassword ? "text" : "password";
   }
 }
