@@ -42,13 +42,13 @@ export class MapaComponent implements OnInit {
       }),
     });
     this.addMarker([-33.0219, -71.5517]);
-    console.log("HOLAAAA");
+   
   }
 
   ngAfterViewInit(): void {
     // Aquí puedes añadir el marcador una vez que la vista está inicializada
     this.addMarker([-33.0219, -71.5517]); // Reemplaza con tus coordenadas
-    console.log("HOLAAAA");
+   
   }
 
   addMarker(coordinates: [number, number]): void {

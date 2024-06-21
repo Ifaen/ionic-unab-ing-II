@@ -135,7 +135,7 @@ export class HomeService {
     this.addMarker(
       [-71.50008333333334, -33.01727777777778],
       "assets/icon/inorganic-point.png",
-      "Recycling V Región",
+      "Recycling",
       "Desechos inorgánicos"
     );
     this.addMarker(

@@ -51,13 +51,6 @@ const routes: Routes = [
             "./modulo-accidente-vehicular/modulo-accidente-vehicular.module"
           ).then((m) => m.ModuloAccidenteVehicularPageModule),
       },
-      {
-        path: "modulo-punto-reciclaje",
-        loadChildren: () =>
-          import("./modulo-punto-reciclaje/modulo-punto-reciclaje.module").then(
-            (m) => m.ModuloPuntoReciclajePageModule
-          ),
-      },
     ],
   },
 ];
