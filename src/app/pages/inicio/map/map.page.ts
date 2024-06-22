@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject, ChangeDetectorRef } from "@angular/core";
 // importaciones de la biblioteca ol
 import View from "ol/View";
 import Map from "ol/Map";
@@ -30,7 +30,8 @@ export class MapPage {
     private mapService: MapService,
     private reportService: ReportService,
     private loadingController: LoadingController,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private cdr: ChangeDetectorRef // Inyecta ChangeDetectorRef
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -187,6 +188,9 @@ export class MapPage {
     this.mapService.createVector(this.map, item.vector);
 
     this.reportVectors.push(item);
+
+    // Forzar la detección de cambios
+    this.cdr.detectChanges();
   }
 
   /**
@@ -229,8 +233,17 @@ export class MapPage {
           this.reportVectors[i].vector.clear(); // Eliminar del mapa
           this.reportVectors.splice(i, 1); // Eliminar de la lista
           i--; // Reducir el contador en 1, debido a que la lista se ha acortado
+
+          // Forzar la detección de cambios
+          this.cdr.detectChanges();
         }
       }
     }
+  }
+
+  private checkReportsPeriodically() {
+    setInterval(() => {
+      this.checkReports();
+    }, 1 * 60 * 1000); // Revisar cada minuto
   }
 }
