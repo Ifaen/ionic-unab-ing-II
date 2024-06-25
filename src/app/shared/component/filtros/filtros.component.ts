@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Style, Icon } from "ol/style";
 import { ReportVector } from "src/app/models/report.model";
 import { ReportService } from "src/app/services/report.service";
+import { HomeService } from "src/app/services/home.service";
 
 @Component({
   selector: "app-filtros",
@@ -15,12 +16,15 @@ export class FiltrosComponent implements OnInit {
     Basura: true,
     Incendios: true,
   };
-
+  private markersVisible: boolean = true;
   @Input() reportVectors: ReportVector[] = [];
 
   private allFiltersActive: boolean = true; // Variable para rastrear el estado de todos los filtros
 
-  constructor(private reportService: ReportService) {}
+  constructor(
+    private reportService: ReportService,
+    private homeService: HomeService
+  ) {}
 
   ngOnInit() {}
 
@@ -57,5 +61,10 @@ export class FiltrosComponent implements OnInit {
       this.filters[key] = this.allFiltersActive;
       this.applyFilter(key);
     });
+  }
+
+  public toggleMarkersVisibility(): void {
+    this.markersVisible = !this.markersVisible;
+    this.homeService.toggleMarkersVisibility(this.markersVisible);
   }
 }

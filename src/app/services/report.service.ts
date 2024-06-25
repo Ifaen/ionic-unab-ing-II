@@ -198,9 +198,32 @@ export class ReportService {
         return "assets/icon/icon-modulo-3.png";
       case "Basura":
         return "assets/icon/icon-modulo-4.png";
+      case "punto-reciclaje":
+        return "assets/icon/recycling-point.png";
       default:
-        console.log(module);
-        return "";
+        console.log(`No icon found for module: ${module}, using default icon.`);
+        return "assets/icon/poste.png"; // Icono por defecto
     }
   }
 }
+
+// public async deleteOldReports(): Promise<void> {
+//   const today = new Date();
+//   today.setHours(0, 0, 0, 0); // Set time to the start of the day to ensure correct comparison
+
+//   // Query to get all reports with a date less than today
+//   const snapshot = await this.firestore.firestore.collection("reports").get();
+
+//   //console.log("Number of reports to delete:", snapshot.size);
+
+//   // Initialize a batch operation
+//   const batch = this.firestore.firestore.batch();
+
+//   snapshot.forEach((doc) => {
+//     batch.delete(doc.ref);
+//   });
+
+//   // Commit the batch operation to delete all documents
+//   await batch.commit();
+//   console.log("Old reports deleted successfully.");
+// }

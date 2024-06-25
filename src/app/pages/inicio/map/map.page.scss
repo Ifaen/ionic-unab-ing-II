@@ -9,9 +9,17 @@ body {
   height: 100%;
 }
 
-#map {
+.map {
   position: absolute;
   top: -10em;
   bottom: 0;
   width: 100%;
+}
+.ol-tooltip {
+  position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 3px;
+  white-space: nowrap;
 }
