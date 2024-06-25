@@ -1,122 +1,141 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title>Reporte de Incendio</ion-title>
-    <ion-buttons class="boton_1" slot="start">
-      <ion-back-button defaultHref="/inicio/home"></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-<ion-content [fullscreen]="true" class="ion-padding fondo">
-  <div class="container">
-    <select
-      class="form-select"
-      aria-label="Default select example"
-      style="margin-bottom: 1em"
-      [(ngModel)]="formIncendio.typeIncident"
+<div class="app-container">
+  <div class="form-container">
+    <div
+      style="display: flex; align-items: center; justify-content: space-between"
     >
-      <option selected>Seleccione el Tipo de Incendio</option>
-      <option value="1">Domestico</option>
-      <option value="2">Departamento</option>
-      <option value="3">Forestal</option>
-    </select>
-
-    <div class="mb-3">
-      <label for="ubicacion" class="form-label"
-        ><h3>Ingresar Ubicación</h3></label
+      <ion-buttons class="boton_retroceder" slot="start">
+        <ion-back-button defaultHref="/inicio/map"></ion-back-button>
+      </ion-buttons>
+      <h1 class="Titulo_Reporte" style="text-align: center">
+        Reporte de Incendio
+      </h1>
+    </div>
+    <form>
+      <!--===========Tipo de Incendio===========-->
+      <label class="my-label">Tipo de Incendio</label>
+      <ion-select
+        class="input"
+        placeholder="Seleccione el tipo de incendio"
+        name="typeIncident"
+        [(ngModel)]="formIncendio.typeIncident"
       >
-      <div class="input-group">
+        <ion-select-option value="1">Doméstico</ion-select-option>
+        <ion-select-option value="2">Departamento</ion-select-option>
+        <ion-select-option value="3">Forestal</ion-select-option>
+      </ion-select>
+      <!--=========== Ubicación ===========-->
+      <label class="my-label">Ubicación</label>
+      <ion-button
+        (click)="goToLocationPage()"
+        class="input_boton"
+        expand="full"
+        required
+      >
+        <ion-icon size="large" name="location"></ion-icon>
+      </ion-button>
+      <p *ngIf="locationSaved" class="confirmacion_campo">
+        Su ubicación fue guardada con éxito
+      </p>
+
+      <!--=========== Información Adicional ===========-->
+      <label class="my-label">Conoce un grifo cercano?</label>
+      <div class="form-check">
         <input
-          type="text"
-          class="form-control"
-          id="ubicacion"
-          placeholder="Inserte Ubicacion"
-          [(ngModel)]="formIncendio.coordinate"
-          [value]="formIncendio.coordinate | json"
-          readonly
+          class="form-check-input"
+          type="radio"
+          name="glifoCercano"
+          id="glifoSi"
+          [(ngModel)]="formIncendio.knowsGrifo"
+          [value]="true"
         />
-        <button
-          class="btn btn-primary"
-          type="button"
-          id="obtenerUbicacion"
-          (click)="goToLocationPage()"
+        <label class="form-check-label" for="glifoSi"
+          >Sí, conozco un grifo cercano</label
         >
-          <i class="bi bi-geo-alt-fill"></i>
-        </button>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="glifoCercano"
+          id="glifoNo"
+          [(ngModel)]="formIncendio.knowsGrifo"
+          [value]="false"
+        />
+        <label class="form-check-label" for="glifoNo"
+          >No, desconozco grifos cercanos</label
+        >
+      </div>
+
+      <div class="textarea-container" *ngIf="formIncendio.knowsGrifo">
+        <label class="my-label">Localización del Grifo Cercano</label>
+        <textarea
+          id="area_grifo"
+          class="area_descripcion"
+          required
+          name="descriptionGrifo"
+          (input)="updateCount()"
+          maxlength="200"
+          [(ngModel)]="formIncendio.descriptionGrifo"
+        ></textarea>
+        <div id="charCountGrifo" class="char-counter">0 / 200</div>
+      </div>
+
+      <!--=========== Detalles Adicionales ===========-->
+      <div class="textarea-container">
+        <label class="my-label">Detalles Adicionales</label>
+        <textarea
+          id="area_detalles"
+          class="area_descripcion"
+          required
+          name="description"
+          (input)="updateCount()"
+          maxlength="200"
+          [(ngModel)]="formIncendio.description"
+        ></textarea>
+        <div id="charCountDetalles" class="char-counter">0 / 200</div>
+      </div>
+      <!--=========== Foto ===========-->
+      <label class="my-label">Imagen</label>
+      <ion-button class="input_boton" expand="full" (click)="takePhoto()">
+        <ion-icon size="large" name="camera-outline"></ion-icon>
+      </ion-button>
+      <p *ngIf="photoTaken" class="confirmacion_campo">
+        La foto fue guardada con éxito
+      </p>
+      <ion-item *ngIf="formIncendio.photo">
+        <ion-img
+          size="large"
+          name="camera-outline"
+          [src]="formIncendio.photo"
+          class="adj_foto"
+        ></ion-img>
+      </ion-item>
+
+      <ion-button expand="full" type="submit" (click)="validateForm()">
+        ENVIAR REPORTE
+      </ion-button>
+    </form>
+    <div class="mt-5 container">
+      <div class="mb-3 card">
+        <div class="text-center card-body">
+          <div>
+            <strong>Recuerde que el reporte llegará</strong>
+          </div>
+          <div>
+            <strong>directamente a bomberos</strong>
+          </div>
+          <div>
+            <strong>Solo de ser necesario llame a </strong>
+          </div>
+          <a
+            href="tel:132"
+            class="d-flex justify-content-center align-items-center btn btn-warning"
+          >
+            <i class="bi bi-telephone-fill me-2"></i>
+            <strong>Número de Bomberos</strong>
+          </a>
+        </div>
       </div>
     </div>
-
-    <ion-button expand="full" (click)="takePhoto()">
-      <ion-icon slot="icon-only" name="camera"></ion-icon>
-      Tomar Foto</ion-button
-    >
-    <!--Apartado para vizualizar la foto seleccionada-->
-    <ion-item *ngIf="formIncendio.photo">
-      <ion-img
-        [src]="formIncendio.photo"
-        style="width: 200px; height: 200px"
-      ></ion-img>
-    </ion-item>
-
-    <h1 class="text-decoration-underline">Información Adicional</h1>
-    <div class="form-check">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="glifoCercano"
-        id="glifoSi"
-        [(ngModel)]="formIncendio.knowsGrifo"
-        [value]="true"
-      />
-      <label class="form-check-label" for="glifoSi">
-        Si, conozco un grifo cercano
-      </label>
-    </div>
-    <div class="form-check">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="glifoCercano"
-        id="glifoNo"
-        [(ngModel)]="formIncendio.knowsGrifo"
-        [value]="false"
-      />
-      <label class="form-check-label" for="glifoNo">
-        No, desconozco grifos cercanos
-      </label>
-    </div>
-
-    <div class="mb-3" *ngIf="formIncendio.knowsGrifo">
-      <label for="grifoUbicacion" class="form-label"
-        >Localización del Grifo Cercano</label
-      >
-      <textarea
-        class="form-control"
-        id="grifoUbicacion"
-        placeholder="Describe la ubicación del grifo"
-        name="descriptionGrifo"
-        [(ngModel)]="formIncendio.descriptionGrifo"
-      ></textarea>
-    </div>
-
-    <div class="mb-3">
-      <label for="detalles" class="form-label">Detalles adicionales</label>
-      <textarea
-        class="form-control"
-        id="detalles"
-        placeholder="Describe cualquier detalle que ayude a los bomberos"
-        name="description"
-        [(ngModel)]="formIncendio.description"
-      ></textarea>
-    </div>
-
-    <div class="d-grid gap-2 col-6 mx-auto">
-      <button
-        type="button"
-        (click)="validateForm()"
-        class="btn btn-primary btn-lg"
-      >
-        Enviar Reporte
-      </button>
-    </div>
   </div>
-</ion-content>
+</div>

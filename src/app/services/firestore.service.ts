@@ -11,8 +11,6 @@ import { User } from "../models/user.model";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { UtilsService } from "./utils.service";
 import { firstValueFrom, lastValueFrom } from "rxjs";
-import { async } from "@angular/core/testing";
-
 @Injectable({
   providedIn: "root",
 })
@@ -76,6 +74,10 @@ export class FirestoreService {
   }
 
   // obtener documentos
+  async getDocument(path: string) {
+    return (await getDoc(doc(getFirestore(), path))).data();
+  }
+  /* 
   async getDocument(path: string): Promise<User | undefined> {
     const docRef = doc(getFirestore(), path);
     const docSnap = await getDoc(docRef);
@@ -85,5 +87,14 @@ export class FirestoreService {
       console.error(`No document found at path: ${path}`);
       return undefined;
     }
+  } 
+    */
+
+  //Funcion que toma el email del usuario
+  async getUserEmail(): Promise<string | null> {
+    const user = getAuth().currentUser;
+    //console.log("Current user:", user);
+    return user ? user.email : null;
+    //return this.auth.authState.pipe(map((user) => (user ? user.email : null)));
   }
 }

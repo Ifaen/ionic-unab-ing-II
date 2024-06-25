@@ -54,9 +54,7 @@ export class ReportService {
         );
       }
 
-      if (isValid) {
-        this.sendForm();
-      }
+      if (isValid) this.sendForm();
     } catch (error) {
       console.log(error);
     } finally {
@@ -76,17 +74,36 @@ export class ReportService {
       this.firestore
         .collection("reports")
         .add(this.formData)
-        .then((response) => {
-          console.log(response.id);
-          resolve(true);
-        })
+        .then((response) => resolve(true))
         .catch((error) => {
           console.error(error);
-          resolve(false);
+          reject(false);
         });
     });
 
-    if (result) this.navController.navigateRoot("/inicio/home"); // Volver al inicio
+    if (result) this.navController.navigateRoot("/inicio/map"); // Volver al inicio
+  }
+
+  /**
+   * Funcion encargada de transformar la fecha en formato string a formato date, para utilizarla en funciones
+   * de vencimiento y tambien para visualizacion. Separa en sus correspondientes partes la fecha,
+   * luego se lo pasa a la funcion new Date()
+   * @param dateString fecha en formato string
+   * @returns fecha en formato date
+   */
+  private convertToDate(dateString: string): Date {
+    const [datePart, timePart] = dateString.split(", ");
+
+    const [day, month, year] = datePart
+      .split("/")
+      .map((part) => parseInt(part, 10));
+
+    const [hours, minutes, seconds] = timePart
+      .split(":")
+      .map((part) => parseInt(part, 10));
+
+    const date = new Date(year, month - 1, day, hours, minutes, seconds);
+    return date;
   }
 
   public async getReports(): Promise<Report[]> {
@@ -101,41 +118,85 @@ export class ReportService {
       snapshot.forEach((doc) => {
         const report = doc.data() as Report; // Obtener la data del documento
         report.id = doc.id; // Obtener la id creada por firebase
+        report.date = this.convertToDate(report.date as unknown as string); //Convertir la fecha para agregar al reporte
         reports.push(report); // Agregarlo a la lista
-      });
-
-      console.log("Reports fetched:", reports); // Añadir este log
-
-      // Verificar cada reporte y sus coordenadas
-      reports.forEach((report, index) => {
-        console.log(`Report ${index}:`, report);
-        if (!report.coordinate || report.coordinate.length !== 2) {
-          console.error(
-            `Report ${index} has invalid coordinates:`,
-            report.coordinate
-          );
-        }
       });
 
       return reports;
     } catch (error) {
-      console.error("Error fetching reports:", error);
+      console.error(error);
       throw error;
     }
   }
 
+  public async getReportsByUser(userEmail: string): Promise<Report[]> {
+    const reports: Report[] = [];
+
+    try {
+      const snapshot = await this.firestore
+        .collection("reports", (ref) => ref.where("userEmail", "==", userEmail))
+        .get()
+        .toPromise();
+
+      snapshot.forEach((doc) => {
+        const report = doc.data() as Report; // Obtener la data del documento
+        report.id = doc.id; // Obtener la id creada por firebase
+        report.date = this.convertToDate(report.date as unknown as string); ////Convertir la fecha para agregar al reporte
+        reports.push(report); // Agregarlo a la lista
+      });
+
+      return reports;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  /**
+   * Servicio encargado de mover los reportes expirados a una nueva colección, primero copiando el reporte a una colección
+   * llamada 'expired-reports' y luego, la elimina de la colección 'reports'.
+   * @param report Informacion del reporte expirado
+   * @returns un booleano que indica si fue posible eliminar el reporte de la base de datos y moverlo a la colección 'expired-reports'
+   */
+  public async removeReport(report: Report): Promise<boolean> {
+    // Mover a expirados
+    let result = new Promise<boolean>((resolve, reject) => {
+      this.firestore
+        .collection("expired-reports")
+        .add(report)
+        .then(() => resolve(true))
+        .catch((error) => {
+          console.error(error);
+          reject(false);
+        });
+    });
+
+    if (result) {
+      return new Promise<boolean>((resolve, reject) => {
+        this.firestore
+          .collection("reports")
+          .doc(report.id)
+          .delete()
+          .then(() => resolve(true))
+          .catch((error) => {
+            console.error(error);
+            reject(false);
+          });
+      });
+    }
+
+    return result; // Si resultado falla, entonces retornar falso
+  }
+
   public getIcon(module: string): string {
-    console.log(`Getting icon for module: ${module}`); // Añadir este log
-    switch (
-      module.toLowerCase() // Convertir a minúsculas para evitar problemas de coincidencia
-    ) {
-      case "alumbrado":
+    switch (module) {
+      case "Alumbrado":
         return "assets/icon/icon-modulo-1.png";
-      case "accidente-vehicular":
+      case "Accidente Vehicular":
         return "assets/icon/icon-modulo-2.png";
-      case "incendios":
+      case "Incendios":
         return "assets/icon/icon-modulo-3.png";
-      case "basura":
+      case "Basura":
         return "assets/icon/icon-modulo-4.png";
       case "punto-reciclaje":
         return "assets/icon/recycling-point.png";

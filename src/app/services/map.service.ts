@@ -31,27 +31,6 @@ export class MapService {
     });
   }
 
-  public setView(coordinates: Coordinate, zoom: number): View {
-    return new View({
-      center: coordinates,
-      zoom: zoom,
-    });
-  }
-
-  public setMap(view: View): Map {
-    const map = new Map({
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
-      ],
-      target: "map",
-      view: view,
-    });
-    console.log("Map initialized with view:", view);
-    return map;
-  }
-
   public createVector(map: Map, source: VectorSource): VectorLayer<any> {
     const vectorLayer = new VectorLayer({
       source: source,
@@ -65,17 +44,35 @@ export class MapService {
     return this.geolocation;
   }
 
-  goToFormPage(coordinate: Coordinate) {
+  /**
+   * Funcion encargada de volver a la pagina anterior, dependiendo el modulo .
+   * @param coordinate coordenadas entregadas en LocationPage
+   */
+  public goToFormPage(coordinate: Coordinate): void {
+    //Guardar un indicador en localStorage antes de navegar de regresso al formulario
     localStorage.setItem("showLocationSelectedToast", "true");
-    if (this.reportService.formData.module == "alumbrado") {
-      this.navController.navigateBack(
-        "/inicio/modulo-alumbrado/formulario-alum"
-      );
-    } else {
-      this.navController.navigateBack(
-        "/inicio/modulo-" + this.reportService.formData.module
-      );
-    }
+    //Actualizar las coordenadas en formData
     this.reportService.formData.coordinate = coordinate;
+
+    //Navegar de regreso al formulario segun el modulo
+    switch (this.reportService.formData.module) {
+      case "Alumbrado":
+        this.navController.navigateBack(
+          "/inicio/modulo-alumbrado/formulario-alum"
+        );
+        break;
+      case "Accidente Vehicular":
+        this.navController.navigateBack("/inicio/modulo-accidente-vehicular");
+        break;
+      case "Incendios":
+        this.navController.navigateBack("/inicio/modulo-incendios");
+        break;
+      case "Basura":
+        this.navController.navigateBack("/inicio/modulo-basura");
+        break;
+      default:
+        console.log(module);
+        break;
+    }
   }
 }

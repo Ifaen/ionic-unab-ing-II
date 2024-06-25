@@ -1,28 +1,27 @@
-import { Injectable } from '@angular/core';
-import { Plugins } from '@capacitor/core';
-import { Geolocation } from '@capacitor/geolocation';
-import { Camera } from '@capacitor/camera';
+import { Injectable } from "@angular/core";
+import { Plugins } from "@capacitor/core";
+import { Geolocation } from "@capacitor/geolocation";
+import { Camera } from "@capacitor/camera";
 
 const { Permissions } = Plugins;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class PermissionsService {
-
-  constructor() { }
+  constructor() {}
 
   async checkLocationPermissions(): Promise<boolean> {
     try {
       let status = await Geolocation.checkPermissions();
-      if (status.location === 'denied') {
+      if (status.location === "denied") {
         // Solicitar permiso nuevamente si fue denegado
         status = await Geolocation.requestPermissions();
       }
 
-      return status.location === 'granted';
+      return status.location === "granted";
     } catch (error) {
-      console.error('Error al verificar permisos de ubicación', error);
+      console.error("Error al verificar permisos de ubicación", error);
       return false;
     }
   }
@@ -30,14 +29,14 @@ export class PermissionsService {
   async checkCameraPermissions(): Promise<boolean> {
     try {
       let status = await Camera.checkPermissions();
-      if (status.camera === 'denied') {
+      if (status.camera === "denied") {
         // Solicitar permiso nuevamente si fue denegado
         status = await Camera.requestPermissions();
       }
 
-      return status.camera === 'granted';
+      return status.camera === "granted";
     } catch (error) {
-      console.error('Error al verificar permisos de cámara', error);
+      console.error("Error al verificar permisos de cámara", error);
       return false;
     }
   }
@@ -47,13 +46,13 @@ export class PermissionsService {
     const cameraGranted = await this.checkCameraPermissions();
     return locationGranted && cameraGranted;
   }
-  
+
   async requestCameraPermissions(): Promise<boolean> {
     try {
       const status = await Camera.requestPermissions();
-      return status.camera === 'granted';
+      return status.camera === "granted";
     } catch (error) {
-      console.error('Error al solicitar permisos de cámara', error);
+      console.error("Error al solicitar permisos de cámara", error);
       return false;
     }
   }

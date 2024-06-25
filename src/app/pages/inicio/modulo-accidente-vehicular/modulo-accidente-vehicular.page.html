@@ -4,9 +4,9 @@
       style="display: flex; align-items: center; justify-content: space-between"
     >
       <ion-buttons class="boton_retroceder" slot="start">
-        <ion-back-button defaultHref="/inicio/home"></ion-back-button>
+        <ion-back-button defaultHref="/inicio/map"></ion-back-button>
       </ion-buttons>
-      <h1 class="Titulo_Reporte" style="text-align: center">Realiza Tu Reporte!</h1>
+      <h1 class="Titulo_Reporte" style="text-align: center">Reporte de Accidente Vehicular</h1>
     </div>
     <form>
       <!--===========Tipo de Reporte===========-->
@@ -17,17 +17,17 @@
         name="typeIncident"
         [(ngModel)]="formVehicular.typeIncident"
       >
-        <ion-select-option value="accidente">
+        <ion-select-option value="Accidente">
           Accidente vehicular
         </ion-select-option>
-        <ion-select-option value="congestion">
+        <ion-select-option value="Congestion">
           Congestión vehicular
         </ion-select-option>
       </ion-select>
 
       <!--=========== Ubicación ===========-->
       <!-- Momentaneamente redirige al mapa -->
-      <label class="my-label">Inserte su Ubicación</label>
+      <label class="my-label">Ubicación</label>
       <ion-button
         (click)="goToLocationPage()"
         class="input_boton"
@@ -36,11 +36,13 @@
       >
         <ion-icon size="large" name="location"></ion-icon>
       </ion-button>
-      <p *ngIf="locationSaved" class="confirmacion_campo">Su ubicación fue guardada con éxito</p>
+      <p *ngIf="locationSaved" class="confirmacion_campo">
+        Su ubicación fue guardada con éxito
+      </p>
 
       <!--===========Descripcion===========-->
       <div class="textarea-container">
-        <label class="my-label">Detalles que podrian ser de ayuda</label>
+        <label class="my-label">Detalles</label>
         <textarea
           id="area_descripcion"
           class="area_descripcion"
@@ -54,23 +56,24 @@
       </div>
 
       <!--=========== Foto ===========-->
-      <label class="my-label">Imagen del Suceso (Opcional)</label>
+      <label class="my-label">Imagen (Opcional)</label>
       <ion-button class="input_boton" expand="full" (click)="takePhoto()">
         <ion-icon size="large" name="camera-outline"></ion-icon>
       </ion-button>
-      <p *ngIf="photoTaken" class="confirmacion_campo">La foto fue guardada con exito</p>
+      <p *ngIf="photoTaken" class="confirmacion_campo">
+        La foto fue guardada con exito
+      </p>
       <!--Apartado para vizualizar la foto seleccionada-->
       <ion-item *ngIf="formVehicular.photo">
         <ion-img
           size="large"
           name="camera-outline"
           [src]="formVehicular.photo"
-          class="adj_foto" 
+          class="adj_foto"
         ></ion-img>
       </ion-item>
-
-      <ion-button expand="full" type="submit" (click)="validateForm()" [disabled]="!isFormValid()">
-        REPORTAR
+      <ion-button expand="full" type="submit" (click)="validateForm()">
+        Enviar
       </ion-button>
     </form>
   </div>

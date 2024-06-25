@@ -10,9 +10,9 @@ const routes: Routes = [
     component: InicioPage,
     children: [
       {
-        path: "home",
+        path: "map",
         loadChildren: () =>
-          import("./home/home.module").then((m) => m.HomePageModule),
+          import("./map/map.module").then((m) => m.MapPageModule),
       },
       {
         path: "location",
@@ -52,6 +52,13 @@ const routes: Routes = [
           ).then((m) => m.ModuloAccidenteVehicularPageModule),
       },
     ],
+  },
+  {
+    path: "notificaciones",
+    loadChildren: () =>
+      import("./notificaciones/notificaciones.module").then(
+        (m) => m.NotificacionesPageModule
+      ),
   },
 ];
 

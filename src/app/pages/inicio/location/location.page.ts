@@ -10,6 +10,8 @@ import VectorSource from "ol/source/Vector";
 import { Circle, Fill, Stroke, Style } from "ol/style";
 import { MapService } from "src/app/services/map.service";
 import { UtilsService } from "src/app/services/utils.service";
+import TileLayer from "ol/layer/Tile";
+import OSM from "ol/source/OSM";
 
 @Component({
   selector: "app-location",
@@ -52,28 +54,44 @@ export class LocationPage implements OnInit {
 
     await loading.present();
 
-    this.view = this.mapService.setView([0, 0], 16); // Inicialmente coordenadas 0,0 hasta que cargue la posicion actual del usuario
-    this.map = this.mapService.setMap(this.view);
-
-    while (!this.coordinates) {
-      this.coordinates = this.mapService.getGeolocation().getPosition(); // Obtener coordenadas
-      if (this.coordinates) {
-        this.map.getView().setCenter(this.coordinates); // Centrar vista con coordenadas
-        break; // Romper loop
-      }
-      await new Promise((resolve) => setTimeout(resolve, 100)); // Esperar x milisegundos
-    }
+    this.setMap();
 
     await loading.dismiss();
   }
 
+  private async setMap(): Promise<void> {
+    const extent = [
+      //las coordenadas del sur y norte de viña que limitan la vista
+      fromLonLat([-71.7372, -33.1019]), // Sur: Viña del Mar
+      fromLonLat([-71.4964, -32.9486]), // Norte: Valparaíso
+    ];
+
+    this.view = new View({
+      center: fromLonLat([-71.6226, -33.0469]), // punto inicial
+      extent: [extent[0][0], extent[0][1], extent[1][0], extent[1][1]],
+      zoom: 12, // default zoom
+      minZoom: 10, // zoom maximo
+      maxZoom: 15, // zoom minimo
+    });
+
+    this.map = new Map({
+      target: "map",
+      layers: [
+        new TileLayer({
+          source: new OSM(),
+        }),
+      ],
+      view: this.view,
+    });
+  }
+
   public sendPosition(): void {
-    let coordinates = this.map.getView().getCenter(); // Obtener las coordenadas del centro del mapa
+    let coordinates = this.map.getView().getCenter(); // Obtain the coordinates of the current center of the map
     try {
-      this.mapService.goToFormPage(coordinates); // Volverse a la pagina anterior
+      this.mapService.goToFormPage(coordinates);
     } catch (error) {
       console.log(error);
-      this.navController.navigateRoot("/inicio/home");
+      this.navController.navigateRoot("/inicio/map");
     }
   }
 }
