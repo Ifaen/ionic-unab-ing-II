@@ -89,6 +89,8 @@ export class MapPage {
       ],
       view: this.view,
     });
+    this.mapService.setMap(this.map); // Pasar la referencia del mapa al servicio
+    this.mapService.addMarkers(); // Añadir los marcadores iniciales
   }
 
   /**
@@ -188,6 +190,7 @@ export class MapPage {
     this.mapService.createVector(this.map, item.vector);
 
     this.reportVectors.push(item);
+    this.mapService.addMarkers();
 
     // Forzar la detección de cambios
     this.cdr.detectChanges();

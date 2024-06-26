@@ -8,6 +8,10 @@ import { Coordinate } from "ol/coordinate";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Geolocation } from "ol";
 import { ReportService } from "./report.service";
+import Feature from "ol/Feature";
+import { Point } from "ol/geom";
+import { Circle, Fill, Icon, Stroke, Style, Text } from "ol/style";
+import { fromLonLat } from "ol/proj";
 import { NavController } from "@ionic/angular";
 import {
   ReportAlumbrado,
@@ -21,6 +25,8 @@ import {
 })
 export class MapService {
   private geolocation: Geolocation;
+  private map: Map;
+  private markerFeatures: { feature: Feature; originalStyle: Style }[] = [];
 
   constructor(
     private router: Router,
@@ -41,6 +47,9 @@ export class MapService {
       map: map,
       source: source,
     });
+  }
+  public setMap(map: Map): void {
+    this.map = map;
   }
 
   public getGeolocation(): Geolocation {
@@ -77,5 +86,82 @@ export class MapService {
         console.log(module);
         break;
     }
+  }
+
+  public addMarkers(): void {
+    this.addMarker(
+      [-71.50008333333334, -33.01727777777778],
+      "assets/icon/inorganic-point.png",
+      "Recycling V Región",
+      "inorgánico"
+    );
+    this.addMarker(
+      [-71.52702777777777, -33.01727777777778],
+      "assets/icon/industrial-point.png",
+      "TRICICLOS",
+      "Industrial"
+    );
+    this.addMarker(
+      [-71.44822222222223, -33.04108333333333],
+      "assets/icon/organic-point.png",
+      "Estero Vivo",
+      " Orgánico"
+    );
+    this.addMarker(
+      [-71.6098889, -33.0451667],
+      "assets/icon/inorganic-point.png",
+      "CAMBIASO",
+      "inorgánico "
+    );
+  }
+
+  private addMarker(
+    coordinates: [number, number],
+    iconUrl: string,
+    name: string,
+    description: string
+  ): void {
+    if (!this.map) {
+      console.error("Map is not initialized");
+      return;
+    }
+    console.log(`Adding marker: ${name} at ${coordinates}`);
+    const marker = new Feature({
+      geometry: new Point(fromLonLat(coordinates)),
+    });
+
+    marker.set("description", description);
+
+    const markerStyle = new Style({
+      image: new Icon({
+        src: iconUrl,
+        anchor: [0.5, 1],
+        scale: 0.04,
+      }),
+      text: new Text({
+        text: name,
+        offsetY: 25,
+        fill: new Fill({ color: "#000" }),
+        stroke: new Stroke({ color: "#fff", width: 2 }),
+        backgroundFill: new Fill({
+          color: "rgba(255, 255, 255, 0.7)",
+        }),
+        padding: [2, 2, 2, 2],
+      }),
+    });
+
+    marker.setStyle(markerStyle);
+
+    const vectorSource = new VectorSource({
+      features: [marker],
+    });
+
+    const vectorLayer = new VectorLayer({
+      source: vectorSource,
+    });
+
+    this.map.addLayer(vectorLayer);
+    this.markerFeatures.push({ feature: marker, originalStyle: markerStyle });
+    console.log(`Marker added: ${name}`);
   }
 }
