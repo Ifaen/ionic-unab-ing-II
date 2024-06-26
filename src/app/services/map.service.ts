@@ -102,6 +102,37 @@ export class MapService {
       "Industrial"
     );
     this.addMarker(
+      [-71.5521, -33.0165],
+      "assets/icon/industrial-point.png",
+      "Recicladora Nacional",
+      "Industrial"
+    );
+    this.addMarker(
+      [-71.54251607538949, -33.01489355026073],
+      "assets/icon/inorganic-point.png",
+      "Recicladora Nacional",
+      "Inorganico"
+    );
+
+    this.addMarker (
+    [-71.525335, -33.034793],
+     "assets/icon/inorganic-point.png",
+     "punto verde",
+     "Botellas PET"
+    );
+    this.addMarker (
+      [-71.62725, -33.03932],
+      "assets/icon/inorganic-point.png",
+      "punto verde",
+      "Reciclaje Vidrio"
+      );
+    this.addMarker (
+        [-71.6484947, -33.0322009],
+        "assets/icon/inorganic-point.png",
+        "punto verde",
+        "Reciclaje Vidrio"
+       );
+    this.addMarker(
       [-71.44822222222223, -33.04108333333333],
       "assets/icon/organic-point.png",
       "Estero Vivo",
