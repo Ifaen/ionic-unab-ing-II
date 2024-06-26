@@ -93,7 +93,7 @@ export class MapService {
       [-71.50008333333334, -33.01727777777778],
       "assets/icon/inorganic-point.png",
       "Recycling V Región",
-      "inorgánico"
+      "Inorgánico"
     );
     this.addMarker(
       [-71.52702777777777, -33.01727777777778],
@@ -111,7 +111,7 @@ export class MapService {
       [-71.6098889, -33.0451667],
       "assets/icon/inorganic-point.png",
       "CAMBIASO",
-      "inorgánico "
+      "Inorgánico "
     );
   }
 
@@ -139,13 +139,10 @@ export class MapService {
         scale: 0.04,
       }),
       text: new Text({
-        text: name,
-        offsetY: 25,
+        text: description,
+        offsetY: 0,
         fill: new Fill({ color: "#000" }),
         stroke: new Stroke({ color: "#fff", width: 2 }),
-        backgroundFill: new Fill({
-          color: "rgba(255, 255, 255, 0.7)",
-        }),
         padding: [2, 2, 2, 2],
       }),
     });
